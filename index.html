@@ -23,6 +23,8 @@
   --green:    #1de9a4;
   --amber:    #ffc043;
   --red:      #ff3d5a;
+  --cold:     #a78bfa;
+  --cold2:    #7c3aed;
   --text:     #dff3ff;
   --muted:    #3d6880;
   --muted2:   #1e3d55;
@@ -39,6 +41,7 @@
 
   --shadow-card: 0 2px 20px rgba(0,0,0,0.5);
   --glow-ice:    0 0 22px rgba(93,224,255,0.25);
+  --glow-cold:   0 0 22px rgba(167,139,250,0.25);
 }
 
 /* ===== RESET ===== */
@@ -126,6 +129,49 @@ header {
   flex-shrink: 0;
 }
 
+/* ===== MODE TOGGLE ===== */
+.mode-toggle {
+  display: flex;
+  gap: 0;
+  background: var(--panel2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+.mode-btn {
+  flex: 1;
+  padding: 12px 10px;
+  border-radius: calc(var(--r-md) - 4px);
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mode-btn:active { transform: scale(0.97); }
+.mode-btn.active-ac {
+  background: linear-gradient(135deg, rgba(93,224,255,0.15), rgba(0,200,232,0.08));
+  color: var(--ice);
+  box-shadow: 0 0 0 1px rgba(93,224,255,0.3);
+}
+.mode-btn.active-cold {
+  background: linear-gradient(135deg, rgba(167,139,250,0.18), rgba(124,58,237,0.08));
+  color: var(--cold);
+  box-shadow: 0 0 0 1px rgba(167,139,250,0.35);
+}
+.mode-icon { font-size: 1.1rem; }
+
 /* ===== STEP PILL ===== */
 .step-label {
   display: flex;
@@ -144,6 +190,9 @@ header {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
+.step-num.cold-num {
+  background: linear-gradient(135deg, var(--cold2), var(--cold));
+}
 .step-text {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.62rem;
@@ -151,6 +200,7 @@ header {
   text-transform: uppercase;
   color: var(--ice);
 }
+.step-text.cold-text { color: var(--cold); }
 
 /* ===== CARD ===== */
 .card {
@@ -163,6 +213,9 @@ header {
   transition: border-color 0.3s;
 }
 .card:hover { border-color: var(--border2); }
+.card.cold-card { border-color: rgba(167,139,250,0.2); }
+.card.cold-card:hover { border-color: rgba(167,139,250,0.4); }
+
 .card-head {
   font-family: 'JetBrains Mono', monospace;
   font-size: var(--fs-xs);
@@ -177,6 +230,10 @@ header {
   width: 3px; height: 14px;
   background: linear-gradient(180deg, var(--ice), var(--ice3));
   border-radius: 2px;
+}
+.card-head.cold-head { color: var(--cold); }
+.card-head.cold-head::before {
+  background: linear-gradient(180deg, var(--cold), var(--cold2));
 }
 
 /* ===== AC TYPE SELECTOR — horizontal scroll ===== */
@@ -227,6 +284,51 @@ header {
 }
 .ac-chip.active .ac-chip-label { color: var(--ice); }
 
+/* ===== COLD PRODUCT SELECTOR ===== */
+.cold-products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 380px) { .cold-products { grid-template-columns: 1fr; } }
+
+.cold-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--panel2);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.cold-chip:active { transform: scale(0.97); }
+.cold-chip.active {
+  border-color: var(--cold);
+  background: rgba(167,139,250,0.1);
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.12), var(--glow-cold);
+}
+.cold-chip-icon { font-size: 1.5rem; flex-shrink: 0; }
+.cold-chip-info { min-width: 0; }
+.cold-chip-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.2;
+}
+.cold-chip.active .cold-chip-name { color: var(--cold); }
+.cold-chip-temp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted2);
+  margin-top: 2px;
+}
+.cold-chip.active .cold-chip-temp { color: rgba(167,139,250,0.7); }
+
 /* ===== FORM FIELDS ===== */
 .field { margin-bottom: 14px; }
 .field:last-child { margin-bottom: 0; }
@@ -246,6 +348,12 @@ header {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+.field-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 420px) { .field-row-3 { grid-template-columns: 1fr 1fr; } }
 
 input[type="number"], select {
   width: 100%;
@@ -260,11 +368,15 @@ input[type="number"], select {
   transition: border-color 0.2s, box-shadow 0.2s;
   -webkit-appearance: none;
   appearance: none;
-  min-height: 48px; /* touch friendly */
+  min-height: 48px;
 }
 input[type="number"]:focus, select:focus {
   border-color: var(--ice2);
   box-shadow: 0 0 0 3px rgba(93,224,255,0.12);
+}
+input.cold-input:focus {
+  border-color: var(--cold);
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
 }
 input[type="number"]::placeholder { color: var(--muted); opacity: 0.6; }
 
@@ -274,6 +386,10 @@ select {
   background-position: right 12px center;
   padding-right: 34px;
   cursor: pointer;
+}
+select.cold-select:focus {
+  border-color: var(--cold);
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.15);
 }
 
 /* temp hint */
@@ -286,6 +402,20 @@ select {
   transition: opacity 0.3s;
   min-height: 1.1em;
 }
+
+/* info box */
+.info-box {
+  background: rgba(167,139,250,0.06);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(167,139,250,0.8);
+  line-height: 1.7;
+  margin-top: 14px;
+}
+.info-box strong { color: var(--cold); display: block; margin-bottom: 4px; letter-spacing: 1px; }
 
 /* ===== CHECKBOXES ===== */
 .checks {
@@ -313,6 +443,7 @@ select {
 }
 .chk:active { transform: scale(0.98); }
 .chk.on { background: rgba(93,224,255,0.07); border-color: rgba(93,224,255,0.35); color: var(--ice); }
+.chk.cold-chk.on { background: rgba(167,139,250,0.07); border-color: rgba(167,139,250,0.35); color: var(--cold); }
 .chk input { position:absolute; width:1px; height:1px; opacity:0; pointer-events:none; }
 .chk-box {
   width: 18px; height: 18px; min-width: 18px;
@@ -324,6 +455,7 @@ select {
   margin-top: 1px;
 }
 .chk.on .chk-box { background: var(--ice); border-color: var(--ice); }
+.chk.cold-chk.on .chk-box { background: var(--cold); border-color: var(--cold); }
 .chk.on .chk-box::after { content: '✓'; }
 
 /* ===== CALC BUTTON ===== */
@@ -347,6 +479,10 @@ select {
   min-height: 56px;
   -webkit-tap-highlight-color: transparent;
 }
+.btn-calc.cold-btn {
+  background: linear-gradient(135deg, var(--cold2) 0%, var(--cold) 100%);
+  box-shadow: 0 4px 28px rgba(167,139,250,0.28);
+}
 .btn-calc::before {
   content: '';
   position: absolute;
@@ -358,6 +494,7 @@ select {
 }
 .btn-calc:hover::before { left: 130%; }
 .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(93,224,255,0.42); }
+.btn-calc.cold-btn:hover { box-shadow: 0 8px 40px rgba(167,139,250,0.42); }
 .btn-calc:active { transform: scale(0.98); }
 
 /* ===== RESULTS ===== */
@@ -383,6 +520,7 @@ select {
   display: flex; align-items: center; gap: 10px;
 }
 .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-head.cold-sh { color: var(--cold); }
 
 /* ===== METRICS GRID ===== */
 .metrics {
@@ -409,6 +547,8 @@ select {
 .met.c-hot::after { background: var(--hot); box-shadow: 0 0 10px var(--hot); }
 .met.c-grn::after { background: var(--green); box-shadow: 0 0 10px var(--green); }
 .met.c-amb::after { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+.met.c-cold::after { background: var(--cold); box-shadow: 0 0 10px var(--cold); }
+.met.c-blue::after { background: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
 
 .met-lbl {
   font-family: 'JetBrains Mono', monospace;
@@ -429,6 +569,8 @@ select {
 .met.c-hot .met-val { color: var(--hot); }
 .met.c-grn .met-val { color: var(--green); }
 .met.c-amb .met-val { color: var(--amber); }
+.met.c-cold .met-val { color: var(--cold); }
+.met.c-blue .met-val { color: #38bdf8; }
 .met-unit {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.6rem;
@@ -445,6 +587,10 @@ select {
   margin-bottom: 14px;
   position: relative; overflow: hidden;
 }
+.ac-result.cold-result {
+  background: linear-gradient(135deg, #0d0820 0%, #180f3a 100%);
+  border-color: rgba(167,139,250,0.25);
+}
 .ac-result::before {
   content: '';
   position: absolute; top: -60px; right: -60px;
@@ -452,11 +598,15 @@ select {
   background: radial-gradient(circle, rgba(93,224,255,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
+.ac-result.cold-result::before {
+  background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+}
 .ac-result-inner {
   display: flex; gap: 18px; align-items: flex-start;
 }
 .ac-result-svg { flex-shrink: 0; width: 72px; }
 .ac-result-svg svg { width: 72px; height: 72px; filter: drop-shadow(0 0 14px rgba(93,224,255,0.55)); }
+.ac-result-svg.cold-svg svg { filter: drop-shadow(0 0 14px rgba(167,139,250,0.55)); }
 .ac-result-info { flex: 1; min-width: 0; }
 .ac-result-name {
   font-family: 'Syne', sans-serif;
@@ -498,6 +648,68 @@ select {
   margin-bottom: 3px;
   text-transform: uppercase;
 }
+.detail-item strong.cold-lbl { color: var(--cold); }
+
+/* ===== COLD BREAKDOWN TABLE ===== */
+.cold-breakdown {
+  background: var(--panel);
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.cold-breakdown-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cold);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cold-breakdown-title::before {
+  content: '';
+  width: 3px; height: 14px;
+  background: linear-gradient(180deg, var(--cold), var(--cold2));
+  border-radius: 2px;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(167,139,250,0.08);
+  font-size: 0.8rem;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label { color: var(--muted); }
+.breakdown-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--cold);
+  font-weight: 600;
+}
+.breakdown-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(167,139,250,0.08);
+  border-radius: var(--r-sm);
+  margin-top: 12px;
+}
+.breakdown-total-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #fff;
+}
+.breakdown-total-val {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--cold);
+}
 
 /* ===== WORKER CARD ===== */
 .worker {
@@ -509,17 +721,20 @@ select {
 .worker.ok  { background: rgba(29,233,164,0.04); border-color: rgba(29,233,164,0.22); }
 .worker.warn{ background: rgba(255,192,67,0.04);  border-color: rgba(255,192,67,0.22); }
 .worker.bad { background: rgba(255,61,90,0.04);   border-color: rgba(255,61,90,0.22); }
+.worker.cold-info { background: rgba(167,139,250,0.05); border-color: rgba(167,139,250,0.25); }
 
 .worker-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .worker.ok   .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
 .worker.warn .dot { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
 .worker.bad  .dot { background: var(--red);   box-shadow: 0 0 8px var(--red); }
+.worker.cold-info .dot { background: var(--cold); box-shadow: 0 0 8px var(--cold); }
 
 .worker-title { font-size: var(--fs-md); font-weight: 600; }
 .worker.ok   .worker-title { color: var(--green); }
 .worker.warn .worker-title { color: var(--amber); }
 .worker.bad  .worker-title { color: var(--red); }
+.worker.cold-info .worker-title { color: var(--cold); }
 .worker-desc { font-size: var(--fs-sm); color: var(--muted); line-height: 1.65; }
 
 /* ===== TABLE ===== */
@@ -542,6 +757,7 @@ tr:hover td { background: rgba(255,255,255,0.012); }
 .p-ice { background: rgba(93,224,255,0.1);  color: var(--ice); }
 .p-amb { background: rgba(255,192,67,0.1);  color: var(--amber); }
 .p-grn { background: rgba(29,233,164,0.1);  color: var(--green); }
+.p-cold { background: rgba(167,139,250,0.12); color: var(--cold); }
 
 /* ===== DISCLAIMER ===== */
 .disc {
@@ -570,6 +786,10 @@ tr:hover td { background: rgba(255,255,255,0.012); }
 /* ===== BOTTOM NAV SAFE ===== */
 .safe-bottom { height: env(safe-area-inset-bottom, 0px); }
 
+/* ===== SECTION VISIBILITY ===== */
+.section-ac { }
+.section-cold { display: none; }
+
 /* ===== MOBILE REFINEMENTS ===== */
 @media (max-width: 480px) {
   .wrap { padding: 0 12px 80px; }
@@ -582,6 +802,7 @@ tr:hover td { background: rgba(255,255,255,0.012); }
   .ac-result-svg { width: 56px; }
   .ac-result-svg svg { width: 56px; height: 56px; }
   .btn-calc { font-size: 0.92rem; }
+  .mode-btn { font-size: 0.72rem; letter-spacing: 0.8px; }
 }
 @media (min-width: 640px) {
   .metrics { grid-template-columns: repeat(4, 1fr); }
@@ -619,297 +840,595 @@ tr:hover td { background: rgba(255,255,255,0.012); }
       <h1>DANIEL AIR</h1>
       <p>Calculadora de Climatización Profesional</p>
     </div>
-    <div class="ver-badge">v4.0 · ASHRAE · CO</div>
+    <div class="ver-badge">v5.0 · ASHRAE · CO</div>
   </div>
 </header>
 
-<!-- PASO 1: TIPO DE UNIDAD -->
-<div class="step-label">
-  <div class="step-num">1</div>
-  <div class="step-text">Tipo de unidad</div>
-</div>
-<div class="card">
-  <div class="card-head">Selecciona el sistema de aire acondicionado</div>
-  <div class="ac-scroll" id="ac-selector">
-
-    <div class="ac-chip active" data-type="split_pared" onclick="selectAC(this)">
-      <svg viewBox="0 0 56 32" fill="none"><rect x="2" y="6" width="52" height="20" rx="5" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.07)"/><rect x="6" y="16" width="44" height="3" rx="1.5" fill="#5de0ff" opacity="0.5"/><rect x="6" y="20" width="44" height="2" rx="1" fill="#5de0ff" opacity="0.25"/><circle cx="47" cy="12" r="2" fill="#5de0ff" opacity="0.7"/><rect x="8" y="9" width="14" height="5" rx="2" fill="#5de0ff" opacity="0.15"/></svg>
-      <span class="ac-chip-label">Split<br>Pared</span>
-    </div>
-
-    <div class="ac-chip" data-type="cassette" onclick="selectAC(this)">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="6" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><path d="M24 4 L24 14" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M24 34 L24 44" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M4 24 L14 24" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M34 24 L44 24" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="24" r="8" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.1)"/><circle cx="24" cy="24" r="3" fill="#5de0ff" opacity="0.7"/><path d="M24 10 L22 14 L26 14Z" fill="#5de0ff" opacity="0.6"/><path d="M24 38 L22 34 L26 34Z" fill="#5de0ff" opacity="0.6"/><path d="M10 24 L14 22 L14 26Z" fill="#5de0ff" opacity="0.6"/><path d="M38 24 L34 22 L34 26Z" fill="#5de0ff" opacity="0.6"/></svg>
-      <span class="ac-chip-label">Cassette<br>Techo</span>
-    </div>
-
-    <div class="ac-chip" data-type="split_piso_techo" onclick="selectAC(this)">
-      <svg viewBox="0 0 32 54" fill="none"><rect x="4" y="4" width="24" height="46" rx="5" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5de0ff" opacity="0.5"/><rect x="9" y="15" width="14" height="2" rx="1" fill="#5de0ff" opacity="0.35"/><rect x="9" y="19" width="14" height="2" rx="1" fill="#5de0ff" opacity="0.2"/><circle cx="16" cy="38" r="6" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.08)"/><circle cx="16" cy="38" r="2.5" fill="#5de0ff" opacity="0.6"/><path d="M12 8 L16 4 L20 8" stroke="#5de0ff" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
-      <span class="ac-chip-label">Piso/<br>Techo</span>
-    </div>
-
-    <div class="ac-chip" data-type="conductos" onclick="selectAC(this)">
-      <svg viewBox="0 0 64 48" fill="none"><rect x="16" y="4" width="32" height="16" rx="4" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><rect x="28" y="20" width="8" height="10" fill="rgba(93,224,255,0.15)" stroke="#5de0ff" stroke-width="1.3"/><rect x="4" y="30" width="56" height="8" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.06)"/><rect x="8" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><rect x="26" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><rect x="44" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><circle cx="32" cy="12" r="3" stroke="#5de0ff" stroke-width="1.3" fill="rgba(93,224,255,0.1)"/></svg>
-      <span class="ac-chip-label">Conductos<br>(Ducted)</span>
-    </div>
-
-    <div class="ac-chip" data-type="multisplit" onclick="selectAC(this)">
-      <svg viewBox="0 0 64 56" fill="none"><rect x="20" y="22" width="24" height="14" rx="4" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.1)"/><circle cx="32" cy="29" r="4" stroke="#5de0ff" stroke-width="1.3" fill="rgba(93,224,255,0.08)"/><line x1="20" y1="29" x2="4" y2="12" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="32" y1="22" x2="32" y2="4" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="44" y1="29" x2="60" y2="12" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="20" y1="32" x2="4" y2="46" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="44" y1="32" x2="60" y2="46" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><rect x="0" y="6" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="28" y="0" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="56" y="6" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="0" y="45" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="56" y="45" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/></svg>
-      <span class="ac-chip-label">Multi-Split<br>Estrella</span>
-    </div>
-
-    <div class="ac-chip" data-type="ventana" onclick="selectAC(this)">
-      <svg viewBox="0 0 44 44" fill="none"><rect x="2" y="2" width="40" height="40" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.05)"/><line x1="22" y1="2" x2="22" y2="42" stroke="#5de0ff" stroke-width="1" opacity="0.5"/><line x1="2" y1="22" x2="42" y2="22" stroke="#5de0ff" stroke-width="1" opacity="0.5"/><rect x="6" y="6" width="30" height="14" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.12)"/><line x1="10" y1="13" x2="30" y2="13" stroke="#5de0ff" stroke-width="1" opacity="0.6"/><path d="M14 22 L14 30 M14 30 L12 27 M14 30 L16 27" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/><path d="M22 22 L22 32 M22 32 L20 29 M22 32 L24 29" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/><path d="M30 22 L30 30 M30 30 L28 27 M30 30 L32 27" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/></svg>
-      <span class="ac-chip-label">Ventana<br>(L)</span>
-    </div>
-  </div>
+<!-- MODE TOGGLE -->
+<div class="mode-toggle">
+  <button class="mode-btn active-ac" id="btn-mode-ac" onclick="setMode('ac')">
+    <span class="mode-icon">❄️</span> Climatización
+  </button>
+  <button class="mode-btn" id="btn-mode-cold" onclick="setMode('cold')">
+    <span class="mode-icon">🧊</span> Cuarto Frío
+  </button>
 </div>
 
-<!-- PASO 2: DIMENSIONES + CONDICIONES -->
-<div class="step-label">
-  <div class="step-num">2</div>
-  <div class="step-text">Espacio y condiciones</div>
-</div>
+<!-- ======================== SECCIÓN CLIMATIZACIÓN ======================== -->
+<div class="section-ac" id="section-ac">
 
-<div class="card">
-  <div class="card-head">Dimensiones del espacio</div>
-  <div class="field-row">
-    <div class="field">
-      <label class="field-label">Largo (m)</label>
-      <input type="number" id="largo" placeholder="6.5" min="1" max="200" step="0.1" inputmode="decimal">
-    </div>
-    <div class="field">
-      <label class="field-label">Ancho (m)</label>
-      <input type="number" id="ancho" placeholder="4.0" min="1" max="200" step="0.1" inputmode="decimal">
-    </div>
+  <!-- PASO 1: TIPO DE UNIDAD -->
+  <div class="step-label">
+    <div class="step-num">1</div>
+    <div class="step-text">Tipo de unidad</div>
   </div>
-  <div class="field-row">
-    <div class="field">
-      <label class="field-label">Altura (m)</label>
-      <input type="number" id="altura" placeholder="2.7" min="1.8" max="12" step="0.1" value="2.7" inputmode="decimal">
-    </div>
-    <div class="field">
-      <label class="field-label">Ocupantes</label>
-      <input type="number" id="personas" placeholder="2" min="1" max="500" step="1" value="2" inputmode="numeric">
-    </div>
-  </div>
-</div>
+  <div class="card">
+    <div class="card-head">Selecciona el sistema de aire acondicionado</div>
+    <div class="ac-scroll" id="ac-selector">
 
-<div class="card">
-  <div class="card-head">Condiciones ambientales</div>
-  <div class="field">
-    <label class="field-label">Tipo de uso</label>
-    <select id="uso">
-      <option value="residencial">🏠 Residencial / Dormitorio</option>
-      <option value="oficina">💼 Oficina / Trabajo</option>
-      <option value="comercial">🏪 Local Comercial</option>
-      <option value="servidores">🖥️ Sala de Servidores</option>
-      <option value="gym">🏋️ Gimnasio / Alta actividad</option>
-      <option value="restaurante">🍽️ Restaurante / Cocina</option>
-    </select>
-  </div>
-  <div class="field">
-    <label class="field-label">Departamento / Ciudad</label>
-    <select id="depto" onchange="updateTempHint()">
-      <option value="">— Selecciona departamento —</option>
-      <option value="amazonas">Amazonas (28–33°C)</option>
-      <option value="antioquia">Antioquia (18–28°C)</option>
-      <option value="arauca">Arauca (28–35°C)</option>
-      <option value="atlantico">Atlántico (28–34°C)</option>
-      <option value="bolivar">Bolívar (28–35°C)</option>
-      <option value="boyaca">Boyacá (8–18°C)</option>
-      <option value="caldas">Caldas (14–24°C)</option>
-      <option value="caqueta">Caquetá (26–32°C)</option>
-      <option value="casanare">Casanare (28–35°C)</option>
-      <option value="cauca">Cauca (14–24°C)</option>
-      <option value="cesar">Cesar (28–36°C)</option>
-      <option value="choco">Chocó (26–33°C)</option>
-      <option value="cordoba">Córdoba (28–36°C)</option>
-      <option value="cundinamarca">Cundinamarca (8–22°C)</option>
-      <option value="guainia">Guainía (27–34°C)</option>
-      <option value="guaviare">Guaviare (26–32°C)</option>
-      <option value="huila">Huila (20–32°C)</option>
-      <option value="laguajira">La Guajira (30–40°C)</option>
-      <option value="magdalena">Magdalena (28–35°C)</option>
-      <option value="meta">Meta (26–34°C)</option>
-      <option value="narino">Nariño (10–22°C)</option>
-      <option value="nortedesantander">Norte de Santander (22–32°C)</option>
-      <option value="putumayo">Putumayo (20–30°C)</option>
-      <option value="quindio">Quindío (16–26°C)</option>
-      <option value="risaralda">Risaralda (14–26°C)</option>
-      <option value="sanandrés">San Andrés y Providencia (28–32°C)</option>
-      <option value="santander">Santander (18–32°C)</option>
-      <option value="sucre">Sucre (28–36°C)</option>
-      <option value="tolima">Tolima (20–36°C)</option>
-      <option value="valledecauca">Valle del Cauca (18–30°C)</option>
-      <option value="vaupes">Vaupés (27–33°C)</option>
-      <option value="vichada">Vichada (28–36°C)</option>
-      <option value="bogota">Bogotá D.C. (6–18°C)</option>
-      <option value="barranquilla">Barranquilla (28–36°C)</option>
-      <option value="cartagena">Cartagena (28–35°C)</option>
-      <option value="medellin">Medellín (17–28°C)</option>
-      <option value="cali">Cali (18–28°C)</option>
-      <option value="bucaramanga">Bucaramanga (18–28°C)</option>
-      <option value="cucuta">Cúcuta (24–38°C)</option>
-      <option value="manizales">Manizales (13–22°C)</option>
-      <option value="villavicencio">Villavicencio (26–34°C)</option>
-      <option value="monteria">Montería (27–36°C)</option>
-      <option value="pasto">Pasto (8–18°C)</option>
-      <option value="neiva">Neiva (24–36°C)</option>
-      <option value="ibague">Ibagué (20–32°C)</option>
-      <option value="pereira">Pereira (16–26°C)</option>
-      <option value="soledad">Soledad / Sabanalarga (28–34°C)</option>
-      <option value="sincelejo">Sincelejo (28–35°C)</option>
-      <option value="valledupar">Valledupar (28–38°C)</option>
-      <option value="riohacha">Riohacha (30–40°C)</option>
-      <option value="florencia">Florencia (25–32°C)</option>
-      <option value="quibdo">Quibdó (26–33°C)</option>
-      <option value="popayan">Popayán (14–22°C)</option>
-      <option value="armenia">Armenia (16–26°C)</option>
-      <option value="tunja">Tunja (6–16°C)</option>
-      <option value="yopal">Yopal (27–34°C)</option>
-      <option value="arauca_city">Arauca ciudad (27–35°C)</option>
-      <option value="mocoa">Mocoa (20–30°C)</option>
-      <option value="mitu">Mitú (26–33°C)</option>
-      <option value="puerto_inirida">Puerto Inírida (27–34°C)</option>
-      <option value="san_jose_guaviare">San José del Guaviare (25–32°C)</option>
-      <option value="puerto_carreno">Puerto Carreño (28–36°C)</option>
-    </select>
-    <div class="temp-hint" id="temp-hint"></div>
-  </div>
-  <div class="field-row">
-    <div class="field">
-      <label class="field-label">Orientación solar</label>
-      <select id="orientacion">
-        <option value="norte">Norte (menor radiación)</option>
-        <option value="sur">Sur (moderada)</option>
-        <option value="este">Este (mañana)</option>
-        <option value="oeste">Oeste (tarde — más carga)</option>
-      </select>
-    </div>
-    <div class="field">
-      <label class="field-label">Vidriería</label>
-      <select id="ventanas">
-        <option value="poca">Pocas / pequeñas</option>
-        <option value="media">Moderadas</option>
-        <option value="mucha">Muchas / p-a-techo</option>
-      </select>
-    </div>
-  </div>
-</div>
+      <div class="ac-chip active" data-type="split_pared" onclick="selectAC(this)">
+        <svg viewBox="0 0 56 32" fill="none"><rect x="2" y="6" width="52" height="20" rx="5" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.07)"/><rect x="6" y="16" width="44" height="3" rx="1.5" fill="#5de0ff" opacity="0.5"/><rect x="6" y="20" width="44" height="2" rx="1" fill="#5de0ff" opacity="0.25"/><circle cx="47" cy="12" r="2" fill="#5de0ff" opacity="0.7"/><rect x="8" y="9" width="14" height="5" rx="2" fill="#5de0ff" opacity="0.15"/></svg>
+        <span class="ac-chip-label">Split<br>Pared</span>
+      </div>
 
-<!-- PASO 3: FACTORES -->
-<div class="step-label">
-  <div class="step-num">3</div>
-  <div class="step-text">Factores adicionales</div>
-</div>
-<div class="card">
-  <div class="card-head">Cargas de calor adicionales</div>
-  <div class="checks">
-    <label class="chk" for="f_ilum">
-      <input type="checkbox" id="f_ilum">
-      <div class="chk-box"></div>
-      💡 Iluminación intensa
-    </label>
-    <label class="chk" for="f_equip">
-      <input type="checkbox" id="f_equip">
-      <div class="chk-box"></div>
-      🖥️ Muchos equipos electrónicos
-    </label>
-    <label class="chk" for="f_coc">
-      <input type="checkbox" id="f_coc">
-      <div class="chk-box"></div>
-      🔥 Fuente de calor (cocina)
-    </label>
-    <label class="chk" for="f_aisl">
-      <input type="checkbox" id="f_aisl">
-      <div class="chk-box"></div>
-      🧱 Buen aislamiento térmico
-    </label>
-    <label class="chk" for="f_alto">
-      <input type="checkbox" id="f_alto">
-      <div class="chk-box"></div>
-      🌆 Piso alto / sol directo
-    </label>
-    <label class="chk" for="f_hum">
-      <input type="checkbox" id="f_hum">
-      <div class="chk-box"></div>
-      💧 Alta humedad interior
-    </label>
-  </div>
-</div>
+      <div class="ac-chip" data-type="cassette" onclick="selectAC(this)">
+        <svg viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="40" height="40" rx="6" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><path d="M24 4 L24 14" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M24 34 L24 44" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M4 24 L14 24" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><path d="M34 24 L44 24" stroke="#5de0ff" stroke-width="1.5" stroke-linecap="round"/><circle cx="24" cy="24" r="8" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.1)"/><circle cx="24" cy="24" r="3" fill="#5de0ff" opacity="0.7"/><path d="M24 10 L22 14 L26 14Z" fill="#5de0ff" opacity="0.6"/><path d="M24 38 L22 34 L26 34Z" fill="#5de0ff" opacity="0.6"/><path d="M10 24 L14 22 L14 26Z" fill="#5de0ff" opacity="0.6"/><path d="M38 24 L34 22 L34 26Z" fill="#5de0ff" opacity="0.6"/></svg>
+        <span class="ac-chip-label">Cassette<br>Techo</span>
+      </div>
 
-<!-- CTA -->
-<div class="btn-wrap">
-  <button class="btn-calc" onclick="calcular()">⚡ Calcular sistema óptimo</button>
-</div>
+      <div class="ac-chip" data-type="split_piso_techo" onclick="selectAC(this)">
+        <svg viewBox="0 0 32 54" fill="none"><rect x="4" y="4" width="24" height="46" rx="5" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><rect x="9" y="10" width="14" height="3" rx="1.5" fill="#5de0ff" opacity="0.5"/><rect x="9" y="15" width="14" height="2" rx="1" fill="#5de0ff" opacity="0.35"/><rect x="9" y="19" width="14" height="2" rx="1" fill="#5de0ff" opacity="0.2"/><circle cx="16" cy="38" r="6" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.08)"/><circle cx="16" cy="38" r="2.5" fill="#5de0ff" opacity="0.6"/><path d="M12 8 L16 4 L20 8" stroke="#5de0ff" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
+        <span class="ac-chip-label">Piso/<br>Techo</span>
+      </div>
 
-<!-- RESULTS -->
-<div id="results">
-  <div class="divider"></div>
-  <div class="section-head">Resultados del análisis</div>
+      <div class="ac-chip" data-type="conductos" onclick="selectAC(this)">
+        <svg viewBox="0 0 64 48" fill="none"><rect x="16" y="4" width="32" height="16" rx="4" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.06)"/><rect x="28" y="20" width="8" height="10" fill="rgba(93,224,255,0.15)" stroke="#5de0ff" stroke-width="1.3"/><rect x="4" y="30" width="56" height="8" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.06)"/><rect x="8" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><rect x="26" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><rect x="44" y="38" width="6" height="8" rx="1.5" fill="rgba(93,224,255,0.2)" stroke="#5de0ff" stroke-width="1"/><circle cx="32" cy="12" r="3" stroke="#5de0ff" stroke-width="1.3" fill="rgba(93,224,255,0.1)"/></svg>
+        <span class="ac-chip-label">Conductos<br>(Ducted)</span>
+      </div>
 
-  <div class="metrics" id="metrics">
-    <div class="met c-ice">
-      <div class="met-lbl">Área total</div>
-      <div class="met-val" id="r-area">—</div>
-      <div class="met-unit">m²</div>
-    </div>
-    <div class="met c-hot">
-      <div class="met-lbl">Carga térmica</div>
-      <div class="met-val" id="r-btu">—</div>
-      <div class="met-unit">BTU/h</div>
-    </div>
-    <div class="met c-grn">
-      <div class="met-lbl">Capacidad</div>
-      <div class="met-val" id="r-tr">—</div>
-      <div class="met-unit">Ton. ref.</div>
-    </div>
-    <div class="met c-amb">
-      <div class="met-lbl">Temp. objetivo</div>
-      <div class="met-val" id="r-temp">—</div>
-      <div class="met-unit">°C recomendado</div>
-    </div>
-  </div>
+      <div class="ac-chip" data-type="multisplit" onclick="selectAC(this)">
+        <svg viewBox="0 0 64 56" fill="none"><rect x="20" y="22" width="24" height="14" rx="4" stroke="#5de0ff" stroke-width="1.8" fill="rgba(93,224,255,0.1)"/><circle cx="32" cy="29" r="4" stroke="#5de0ff" stroke-width="1.3" fill="rgba(93,224,255,0.08)"/><line x1="20" y1="29" x2="4" y2="12" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="32" y1="22" x2="32" y2="4" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="44" y1="29" x2="60" y2="12" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="20" y1="32" x2="4" y2="46" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><line x1="44" y1="32" x2="60" y2="46" stroke="#5de0ff" stroke-width="1.2" stroke-dasharray="2.5 2"/><rect x="0" y="6" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="28" y="0" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="56" y="6" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="0" y="45" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/><rect x="56" y="45" width="8" height="5" rx="1.5" fill="rgba(93,224,255,0.3)" stroke="#5de0ff" stroke-width="1"/></svg>
+        <span class="ac-chip-label">Multi-Split<br>Estrella</span>
+      </div>
 
-  <div class="ac-result" id="ac-result">
-    <div class="ac-result-inner">
-      <div class="ac-result-svg" id="ac-result-svg"></div>
-      <div class="ac-result-info">
-        <div class="ac-result-name" id="ac-nombre">—</div>
-        <div class="ac-result-sub" id="ac-sub">—</div>
-        <div class="detail-grid" id="ac-details"></div>
+      <div class="ac-chip" data-type="ventana" onclick="selectAC(this)">
+        <svg viewBox="0 0 44 44" fill="none"><rect x="2" y="2" width="40" height="40" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.05)"/><line x1="22" y1="2" x2="22" y2="42" stroke="#5de0ff" stroke-width="1" opacity="0.5"/><line x1="2" y1="22" x2="42" y2="22" stroke="#5de0ff" stroke-width="1" opacity="0.5"/><rect x="6" y="6" width="30" height="14" rx="3" stroke="#5de0ff" stroke-width="1.5" fill="rgba(93,224,255,0.12)"/><line x1="10" y1="13" x2="30" y2="13" stroke="#5de0ff" stroke-width="1" opacity="0.6"/><path d="M14 22 L14 30 M14 30 L12 27 M14 30 L16 27" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/><path d="M22 22 L22 32 M22 32 L20 29 M22 32 L24 29" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/><path d="M30 22 L30 30 M30 30 L28 27 M30 30 L32 27" stroke="#5de0ff" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span class="ac-chip-label">Ventana<br>(L)</span>
       </div>
     </div>
   </div>
 
-  <div class="section-head">Aptitud para trabajadores — ASHRAE 55 / ISO 7730</div>
-  <div id="worker-result"></div>
+  <!-- PASO 2: DIMENSIONES + CONDICIONES -->
+  <div class="step-label">
+    <div class="step-num">2</div>
+    <div class="step-text">Espacio y condiciones</div>
+  </div>
 
   <div class="card">
-    <div class="card-head">Referencia de temperaturas por norma</div>
-    <div class="tbl-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Tipo de actividad</th>
-            <th>Verano</th>
-            <th>Invierno</th>
-            <th>Humedad</th>
-            <th>Norma</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Oficina / sedentario</td><td><span class="pill p-ice">23–26°C</span></td><td><span class="pill p-ice">20–23°C</span></td><td>40–60%</td><td><span class="pill p-grn">ASHRAE 55</span></td></tr>
-          <tr><td>Trabajo ligero de pie</td><td><span class="pill p-ice">22–25°C</span></td><td><span class="pill p-ice">19–22°C</span></td><td>40–60%</td><td><span class="pill p-grn">ISO 7730</span></td></tr>
-          <tr><td>Trabajo físico moderado</td><td><span class="pill p-amb">18–22°C</span></td><td><span class="pill p-amb">16–20°C</span></td><td>35–60%</td><td><span class="pill p-grn">ISO 7730</span></td></tr>
-          <tr><td>Sala de servidores</td><td><span class="pill p-ice">18–27°C</span></td><td><span class="pill p-ice">18–27°C</span></td><td>40–55%</td><td><span class="pill p-grn">ASHRAE A2</span></td></tr>
-          <tr><td>Dormitorio / descanso</td><td><span class="pill p-ice">24–26°C</span></td><td><span class="pill p-ice">20–22°C</span></td><td>40–60%</td><td><span class="pill p-amb">Recomendado</span></td></tr>
-        </tbody>
-      </table>
+    <div class="card-head">Dimensiones del espacio</div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Largo (m)</label>
+        <input type="number" id="largo" placeholder="6.5" min="1" max="200" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label class="field-label">Ancho (m)</label>
+        <input type="number" id="ancho" placeholder="4.0" min="1" max="200" step="0.1" inputmode="decimal">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Altura (m)</label>
+        <input type="number" id="altura" placeholder="2.7" min="1.8" max="12" step="0.1" value="2.7" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label class="field-label">Ocupantes</label>
+        <input type="number" id="personas" placeholder="2" min="1" max="500" step="1" value="2" inputmode="numeric">
+      </div>
     </div>
   </div>
 
-  <div class="disc">⚠️ Este cálculo es una estimación basada en el método simplificado de carga térmica. Para proyectos críticos se recomienda el cálculo ASHRAE Handbook of Fundamentals (Manual J). Las temperaturas son rangos típicos por altitud y región de Colombia.</div>
+  <div class="card">
+    <div class="card-head">Condiciones ambientales</div>
+    <div class="field">
+      <label class="field-label">Tipo de uso</label>
+      <select id="uso">
+        <option value="residencial">🏠 Residencial / Dormitorio</option>
+        <option value="oficina">💼 Oficina / Trabajo</option>
+        <option value="comercial">🏪 Local Comercial</option>
+        <option value="servidores">🖥️ Sala de Servidores</option>
+        <option value="gym">🏋️ Gimnasio / Alta actividad</option>
+        <option value="restaurante">🍽️ Restaurante / Cocina</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label">Departamento / Ciudad</label>
+      <select id="depto" onchange="updateTempHint()">
+        <option value="">— Selecciona departamento —</option>
+        <option value="amazonas">Amazonas (28–33°C)</option>
+        <option value="antioquia">Antioquia (18–28°C)</option>
+        <option value="arauca">Arauca (28–35°C)</option>
+        <option value="atlantico">Atlántico (28–34°C)</option>
+        <option value="bolivar">Bolívar (28–35°C)</option>
+        <option value="boyaca">Boyacá (8–18°C)</option>
+        <option value="caldas">Caldas (14–24°C)</option>
+        <option value="caqueta">Caquetá (26–32°C)</option>
+        <option value="casanare">Casanare (28–35°C)</option>
+        <option value="cauca">Cauca (14–24°C)</option>
+        <option value="cesar">Cesar (28–36°C)</option>
+        <option value="choco">Chocó (26–33°C)</option>
+        <option value="cordoba">Córdoba (28–36°C)</option>
+        <option value="cundinamarca">Cundinamarca (8–22°C)</option>
+        <option value="guainia">Guainía (27–34°C)</option>
+        <option value="guaviare">Guaviare (26–32°C)</option>
+        <option value="huila">Huila (20–32°C)</option>
+        <option value="laguajira">La Guajira (30–40°C)</option>
+        <option value="magdalena">Magdalena (28–35°C)</option>
+        <option value="meta">Meta (26–34°C)</option>
+        <option value="narino">Nariño (10–22°C)</option>
+        <option value="nortedesantander">Norte de Santander (22–32°C)</option>
+        <option value="putumayo">Putumayo (20–30°C)</option>
+        <option value="quindio">Quindío (16–26°C)</option>
+        <option value="risaralda">Risaralda (14–26°C)</option>
+        <option value="sanandrés">San Andrés y Providencia (28–32°C)</option>
+        <option value="santander">Santander (18–32°C)</option>
+        <option value="sucre">Sucre (28–36°C)</option>
+        <option value="tolima">Tolima (20–36°C)</option>
+        <option value="valledecauca">Valle del Cauca (18–30°C)</option>
+        <option value="vaupes">Vaupés (27–33°C)</option>
+        <option value="vichada">Vichada (28–36°C)</option>
+        <option value="bogota">Bogotá D.C. (6–18°C)</option>
+        <option value="barranquilla">Barranquilla (28–36°C)</option>
+        <option value="cartagena">Cartagena (28–35°C)</option>
+        <option value="medellin">Medellín (17–28°C)</option>
+        <option value="cali">Cali (18–28°C)</option>
+        <option value="bucaramanga">Bucaramanga (18–28°C)</option>
+        <option value="cucuta">Cúcuta (24–38°C)</option>
+        <option value="manizales">Manizales (13–22°C)</option>
+        <option value="villavicencio">Villavicencio (26–34°C)</option>
+        <option value="monteria">Montería (27–36°C)</option>
+        <option value="pasto">Pasto (8–18°C)</option>
+        <option value="neiva">Neiva (24–36°C)</option>
+        <option value="ibague">Ibagué (20–32°C)</option>
+        <option value="pereira">Pereira (16–26°C)</option>
+        <option value="soledad">Soledad / Sabanalarga (28–34°C)</option>
+        <option value="sincelejo">Sincelejo (28–35°C)</option>
+        <option value="valledupar">Valledupar (28–38°C)</option>
+        <option value="riohacha">Riohacha (30–40°C)</option>
+        <option value="florencia">Florencia (25–32°C)</option>
+        <option value="quibdo">Quibdó (26–33°C)</option>
+        <option value="popayan">Popayán (14–22°C)</option>
+        <option value="armenia">Armenia (16–26°C)</option>
+        <option value="tunja">Tunja (6–16°C)</option>
+        <option value="yopal">Yopal (27–34°C)</option>
+        <option value="arauca_city">Arauca ciudad (27–35°C)</option>
+        <option value="mocoa">Mocoa (20–30°C)</option>
+        <option value="mitu">Mitú (26–33°C)</option>
+        <option value="puerto_inirida">Puerto Inírida (27–34°C)</option>
+        <option value="san_jose_guaviare">San José del Guaviare (25–32°C)</option>
+        <option value="puerto_carreno">Puerto Carreño (28–36°C)</option>
+      </select>
+      <div class="temp-hint" id="temp-hint"></div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Orientación solar</label>
+        <select id="orientacion">
+          <option value="norte">Norte (menor radiación)</option>
+          <option value="sur">Sur (moderada)</option>
+          <option value="este">Este (mañana)</option>
+          <option value="oeste">Oeste (tarde — más carga)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Vidriería</label>
+        <select id="ventanas">
+          <option value="poca">Pocas / pequeñas</option>
+          <option value="media">Moderadas</option>
+          <option value="mucha">Muchas / p-a-techo</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 3: FACTORES -->
+  <div class="step-label">
+    <div class="step-num">3</div>
+    <div class="step-text">Factores adicionales</div>
+  </div>
+  <div class="card">
+    <div class="card-head">Cargas de calor adicionales</div>
+    <div class="checks">
+      <label class="chk" for="f_ilum">
+        <input type="checkbox" id="f_ilum">
+        <div class="chk-box"></div>
+        💡 Iluminación intensa
+      </label>
+      <label class="chk" for="f_equip">
+        <input type="checkbox" id="f_equip">
+        <div class="chk-box"></div>
+        🖥️ Muchos equipos electrónicos
+      </label>
+      <label class="chk" for="f_coc">
+        <input type="checkbox" id="f_coc">
+        <div class="chk-box"></div>
+        🔥 Fuente de calor (cocina)
+      </label>
+      <label class="chk" for="f_aisl">
+        <input type="checkbox" id="f_aisl">
+        <div class="chk-box"></div>
+        🧱 Buen aislamiento térmico
+      </label>
+      <label class="chk" for="f_alto">
+        <input type="checkbox" id="f_alto">
+        <div class="chk-box"></div>
+        🌆 Piso alto / sol directo
+      </label>
+      <label class="chk" for="f_hum">
+        <input type="checkbox" id="f_hum">
+        <div class="chk-box"></div>
+        💧 Alta humedad interior
+      </label>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn-calc" onclick="calcular()">⚡ Calcular sistema óptimo</button>
+  </div>
+
+</div><!-- /section-ac -->
+
+<!-- ======================== SECCIÓN CUARTO FRÍO ======================== -->
+<div class="section-cold" id="section-cold">
+
+  <!-- PASO 1: TIPO DE ALMACENAMIENTO -->
+  <div class="step-label">
+    <div class="step-num cold-num">1</div>
+    <div class="step-text cold-text">Tipo de almacenamiento</div>
+  </div>
+  <div class="card cold-card">
+    <div class="card-head cold-head">Producto a conservar</div>
+    <div class="cold-products" id="cold-products">
+
+      <div class="cold-chip active" data-product="carnes" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🥩</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Carnes y aves</div>
+          <div class="cold-chip-temp">0°C a 4°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="frutas_verduras" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🥦</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Frutas y verduras</div>
+          <div class="cold-chip-temp">4°C a 8°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="lacteos" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🧀</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Lácteos</div>
+          <div class="cold-chip-temp">2°C a 6°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="bebidas" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🍺</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Bebidas / flores</div>
+          <div class="cold-chip-temp">6°C a 10°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="pescados" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🐟</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Pescados y mariscos</div>
+          <div class="cold-chip-temp">-2°C a 2°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="congelados" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🧊</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Congelados profundos</div>
+          <div class="cold-chip-temp">-18°C a -22°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="helados" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">🍦</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Helados / ultra frío</div>
+          <div class="cold-chip-temp">-25°C a -30°C</div>
+        </div>
+      </div>
+
+      <div class="cold-chip" data-product="farmaceutico" onclick="selectColdProduct(this)">
+        <div class="cold-chip-icon">💊</div>
+        <div class="cold-chip-info">
+          <div class="cold-chip-name">Farmacéutico</div>
+          <div class="cold-chip-temp">2°C a 8°C</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PASO 2: DIMENSIONES DEL CUARTO -->
+  <div class="step-label">
+    <div class="step-num cold-num">2</div>
+    <div class="step-text cold-text">Dimensiones del cuarto frío</div>
+  </div>
+  <div class="card cold-card">
+    <div class="card-head cold-head">Medidas internas del recinto</div>
+    <div class="field-row-3">
+      <div class="field">
+        <label class="field-label">Largo (m)</label>
+        <input type="number" class="cold-input" id="cf_largo" placeholder="3.0" min="0.5" max="100" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label class="field-label">Ancho (m)</label>
+        <input type="number" class="cold-input" id="cf_ancho" placeholder="2.5" min="0.5" max="100" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label class="field-label">Alto (m)</label>
+        <input type="number" class="cold-input" id="cf_alto" placeholder="2.2" min="1.5" max="10" step="0.1" value="2.2" inputmode="decimal">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Carga de producto (kg/día)</label>
+        <input type="number" class="cold-input" id="cf_carga" placeholder="200" min="0" max="50000" step="10" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label class="field-label">Temp. inicial producto (°C)</label>
+        <input type="number" class="cold-input" id="cf_temp_entrada" placeholder="25" min="-10" max="60" step="1" value="25" inputmode="decimal">
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 3: CONDICIONES -->
+  <div class="step-label">
+    <div class="step-num cold-num">3</div>
+    <div class="step-text cold-text">Condiciones del entorno</div>
+  </div>
+  <div class="card cold-card">
+    <div class="card-head cold-head">Ambiente exterior y construcción</div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Temp. exterior (°C)</label>
+        <input type="number" class="cold-input" id="cf_text" placeholder="32" min="5" max="45" step="1" value="32" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label class="field-label">Aislamiento paredes</label>
+        <select class="cold-select" id="cf_aisl">
+          <option value="bajo">Bajo (poliuretano 50mm)</option>
+          <option value="medio" selected>Medio (poliuretano 80mm)</option>
+          <option value="alto">Alto (poliuretano 100mm)</option>
+          <option value="muy_alto">Muy alto (150mm+)</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-label">Frecuencia de apertura</label>
+        <select class="cold-select" id="cf_apertura">
+          <option value="baja">Baja (1–3 veces/día)</option>
+          <option value="media" selected>Media (4–10 veces/día)</option>
+          <option value="alta">Alta (11–20 veces/día)</option>
+          <option value="muy_alta">Muy alta / cortina aire</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Iluminación interna</label>
+        <select class="cold-select" id="cf_luz">
+          <option value="led">LED (baja carga)</option>
+          <option value="fluorescente">Fluorescente</option>
+          <option value="incandescente">Incandescente (alta carga)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 4: FACTORES ADICIONALES -->
+  <div class="step-label">
+    <div class="step-num cold-num">4</div>
+    <div class="step-text cold-text">Factores adicionales</div>
+  </div>
+  <div class="card cold-card">
+    <div class="card-head cold-head">Condiciones especiales del cuarto frío</div>
+    <div class="checks">
+      <label class="chk cold-chk" for="cf_sol">
+        <input type="checkbox" id="cf_sol">
+        <div class="chk-box"></div>
+        ☀️ Pared/techo con sol directo
+      </label>
+      <label class="chk cold-chk" for="cf_motor">
+        <input type="checkbox" id="cf_motor">
+        <div class="chk-box"></div>
+        ⚙️ Motor evaporador interno
+      </label>
+      <label class="chk cold-chk" for="cf_humedad">
+        <input type="checkbox" id="cf_humedad">
+        <div class="chk-box"></div>
+        💧 Producto húmedo (pescado etc.)
+      </label>
+      <label class="chk cold-chk" for="cf_personas">
+        <input type="checkbox" id="cf_personas">
+        <div class="chk-box"></div>
+        👷 Personal dentro del cuarto
+      </label>
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <button class="btn-calc cold-btn" onclick="calcularCuartoFrio()">🧊 Calcular cuarto frío</button>
+  </div>
+
+</div><!-- /section-cold -->
+
+<!-- RESULTS (shared) -->
+<div id="results">
+  <div class="divider"></div>
+  <div class="section-head" id="results-title">Resultados del análisis</div>
+
+  <!-- AC Results -->
+  <div id="res-ac-block">
+    <div class="metrics" id="metrics">
+      <div class="met c-ice">
+        <div class="met-lbl">Área total</div>
+        <div class="met-val" id="r-area">—</div>
+        <div class="met-unit">m²</div>
+      </div>
+      <div class="met c-hot">
+        <div class="met-lbl">Carga térmica</div>
+        <div class="met-val" id="r-btu">—</div>
+        <div class="met-unit">BTU/h</div>
+      </div>
+      <div class="met c-grn">
+        <div class="met-lbl">Capacidad</div>
+        <div class="met-val" id="r-tr">—</div>
+        <div class="met-unit">Ton. ref.</div>
+      </div>
+      <div class="met c-amb">
+        <div class="met-lbl">Temp. objetivo</div>
+        <div class="met-val" id="r-temp">—</div>
+        <div class="met-unit">°C recomendado</div>
+      </div>
+    </div>
+
+    <div class="ac-result" id="ac-result">
+      <div class="ac-result-inner">
+        <div class="ac-result-svg" id="ac-result-svg"></div>
+        <div class="ac-result-info">
+          <div class="ac-result-name" id="ac-nombre">—</div>
+          <div class="ac-result-sub" id="ac-sub">—</div>
+          <div class="detail-grid" id="ac-details"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head">Aptitud para trabajadores — ASHRAE 55 / ISO 7730</div>
+    <div id="worker-result"></div>
+
+    <div class="card">
+      <div class="card-head">Referencia de temperaturas por norma</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tipo de actividad</th>
+              <th>Verano</th>
+              <th>Invierno</th>
+              <th>Humedad</th>
+              <th>Norma</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Oficina / sedentario</td><td><span class="pill p-ice">23–26°C</span></td><td><span class="pill p-ice">20–23°C</span></td><td>40–60%</td><td><span class="pill p-grn">ASHRAE 55</span></td></tr>
+            <tr><td>Trabajo ligero de pie</td><td><span class="pill p-ice">22–25°C</span></td><td><span class="pill p-ice">19–22°C</span></td><td>40–60%</td><td><span class="pill p-grn">ISO 7730</span></td></tr>
+            <tr><td>Trabajo físico moderado</td><td><span class="pill p-amb">18–22°C</span></td><td><span class="pill p-amb">16–20°C</span></td><td>35–60%</td><td><span class="pill p-grn">ISO 7730</span></td></tr>
+            <tr><td>Sala de servidores</td><td><span class="pill p-ice">18–27°C</span></td><td><span class="pill p-ice">18–27°C</span></td><td>40–55%</td><td><span class="pill p-grn">ASHRAE A2</span></td></tr>
+            <tr><td>Dormitorio / descanso</td><td><span class="pill p-ice">24–26°C</span></td><td><span class="pill p-ice">20–22°C</span></td><td>40–60%</td><td><span class="pill p-amb">Recomendado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLD ROOM Results -->
+  <div id="res-cold-block" style="display:none;">
+    <div class="metrics" id="cold-metrics">
+      <div class="met c-cold">
+        <div class="met-lbl">Volumen</div>
+        <div class="met-val" id="cr-vol">—</div>
+        <div class="met-unit">m³</div>
+      </div>
+      <div class="met c-blue">
+        <div class="met-lbl">Temp. servicio</div>
+        <div class="met-val" id="cr-temp">—</div>
+        <div class="met-unit">°C interior</div>
+      </div>
+      <div class="met c-cold">
+        <div class="met-lbl">Carga total</div>
+        <div class="met-val" id="cr-btu">—</div>
+        <div class="met-unit">BTU/h</div>
+      </div>
+      <div class="met c-grn">
+        <div class="met-lbl">Potencia</div>
+        <div class="met-val" id="cr-hp">—</div>
+        <div class="met-unit">HP compresor</div>
+      </div>
+    </div>
+
+    <div class="ac-result cold-result" id="cold-result-card">
+      <div class="ac-result-inner">
+        <div class="ac-result-svg cold-svg" id="cold-result-svg">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="60" height="50" rx="6" stroke="#a78bfa" stroke-width="2.5" fill="rgba(167,139,250,0.07)"/>
+            <rect x="14" y="6" width="44" height="12" rx="4" stroke="#a78bfa" stroke-width="2" fill="rgba(167,139,250,0.1)"/>
+            <line x1="36" y1="22" x2="36" y2="58" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="40" x2="52" y2="40" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+            <line x1="22" y1="26" x2="50" y2="54" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <line x1="50" y1="26" x2="22" y2="54" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="36" cy="40" r="5" fill="#a78bfa" opacity="0.8"/>
+            <path d="M36 22 L33 27 L39 27Z" fill="#a78bfa" opacity="0.7"/>
+            <path d="M36 58 L33 53 L39 53Z" fill="#a78bfa" opacity="0.7"/>
+            <path d="M20 40 L25 37 L25 43Z" fill="#a78bfa" opacity="0.7"/>
+            <path d="M52 40 L47 37 L47 43Z" fill="#a78bfa" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="ac-result-info">
+          <div class="ac-result-name" id="cold-nombre">—</div>
+          <div class="ac-result-sub" id="cold-sub">—</div>
+          <div class="detail-grid" id="cold-details"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cold-breakdown" id="cold-breakdown">
+      <div class="cold-breakdown-title">Desglose de cargas térmicas</div>
+      <div id="cold-breakdown-rows"></div>
+      <div class="breakdown-total">
+        <div class="breakdown-total-label">CARGA TOTAL (+ 10% seguridad)</div>
+        <div class="breakdown-total-val" id="cold-total-val">—</div>
+      </div>
+    </div>
+
+    <div class="section-head cold-sh">Normativa aplicable</div>
+    <div class="card cold-card">
+      <div class="card-head cold-head">Temperatura de servicio por producto (INVIMA / Codex)</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Temp. servicio</th>
+              <th>HR recomendada</th>
+              <th>Vida útil</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Carnes frescas</td><td><span class="pill p-cold">0°C a 4°C</span></td><td>85–95%</td><td>5–7 días</td></tr>
+            <tr><td>Frutas / verduras</td><td><span class="pill p-cold">4°C a 8°C</span></td><td>85–95%</td><td>7–21 días</td></tr>
+            <tr><td>Lácteos</td><td><span class="pill p-cold">2°C a 6°C</span></td><td>70–85%</td><td>14–30 días</td></tr>
+            <tr><td>Bebidas / flores</td><td><span class="pill p-cold">6°C a 10°C</span></td><td>70–80%</td><td>Variable</td></tr>
+            <tr><td>Pescados / mariscos</td><td><span class="pill p-cold">-2°C a 2°C</span></td><td>95–100%</td><td>2–5 días</td></tr>
+            <tr><td>Congelados</td><td><span class="pill p-cold">-18°C a -22°C</span></td><td>90–100%</td><td>3–12 meses</td></tr>
+            <tr><td>Helados</td><td><span class="pill p-cold">-25°C a -30°C</span></td><td>90–100%</td><td>12+ meses</td></tr>
+            <tr><td>Farmacéuticos</td><td><span class="pill p-cold">2°C a 8°C</span></td><td>40–60%</td><td>Ver ficha técnica</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="cold-worker-result"></div>
+  </div>
+
+  <div class="disc" id="disc-txt">⚠️ Este cálculo es una estimación basada en el método simplificado de carga térmica. Para proyectos críticos se recomienda el cálculo ASHRAE Handbook of Fundamentals (Manual J). Las temperaturas son rangos típicos por altitud y región de Colombia.</div>
 </div>
 
 <div class="safe-bottom"></div>
@@ -987,19 +1506,73 @@ const AC_SVGS={
   ventana:`<svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="72" height="72" rx="6" stroke="#5de0ff" stroke-width="2.5" fill="rgba(93,224,255,0.05)"/><line x1="40" y1="4" x2="40" y2="76" stroke="#5de0ff" stroke-width="1.5" opacity="0.4"/><line x1="4" y1="40" x2="76" y2="40" stroke="#5de0ff" stroke-width="1.5" opacity="0.4"/><rect x="10" y="10" width="60" height="26" rx="5" stroke="#5de0ff" stroke-width="2" fill="rgba(93,224,255,0.12)"/><rect x="16" y="22" width="48" height="5" rx="2.5" fill="#5de0ff" opacity="0.5"/><path d="M22 40 L22 54 M22 54 L19 49 M22 54 L25 49" stroke="#5de0ff" stroke-width="1.8" stroke-linecap="round"/><path d="M40 40 L40 58 M40 58 L37 53 M40 58 L43 53" stroke="#5de0ff" stroke-width="1.8" stroke-linecap="round"/><path d="M58 40 L58 54 M58 54 L55 49 M58 54 L61 49" stroke="#5de0ff" stroke-width="1.8" stroke-linecap="round"/></svg>`
 };
 
+/* ===== COLD ROOM DATA ===== */
+const COLD_PRODUCTS = {
+  carnes:         { nombre:"Carnes y aves",        tempMin:0,  tempMax:4,  hr:"85–95%", calEsp:3.5,  refrigerante:"R-404A / R-448A" },
+  frutas_verduras:{ nombre:"Frutas y verduras",    tempMin:4,  tempMax:8,  hr:"85–95%", calEsp:4.0,  refrigerante:"R-404A / R-407F" },
+  lacteos:        { nombre:"Lácteos",              tempMin:2,  tempMax:6,  hr:"70–85%", calEsp:3.8,  refrigerante:"R-404A / R-448A" },
+  bebidas:        { nombre:"Bebidas / flores",     tempMin:6,  tempMax:10, hr:"70–80%", calEsp:4.2,  refrigerante:"R-404A / R-407F" },
+  pescados:       { nombre:"Pescados y mariscos",  tempMin:-2, tempMax:2,  hr:"95%",    calEsp:3.2,  refrigerante:"R-404A / R-448A" },
+  congelados:     { nombre:"Congelados profundos", tempMin:-22,tempMax:-18,hr:"90–100%",calEsp:1.9,  refrigerante:"R-404A / R-507A" },
+  helados:        { nombre:"Helados / ultra frío", tempMin:-30,tempMax:-25,hr:"90–100%",calEsp:1.7,  refrigerante:"R-404A / R-507A" },
+  farmaceutico:   { nombre:"Farmacéutico",         tempMin:2,  tempMax:8,  hr:"40–60%", calEsp:3.9,  refrigerante:"R-134a / R-448A"  }
+};
+
+/* Coeficiente U por aislamiento (W/m²·K) */
+const U_AISL = { bajo:0.45, medio:0.30, alto:0.22, muy_alto:0.14 };
+
+/* Factor infiltración por apertura */
+const F_APE = { baja:1.04, media:1.10, alta:1.20, muy_alta:1.35 };
+
+/* Watts por iluminación */
+const W_LUZ = { led:8, fluorescente:15, incandescente:25 }; // W/m²
+
 const COL_TEMPS={amazonas:{min:28,max:33,clima:'caliente_humedo'},antioquia:{min:18,max:28,clima:'templado'},arauca:{min:28,max:35,clima:'caliente_humedo'},atlantico:{min:28,max:34,clima:'caliente_humedo'},bolivar:{min:28,max:35,clima:'caliente_humedo'},boyaca:{min:8,max:18,clima:'frio'},caldas:{min:14,max:24,clima:'templado'},caqueta:{min:26,max:32,clima:'caliente_humedo'},casanare:{min:28,max:35,clima:'caliente_humedo'},cauca:{min:14,max:24,clima:'templado'},cesar:{min:28,max:36,clima:'caliente_seco'},choco:{min:26,max:33,clima:'caliente_humedo'},cordoba:{min:28,max:36,clima:'caliente_humedo'},cundinamarca:{min:8,max:22,clima:'templado'},guainia:{min:27,max:34,clima:'caliente_humedo'},guaviare:{min:26,max:32,clima:'caliente_humedo'},huila:{min:20,max:32,clima:'caliente_seco'},laguajira:{min:30,max:40,clima:'caliente_seco'},magdalena:{min:28,max:35,clima:'caliente_humedo'},meta:{min:26,max:34,clima:'caliente_humedo'},narino:{min:10,max:22,clima:'templado'},nortedesantander:{min:22,max:32,clima:'caliente_seco'},putumayo:{min:20,max:30,clima:'caliente_humedo'},quindio:{min:16,max:26,clima:'templado'},risaralda:{min:14,max:26,clima:'templado'},'sanandrés':{min:28,max:32,clima:'caliente_humedo'},santander:{min:18,max:32,clima:'templado'},sucre:{min:28,max:36,clima:'caliente_humedo'},tolima:{min:20,max:36,clima:'caliente_seco'},valledecauca:{min:18,max:30,clima:'templado'},vaupes:{min:27,max:33,clima:'caliente_humedo'},vichada:{min:28,max:36,clima:'caliente_humedo'},bogota:{min:6,max:18,clima:'frio'},barranquilla:{min:28,max:36,clima:'caliente_humedo'},cartagena:{min:28,max:35,clima:'caliente_humedo'},medellin:{min:17,max:28,clima:'templado'},cali:{min:18,max:28,clima:'templado'},bucaramanga:{min:18,max:28,clima:'templado'},cucuta:{min:24,max:38,clima:'caliente_seco'},manizales:{min:13,max:22,clima:'templado'},villavicencio:{min:26,max:34,clima:'caliente_humedo'},monteria:{min:27,max:36,clima:'caliente_humedo'},pasto:{min:8,max:18,clima:'frio'},neiva:{min:24,max:36,clima:'caliente_seco'},ibague:{min:20,max:32,clima:'caliente_seco'},pereira:{min:16,max:26,clima:'templado'},soledad:{min:28,max:34,clima:'caliente_humedo'},sincelejo:{min:28,max:35,clima:'caliente_humedo'},valledupar:{min:28,max:38,clima:'caliente_seco'},riohacha:{min:30,max:40,clima:'caliente_seco'},florencia:{min:25,max:32,clima:'caliente_humedo'},quibdo:{min:26,max:33,clima:'caliente_humedo'},popayan:{min:14,max:22,clima:'templado'},armenia:{min:16,max:26,clima:'templado'},tunja:{min:6,max:16,clima:'frio'},yopal:{min:27,max:34,clima:'caliente_humedo'},arauca_city:{min:27,max:35,clima:'caliente_humedo'},mocoa:{min:20,max:30,clima:'caliente_humedo'},mitu:{min:26,max:33,clima:'caliente_humedo'},puerto_inirida:{min:27,max:34,clima:'caliente_humedo'},san_jose_guaviare:{min:25,max:32,clima:'caliente_humedo'},puerto_carreno:{min:28,max:36,clima:'caliente_humedo'}};
 
 const USO_TEMPS={residencial:{verano:25,invierno:22},oficina:{verano:24,invierno:22},comercial:{verano:23,invierno:21},servidores:{verano:21,invierno:21},gym:{verano:20,invierno:18},restaurante:{verano:23,invierno:21}};
 
 let selectedACType='split_pared';
+let selectedColdProduct='carnes';
+let currentMode='ac';
 
+/* ===== MODE SWITCH ===== */
+function setMode(mode){
+  currentMode=mode;
+  const btnAc=document.getElementById('btn-mode-ac');
+  const btnCold=document.getElementById('btn-mode-cold');
+  const secAc=document.getElementById('section-ac');
+  const secCold=document.getElementById('section-cold');
+  const results=document.getElementById('results');
+
+  if(mode==='ac'){
+    btnAc.className='mode-btn active-ac';
+    btnCold.className='mode-btn';
+    secAc.style.display='';
+    secCold.style.display='none';
+  } else {
+    btnAc.className='mode-btn';
+    btnCold.className='mode-btn active-cold';
+    secAc.style.display='none';
+    secCold.style.display='';
+  }
+  results.style.display='none';
+}
+
+/* ===== AC SELECTOR ===== */
 function selectAC(el){
   document.querySelectorAll('.ac-chip').forEach(e=>e.classList.remove('active'));
   el.classList.add('active');
   selectedACType=el.getAttribute('data-type');
 }
 
-// Checkboxes — escucha el cambio nativo del input
+/* ===== COLD PRODUCT SELECTOR ===== */
+function selectColdProduct(el){
+  document.querySelectorAll('.cold-chip').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  selectedColdProduct=el.getAttribute('data-product');
+}
+
+// Checkboxes
 document.querySelectorAll('.chk input[type="checkbox"]').forEach(inp=>{
   inp.addEventListener('change',function(){
     this.closest('.chk').classList.toggle('on', this.checked);
@@ -1015,6 +1588,7 @@ function updateTempHint(){
   hint.style.opacity=1;
 }
 
+/* ===== AC CALC ===== */
 function calcular(){
   const largo=parseFloat(document.getElementById('largo').value);
   const ancho=parseFloat(document.getElementById('ancho').value);
@@ -1082,13 +1656,155 @@ function calcular(){
   document.getElementById('ac-details').innerHTML=ac.detalles.map(d=>`<div class="detail-item"><strong>${d.label}</strong>${d.texto}</div>`).join('');
   document.getElementById('worker-result').innerHTML=`<div class="worker ${wClass}"><div class="worker-head"><div class="dot"></div><div class="worker-title">${wTitle}</div></div><div class="worker-desc">${wDesc}</div></div>`;
 
+  document.getElementById('res-ac-block').style.display='';
+  document.getElementById('res-cold-block').style.display='none';
+  document.getElementById('results-title').textContent='Resultados del análisis';
+  document.getElementById('disc-txt').textContent='⚠️ Este cálculo es una estimación basada en el método simplificado de carga térmica. Para proyectos críticos se recomienda el cálculo ASHRAE Handbook of Fundamentals (Manual J). Las temperaturas son rangos típicos por altitud y región de Colombia.';
+
   const res=document.getElementById('results');
   res.style.display='block';
   res.className='results-anim';
   setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),60);
 }
 
-document.addEventListener('keydown',e=>{if(e.key==='Enter')calcular();});
+/* ===== COLD ROOM CALC ===== */
+function calcularCuartoFrio(){
+  const largo=parseFloat(document.getElementById('cf_largo').value);
+  const ancho=parseFloat(document.getElementById('cf_ancho').value);
+  const alto=parseFloat(document.getElementById('cf_alto').value)||2.2;
+  const cargaKg=parseFloat(document.getElementById('cf_carga').value)||0;
+  const tempEntrada=parseFloat(document.getElementById('cf_temp_entrada').value)||25;
+  const textExt=parseFloat(document.getElementById('cf_text').value)||32;
+  const aislKey=document.getElementById('cf_aisl').value;
+  const aperturaKey=document.getElementById('cf_apertura').value;
+  const luzKey=document.getElementById('cf_luz').value;
+
+  if(!largo||!ancho){alert('⚠️ Completa las dimensiones del cuarto frío.');return;}
+
+  const prod=COLD_PRODUCTS[selectedColdProduct];
+  const tempInt=(prod.tempMin+prod.tempMax)/2; // temperatura media de servicio
+  const deltaT=textExt-tempInt;
+
+  const area=largo*ancho;
+  const volumen=area*alto;
+
+  /* Área total de paredes + techo + piso */
+  const areaParedes=2*(largo+ancho)*alto + 2*area; // m²
+
+  /* 1. CARGA POR TRANSMISIÓN (conducción a través de paredes) */
+  const U=U_AISL[aislKey]; // W/m²·K
+  let qTransW=U*areaParedes*deltaT;
+  if(document.getElementById('cf_sol').checked) qTransW*=1.12; // factor solar extra
+
+  /* 2. CARGA POR INFILTRACIÓN / APERTURA */
+  const fApe=F_APE[aperturaKey];
+  // Estimación rápida: volumen de aire que entra por apertura
+  const qInfW=volumen*0.35*deltaT*fApe; // coeficiente empírico
+
+  /* 3. CARGA POR ILUMINACIÓN */
+  const wM2=W_LUZ[luzKey];
+  const qLuzW=wM2*area;
+
+  /* 4. CARGA POR PRODUCTO (enfriamiento y calor de respiración) */
+  // Calor específico medio de alimentos ≈ 3.5 kJ/kg·°C sobre el punto de congelación
+  let qProdW=0;
+  if(cargaKg>0){
+    const calEsp=prod.calEsp; // kJ/kg·°C
+    const deltaTProd=Math.max(tempEntrada-tempInt,0);
+    // Se asume el producto se enfría en 24h → dividir entre 86400s
+    qProdW=(cargaKg*calEsp*1000*deltaTProd)/86400;
+  }
+
+  /* 5. CARGA POR PERSONAS */
+  let qPersonasW=0;
+  if(document.getElementById('cf_personas').checked){
+    qPersonasW=280; // 1 persona en cuarto frío aprox 280W (trabajo moderado)
+  }
+
+  /* 6. CARGA POR MOTOR EVAPORADOR (motor interno) */
+  let qMotorW=0;
+  if(document.getElementById('cf_motor').checked){
+    // aprox 0.25W por m³
+    qMotorW=volumen*0.25*1000; // estimación
+    qMotorW=Math.min(qMotorW,500); // cap reasonable
+  }
+
+  /* 7. FACTOR HUMEDAD (producto húmedo) */
+  let fHum=1.0;
+  if(document.getElementById('cf_humedad').checked) fHum=1.08;
+
+  const subTotal=(qTransW+qInfW+qLuzW+qProdW+qPersonasW+qMotorW)*fHum;
+  const total=subTotal*1.10; // 10% seguridad
+
+  // Convertir a BTU/h (1 W = 3.41214 BTU/h)
+  const toBTU=w=>Math.round(w*3.412);
+  const totalBTU=toBTU(total);
+  const totalKW=(total/1000).toFixed(2);
+
+  // HP compresor (COP estimado según temperatura)
+  let COP=3.0;
+  if(tempInt<-15) COP=1.8;
+  else if(tempInt<0) COP=2.2;
+  else if(tempInt<8) COP=2.7;
+  const kWcompresor=total/1000/COP;
+  const HP=(kWcompresor/0.746).toFixed(1);
+
+  /* EVAPORADOR recomendado */
+  const kWevap=(total/1000*1.15).toFixed(2);
+
+  /* Mostrar resultados */
+  document.getElementById('cr-vol').textContent=volumen.toFixed(1);
+  document.getElementById('cr-temp').textContent=tempInt.toFixed(0)+'°C';
+  document.getElementById('cr-btu').textContent=totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU;
+  document.getElementById('cr-hp').textContent=HP;
+
+  document.getElementById('cold-nombre').textContent=`Cuarto Frío — ${prod.nombre}`;
+  document.getElementById('cold-sub').textContent=
+    `Temp. servicio: ${prod.tempMin}°C a ${prod.tempMax}°C · HR: ${prod.hr} · Ref: ${prod.refrigerante}`;
+
+  document.getElementById('cold-details').innerHTML=[
+    {label:'EVAPORADOR',texto:`Capacidad mínima: ${kWevap} kW — usar evaporador de baja temperatura con desescarche automático.`},
+    {label:'COMPRESOR',texto:`Potencia estimada: ${kWcompresor.toFixed(2)} kW (${HP} HP) · COP estimado ${COP}. Refrigerante: ${prod.refrigerante}.`},
+    {label:'AISLAMIENTO',texto:`Panel ${aislKey} (U=${U} W/m²·K). Superficie total: ${areaParedes.toFixed(1)} m². Incluye suelo y techo.`},
+    {label:'NORMATIVA',texto:`INVIMA / Codex Alimentarius. Temperatura crítica para ${prod.nombre}: ${prod.tempMin}°C – ${prod.tempMax}°C.`}
+  ].map(d=>`<div class="detail-item"><strong class="cold-lbl">${d.label}</strong>${d.texto}</div>`).join('');
+
+  /* Desglose */
+  const rows=[
+    {label:'Transmisión paredes / techo / piso', val:toBTU(qTransW*(document.getElementById('cf_sol').checked?1.12:1)*fHum)},
+    {label:'Infiltración por apertura de puerta', val:toBTU(qInfW*fApe*fHum)},
+    {label:'Iluminación interna', val:toBTU(qLuzW*fHum)},
+    {label:'Enfriamiento de producto', val:toBTU(qProdW*fHum)},
+    {label:'Calor de personas internas', val:toBTU(qPersonasW*fHum)},
+    {label:'Motor evaporador interno', val:toBTU(qMotorW*fHum)},
+  ].filter(r=>r.val>0);
+
+  document.getElementById('cold-breakdown-rows').innerHTML=rows.map(r=>
+    `<div class="breakdown-row"><span class="breakdown-label">${r.label}</span><span class="breakdown-val">${r.val>=1000?(r.val/1000).toFixed(1)+'K':r.val} BTU/h</span></div>`
+  ).join('');
+  document.getElementById('cold-total-val').textContent=`${totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU} BTU/h · ${totalKW} kW`;
+
+  /* Nota de aptitud */
+  const notaCold=`<div class="worker cold-info"><div class="worker-head"><div class="dot"></div><div class="worker-title">🧊 Cuarto frío para conservación de alimentos</div></div><div class="worker-desc">El cuarto frío opera a ${tempInt.toFixed(0)}°C. <strong>NO es un espacio apto para permanencia humana prolongada.</strong> El acceso debe ser breve y con EPP adecuado (ropa térmica). Los sistemas deben incluir alarma de temperatura, sensor de puerta y dispositivo de apertura interior de emergencia (NTC 5908 / ICONTEC).</div></div>`;
+  document.getElementById('cold-worker-result').innerHTML=notaCold;
+
+  document.getElementById('res-ac-block').style.display='none';
+  document.getElementById('res-cold-block').style.display='';
+  document.getElementById('results-title').textContent='Resultados — Cuarto Frío';
+  document.getElementById('disc-txt').textContent='⚠️ Cálculo estimado por método simplificado. Para proyectos industriales se requiere cálculo detallado según ASHRAE Refrigeration Handbook (2022). Verifique con ingeniero certificado en refrigeración comercial / industrial.';
+
+  const res=document.getElementById('results');
+  res.style.display='block';
+  res.className='results-anim';
+  setTimeout(()=>res.scrollIntoView({behavior:'smooth',block:'start'}),60);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(currentMode==='ac') calcular();
+    else calcularCuartoFrio();
+  }
+});
 </script>
 </body>
 </html>
