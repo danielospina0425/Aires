@@ -1683,22 +1683,24 @@ function calcularCuartoFrio(){
 
   const prod=COLD_PRODUCTS[selectedColdProduct];
   const tempInt=(prod.tempMin+prod.tempMax)/2;
-  const deltaT=textExt-tempInt;
+  const deltaT=Math.max(textExt-tempInt, 0);
+const deltaTPos=Math.max(deltaT, 1); // evita cero absoluto
 
   const area=largo*ancho;
   const volumen=area*alto;
   const areaParedes=2*(largo+ancho)*alto + 2*area;
 
-  const U=U_AISL[aislKey];
-  const fSol=document.getElementById('cf_sol').checked?1.12:1.0;
-  const fHum=document.getElementById('cf_humedad').checked?1.08:1.0;
+ const U=U_AISL[aislKey];
+const fSol=document.getElementById('cf_sol').checked?1.12:1.0;
+const fHum=document.getElementById('cf_humedad').checked?1.08:1.0;
+const deltaTPos=Math.max(textExt-tempInt, 1);
 
-  // 1. Transmisión
-  let qTransW=U*areaParedes*deltaT*fSol;
+// 1. Transmisión
+let qTransW=U*areaParedes*deltaTPos*fSol;
 
-  // 2. Infiltración
-  const fApe=F_APE[aperturaKey];
-  let qInfW=volumen*0.35*deltaT*fApe;
+// 2. Infiltración
+const fApe=F_APE[aperturaKey];
+let qInfW=volumen*0.35*deltaTPos*fApe;
 
   // 3. Iluminación
   const wM2=W_LUZ[luzKey];
