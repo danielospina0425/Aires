@@ -1682,77 +1682,61 @@ function calcularCuartoFrio(){
   if(!largo||!ancho){alert('⚠️ Completa las dimensiones del cuarto frío.');return;}
 
   const prod=COLD_PRODUCTS[selectedColdProduct];
-  const tempInt=(prod.tempMin+prod.tempMax)/2; // temperatura media de servicio
+  const tempInt=(prod.tempMin+prod.tempMax)/2;
   const deltaT=textExt-tempInt;
 
   const area=largo*ancho;
   const volumen=area*alto;
+  const areaParedes=2*(largo+ancho)*alto + 2*area;
 
-  /* Área total de paredes + techo + piso */
-  const areaParedes=2*(largo+ancho)*alto + 2*area; // m²
+  const U=U_AISL[aislKey];
+  const fSol=document.getElementById('cf_sol').checked?1.12:1.0;
+  const fHum=document.getElementById('cf_humedad').checked?1.08:1.0;
 
-  /* 1. CARGA POR TRANSMISIÓN (conducción a través de paredes) */
-  const U=U_AISL[aislKey]; // W/m²·K
-  let qTransW=U*areaParedes*deltaT;
-  if(document.getElementById('cf_sol').checked) qTransW*=1.12; // factor solar extra
+  // 1. Transmisión
+  let qTransW=U*areaParedes*deltaT*fSol;
 
-  /* 2. CARGA POR INFILTRACIÓN / APERTURA */
+  // 2. Infiltración
   const fApe=F_APE[aperturaKey];
-  // Estimación rápida: volumen de aire que entra por apertura
-  const qInfW=volumen*0.35*deltaT*fApe; // coeficiente empírico
+  let qInfW=volumen*0.35*deltaT*fApe;
 
-  /* 3. CARGA POR ILUMINACIÓN */
+  // 3. Iluminación
   const wM2=W_LUZ[luzKey];
-  const qLuzW=wM2*area;
+  let qLuzW=wM2*area;
 
-  /* 4. CARGA POR PRODUCTO (enfriamiento y calor de respiración) */
-  // Calor específico medio de alimentos ≈ 3.5 kJ/kg·°C sobre el punto de congelación
+  // 4. Producto
   let qProdW=0;
   if(cargaKg>0){
-    const calEsp=prod.calEsp; // kJ/kg·°C
+    const calEsp=prod.calEsp;
     const deltaTProd=Math.max(tempEntrada-tempInt,0);
-    // Se asume el producto se enfría en 24h → dividir entre 86400s
     qProdW=(cargaKg*calEsp*1000*deltaTProd)/86400;
   }
 
-  /* 5. CARGA POR PERSONAS */
-  let qPersonasW=0;
-  if(document.getElementById('cf_personas').checked){
-    qPersonasW=280; // 1 persona en cuarto frío aprox 280W (trabajo moderado)
-  }
+  // 5. Personas
+  let qPersonasW=document.getElementById('cf_personas').checked?280:0;
 
-  /* 6. CARGA POR MOTOR EVAPORADOR (motor interno) */
+  // 6. Motor evaporador
   let qMotorW=0;
   if(document.getElementById('cf_motor').checked){
-    // aprox 0.25W por m³
-    qMotorW=volumen*0.25*1000; // estimación
-    qMotorW=Math.min(qMotorW,500); // cap reasonable
+    qMotorW=Math.min(volumen*250,500);
   }
 
-  /* 7. FACTOR HUMEDAD (producto húmedo) */
-  let fHum=1.0;
-  if(document.getElementById('cf_humedad').checked) fHum=1.08;
-
+  // Subtotal con factor humedad, luego +10% seguridad
   const subTotal=(qTransW+qInfW+qLuzW+qProdW+qPersonasW+qMotorW)*fHum;
-  const total=subTotal*1.10; // 10% seguridad
+  const total=subTotal*1.10;
 
-  // Convertir a BTU/h (1 W = 3.41214 BTU/h)
   const toBTU=w=>Math.round(w*3.412);
   const totalBTU=toBTU(total);
   const totalKW=(total/1000).toFixed(2);
 
-  // HP compresor (COP estimado según temperatura)
   let COP=3.0;
   if(tempInt<-15) COP=1.8;
   else if(tempInt<0) COP=2.2;
   else if(tempInt<8) COP=2.7;
   const kWcompresor=total/1000/COP;
   const HP=(kWcompresor/0.746).toFixed(1);
-
-  /* EVAPORADOR recomendado */
   const kWevap=(total/1000*1.15).toFixed(2);
 
-  /* Mostrar resultados */
   document.getElementById('cr-vol').textContent=volumen.toFixed(1);
   document.getElementById('cr-temp').textContent=tempInt.toFixed(0)+'°C';
   document.getElementById('cr-btu').textContent=totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU;
@@ -1763,28 +1747,28 @@ function calcularCuartoFrio(){
     `Temp. servicio: ${prod.tempMin}°C a ${prod.tempMax}°C · HR: ${prod.hr} · Ref: ${prod.refrigerante}`;
 
   document.getElementById('cold-details').innerHTML=[
-    {label:'EVAPORADOR',texto:`Capacidad mínima: ${kWevap} kW — usar evaporador de baja temperatura con desescarche automático.`},
+    {label:'EVAPORADOR',texto:`Capacidad mínima: ${kWevap} kW — evaporador de baja temperatura con desescarche automático.`},
     {label:'COMPRESOR',texto:`Potencia estimada: ${kWcompresor.toFixed(2)} kW (${HP} HP) · COP estimado ${COP}. Refrigerante: ${prod.refrigerante}.`},
     {label:'AISLAMIENTO',texto:`Panel ${aislKey} (U=${U} W/m²·K). Superficie total: ${areaParedes.toFixed(1)} m². Incluye suelo y techo.`},
-    {label:'NORMATIVA',texto:`INVIMA / Codex Alimentarius. Temperatura crítica para ${prod.nombre}: ${prod.tempMin}°C – ${prod.tempMax}°C.`}
+    {label:'NORMATIVA',texto:`INVIMA / Codex Alimentarius. Temperatura crítica: ${prod.tempMin}°C – ${prod.tempMax}°C.`}
   ].map(d=>`<div class="detail-item"><strong class="cold-lbl">${d.label}</strong>${d.texto}</div>`).join('');
 
-  /* Desglose */
+  // Desglose — valores ya calculados, sin recalcular
   const rows=[
-    {label:'Transmisión paredes / techo / piso', val:toBTU(qTransW*(document.getElementById('cf_sol').checked?1.12:1)*fHum)},
-    {label:'Infiltración por apertura de puerta', val:toBTU(qInfW*fApe*fHum)},
-    {label:'Iluminación interna', val:toBTU(qLuzW*fHum)},
-    {label:'Enfriamiento de producto', val:toBTU(qProdW*fHum)},
-    {label:'Calor de personas internas', val:toBTU(qPersonasW*fHum)},
-    {label:'Motor evaporador interno', val:toBTU(qMotorW*fHum)},
+    {label:'Transmisión paredes / techo / piso', val:toBTU(qTransW*fHum)},
+    {label:'Infiltración por apertura de puerta',  val:toBTU(qInfW*fHum)},
+    {label:'Iluminación interna',                  val:toBTU(qLuzW*fHum)},
+    {label:'Enfriamiento de producto',             val:toBTU(qProdW*fHum)},
+    {label:'Calor de personas internas',           val:toBTU(qPersonasW*fHum)},
+    {label:'Motor evaporador interno',             val:toBTU(qMotorW*fHum)},
   ].filter(r=>r.val>0);
 
   document.getElementById('cold-breakdown-rows').innerHTML=rows.map(r=>
     `<div class="breakdown-row"><span class="breakdown-label">${r.label}</span><span class="breakdown-val">${r.val>=1000?(r.val/1000).toFixed(1)+'K':r.val} BTU/h</span></div>`
   ).join('');
-  document.getElementById('cold-total-val').textContent=`${totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU} BTU/h · ${totalKW} kW`;
+  document.getElementById('cold-total-val').textContent=
+    `${totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU} BTU/h · ${totalKW} kW`;
 
-  /* Nota de aptitud */
   const notaCold=`<div class="worker cold-info"><div class="worker-head"><div class="dot"></div><div class="worker-title">🧊 Cuarto frío para conservación de alimentos</div></div><div class="worker-desc">El cuarto frío opera a ${tempInt.toFixed(0)}°C. <strong>NO es un espacio apto para permanencia humana prolongada.</strong> El acceso debe ser breve y con EPP adecuado (ropa térmica). Los sistemas deben incluir alarma de temperatura, sensor de puerta y dispositivo de apertura interior de emergencia (NTC 5908 / ICONTEC).</div></div>`;
   document.getElementById('cold-worker-result').innerHTML=notaCold;
 
