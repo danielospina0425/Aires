@@ -1507,25 +1507,20 @@ const AC_SVGS={
 };
 
 /* ===== COLD ROOM DATA ===== */
-const COLD_PRODUCTS = {
-  carnes:         { nombre:"Carnes y aves",        tempMin:0,  tempMax:4,  hr:"85–95%", calEsp:3.5,  refrigerante:"R-404A / R-448A" },
-  frutas_verduras:{ nombre:"Frutas y verduras",    tempMin:4,  tempMax:8,  hr:"85–95%", calEsp:4.0,  refrigerante:"R-404A / R-407F" },
-  lacteos:        { nombre:"Lácteos",              tempMin:2,  tempMax:6,  hr:"70–85%", calEsp:3.8,  refrigerante:"R-404A / R-448A" },
-  bebidas:        { nombre:"Bebidas / flores",     tempMin:6,  tempMax:10, hr:"70–80%", calEsp:4.2,  refrigerante:"R-404A / R-407F" },
-  pescados:       { nombre:"Pescados y mariscos",  tempMin:-2, tempMax:2,  hr:"95%",    calEsp:3.2,  refrigerante:"R-404A / R-448A" },
-  congelados:     { nombre:"Congelados profundos", tempMin:-22,tempMax:-18,hr:"90–100%",calEsp:1.9,  refrigerante:"R-404A / R-507A" },
-  helados:        { nombre:"Helados / ultra frío", tempMin:-30,tempMax:-25,hr:"90–100%",calEsp:1.7,  refrigerante:"R-404A / R-507A" },
-  farmaceutico:   { nombre:"Farmacéutico",         tempMin:2,  tempMax:8,  hr:"40–60%", calEsp:3.9,  refrigerante:"R-134a / R-448A"  }
+const COLD_PRODUCTS={
+  carnes:         {nombre:"Carnes y aves",        tempMin:0,  tempMax:4,  hr:"85–95%", calEsp:3.5, refrigerante:"R-404A / R-448A"},
+  frutas_verduras:{nombre:"Frutas y verduras",    tempMin:4,  tempMax:8,  hr:"85–95%", calEsp:4.0, refrigerante:"R-404A / R-407F"},
+  lacteos:        {nombre:"Lácteos",              tempMin:2,  tempMax:6,  hr:"70–85%", calEsp:3.8, refrigerante:"R-404A / R-448A"},
+  bebidas:        {nombre:"Bebidas / flores",     tempMin:6,  tempMax:10, hr:"70–80%", calEsp:4.2, refrigerante:"R-404A / R-407F"},
+  pescados:       {nombre:"Pescados y mariscos",  tempMin:-2, tempMax:2,  hr:"95%",    calEsp:3.2, refrigerante:"R-404A / R-448A"},
+  congelados:     {nombre:"Congelados profundos", tempMin:-22,tempMax:-18,hr:"90–100%",calEsp:1.9, refrigerante:"R-404A / R-507A"},
+  helados:        {nombre:"Helados / ultra frío", tempMin:-30,tempMax:-25,hr:"90–100%",calEsp:1.7, refrigerante:"R-404A / R-507A"},
+  farmaceutico:   {nombre:"Farmacéutico",         tempMin:2,  tempMax:8,  hr:"40–60%", calEsp:3.9, refrigerante:"R-134a / R-448A"}
 };
 
-/* Coeficiente U por aislamiento (W/m²·K) */
-const U_AISL = { bajo:0.45, medio:0.30, alto:0.22, muy_alto:0.14 };
-
-/* Factor infiltración por apertura */
-const F_APE = { baja:1.04, media:1.10, alta:1.20, muy_alta:1.35 };
-
-/* Watts por iluminación */
-const W_LUZ = { led:8, fluorescente:15, incandescente:25 }; // W/m²
+const U_AISL={bajo:0.45,medio:0.30,alto:0.22,muy_alto:0.14};
+const F_APE={baja:1.04,media:1.10,alta:1.20,muy_alta:1.35};
+const W_LUZ={led:8,fluorescente:15,incandescente:25};
 
 const COL_TEMPS={amazonas:{min:28,max:33,clima:'caliente_humedo'},antioquia:{min:18,max:28,clima:'templado'},arauca:{min:28,max:35,clima:'caliente_humedo'},atlantico:{min:28,max:34,clima:'caliente_humedo'},bolivar:{min:28,max:35,clima:'caliente_humedo'},boyaca:{min:8,max:18,clima:'frio'},caldas:{min:14,max:24,clima:'templado'},caqueta:{min:26,max:32,clima:'caliente_humedo'},casanare:{min:28,max:35,clima:'caliente_humedo'},cauca:{min:14,max:24,clima:'templado'},cesar:{min:28,max:36,clima:'caliente_seco'},choco:{min:26,max:33,clima:'caliente_humedo'},cordoba:{min:28,max:36,clima:'caliente_humedo'},cundinamarca:{min:8,max:22,clima:'templado'},guainia:{min:27,max:34,clima:'caliente_humedo'},guaviare:{min:26,max:32,clima:'caliente_humedo'},huila:{min:20,max:32,clima:'caliente_seco'},laguajira:{min:30,max:40,clima:'caliente_seco'},magdalena:{min:28,max:35,clima:'caliente_humedo'},meta:{min:26,max:34,clima:'caliente_humedo'},narino:{min:10,max:22,clima:'templado'},nortedesantander:{min:22,max:32,clima:'caliente_seco'},putumayo:{min:20,max:30,clima:'caliente_humedo'},quindio:{min:16,max:26,clima:'templado'},risaralda:{min:14,max:26,clima:'templado'},'sanandrés':{min:28,max:32,clima:'caliente_humedo'},santander:{min:18,max:32,clima:'templado'},sucre:{min:28,max:36,clima:'caliente_humedo'},tolima:{min:20,max:36,clima:'caliente_seco'},valledecauca:{min:18,max:30,clima:'templado'},vaupes:{min:27,max:33,clima:'caliente_humedo'},vichada:{min:28,max:36,clima:'caliente_humedo'},bogota:{min:6,max:18,clima:'frio'},barranquilla:{min:28,max:36,clima:'caliente_humedo'},cartagena:{min:28,max:35,clima:'caliente_humedo'},medellin:{min:17,max:28,clima:'templado'},cali:{min:18,max:28,clima:'templado'},bucaramanga:{min:18,max:28,clima:'templado'},cucuta:{min:24,max:38,clima:'caliente_seco'},manizales:{min:13,max:22,clima:'templado'},villavicencio:{min:26,max:34,clima:'caliente_humedo'},monteria:{min:27,max:36,clima:'caliente_humedo'},pasto:{min:8,max:18,clima:'frio'},neiva:{min:24,max:36,clima:'caliente_seco'},ibague:{min:20,max:32,clima:'caliente_seco'},pereira:{min:16,max:26,clima:'templado'},soledad:{min:28,max:34,clima:'caliente_humedo'},sincelejo:{min:28,max:35,clima:'caliente_humedo'},valledupar:{min:28,max:38,clima:'caliente_seco'},riohacha:{min:30,max:40,clima:'caliente_seco'},florencia:{min:25,max:32,clima:'caliente_humedo'},quibdo:{min:26,max:33,clima:'caliente_humedo'},popayan:{min:14,max:22,clima:'templado'},armenia:{min:16,max:26,clima:'templado'},tunja:{min:6,max:16,clima:'frio'},yopal:{min:27,max:34,clima:'caliente_humedo'},arauca_city:{min:27,max:35,clima:'caliente_humedo'},mocoa:{min:20,max:30,clima:'caliente_humedo'},mitu:{min:26,max:33,clima:'caliente_humedo'},puerto_inirida:{min:27,max:34,clima:'caliente_humedo'},san_jose_guaviare:{min:25,max:32,clima:'caliente_humedo'},puerto_carreno:{min:28,max:36,clima:'caliente_humedo'}};
 
@@ -1543,7 +1538,6 @@ function setMode(mode){
   const secAc=document.getElementById('section-ac');
   const secCold=document.getElementById('section-cold');
   const results=document.getElementById('results');
-
   if(mode==='ac'){
     btnAc.className='mode-btn active-ac';
     btnCold.className='mode-btn';
@@ -1572,13 +1566,14 @@ function selectColdProduct(el){
   selectedColdProduct=el.getAttribute('data-product');
 }
 
-// Checkboxes
+/* ===== CHECKBOXES ===== */
 document.querySelectorAll('.chk input[type="checkbox"]').forEach(inp=>{
   inp.addEventListener('change',function(){
-    this.closest('.chk').classList.toggle('on', this.checked);
+    this.closest('.chk').classList.toggle('on',this.checked);
   });
 });
 
+/* ===== TEMP HINT ===== */
 function updateTempHint(){
   const v=document.getElementById('depto').value;
   const hint=document.getElementById('temp-hint');
@@ -1628,7 +1623,7 @@ function calcular(){
   let wClass='ok',wTitle='',wDesc='';
   if(uso==='servidores'){
     wClass='warn';wTitle='⚠️ Espacio NO apto para trabajo continuo humano';
-    wDesc=`Las salas de servidores se mantienen entre 18–27°C para proteger equipos. La baja temperatura y humedad requeridas pueden generar incomodidad. Se recomienda zona de trabajo adyacente con climatización independiente.`;
+    wDesc='Las salas de servidores se mantienen entre 18–27°C para proteger equipos. La baja temperatura y humedad requeridas pueden generar incomodidad. Se recomienda zona de trabajo adyacente con climatización independiente.';
   } else if(uso==='gym'){
     wClass='warn';wTitle='⚠️ Apto para actividad física — no para trabajo sedentario';
     wDesc=`Con temperatura objetivo de ${tempObj}°C el espacio es óptimo para ejercicio intenso. Para trabajo sedentario la temperatura resulta baja. Se recomienda subir 3–4°C si el uso cambia.`;
@@ -1683,49 +1678,31 @@ function calcularCuartoFrio(){
 
   const prod=COLD_PRODUCTS[selectedColdProduct];
   const tempInt=(prod.tempMin+prod.tempMax)/2;
-  const deltaT=Math.max(textExt-tempInt, 0);
-const deltaTPos=Math.max(deltaT, 1); // evita cero absoluto
+  const deltaTPos=Math.max(textExt-tempInt,1);
 
   const area=largo*ancho;
   const volumen=area*alto;
-  const areaParedes=2*(largo+ancho)*alto + 2*area;
+  const areaParedes=2*(largo+ancho)*alto+2*area;
 
- const U=U_AISL[aislKey];
-const fSol=document.getElementById('cf_sol').checked?1.12:1.0;
-const fHum=document.getElementById('cf_humedad').checked?1.08:1.0;
-const deltaTPos=Math.max(textExt-tempInt, 1);
+  const U=U_AISL[aislKey];
+  const fSol=document.getElementById('cf_sol').checked?1.12:1.0;
+  const fHum=document.getElementById('cf_humedad').checked?1.08:1.0;
+  const fApe=F_APE[aperturaKey];
 
-// 1. Transmisión
-let qTransW=U*areaParedes*deltaTPos*fSol;
+  const qTransW=U*areaParedes*deltaTPos*fSol;
+  const qInfW=volumen*0.35*deltaTPos*fApe;
+  const qLuzW=W_LUZ[luzKey]*area;
 
-// 2. Infiltración
-const fApe=F_APE[aperturaKey];
-let qInfW=volumen*0.35*deltaTPos*fApe;
-
-  // 3. Iluminación
-  const wM2=W_LUZ[luzKey];
-  let qLuzW=wM2*area;
-
-  // 4. Producto
   let qProdW=0;
   if(cargaKg>0){
-    const calEsp=prod.calEsp;
     const deltaTProd=Math.max(tempEntrada-tempInt,0);
-    qProdW=(cargaKg*calEsp*1000*deltaTProd)/86400;
+    qProdW=(cargaKg*prod.calEsp*1000*deltaTProd)/86400;
   }
 
-  // 5. Personas
-  let qPersonasW=document.getElementById('cf_personas').checked?280:0;
+  const qPersonasW=document.getElementById('cf_personas').checked?280:0;
+  const qMotorW=document.getElementById('cf_motor').checked?Math.min(volumen*250,500):0;
 
-  // 6. Motor evaporador
-  let qMotorW=0;
-  if(document.getElementById('cf_motor').checked){
-    qMotorW=Math.min(volumen*250,500);
-  }
-
-  // Subtotal con factor humedad, luego +10% seguridad
-  const subTotal=(qTransW+qInfW+qLuzW+qProdW+qPersonasW+qMotorW)*fHum;
-  const total=subTotal*1.10;
+  const total=(qTransW+qInfW+qLuzW+qProdW+qPersonasW+qMotorW)*fHum*1.10;
 
   const toBTU=w=>Math.round(w*3.412);
   const totalBTU=toBTU(total);
@@ -1745,8 +1722,7 @@ let qInfW=volumen*0.35*deltaTPos*fApe;
   document.getElementById('cr-hp').textContent=HP;
 
   document.getElementById('cold-nombre').textContent=`Cuarto Frío — ${prod.nombre}`;
-  document.getElementById('cold-sub').textContent=
-    `Temp. servicio: ${prod.tempMin}°C a ${prod.tempMax}°C · HR: ${prod.hr} · Ref: ${prod.refrigerante}`;
+  document.getElementById('cold-sub').textContent=`Temp. servicio: ${prod.tempMin}°C a ${prod.tempMax}°C · HR: ${prod.hr} · Ref: ${prod.refrigerante}`;
 
   document.getElementById('cold-details').innerHTML=[
     {label:'EVAPORADOR',texto:`Capacidad mínima: ${kWevap} kW — evaporador de baja temperatura con desescarche automático.`},
@@ -1755,7 +1731,6 @@ let qInfW=volumen*0.35*deltaTPos*fApe;
     {label:'NORMATIVA',texto:`INVIMA / Codex Alimentarius. Temperatura crítica: ${prod.tempMin}°C – ${prod.tempMax}°C.`}
   ].map(d=>`<div class="detail-item"><strong class="cold-lbl">${d.label}</strong>${d.texto}</div>`).join('');
 
-  // Desglose — valores ya calculados, sin recalcular
   const rows=[
     {label:'Transmisión paredes / techo / piso', val:toBTU(qTransW*fHum)},
     {label:'Infiltración por apertura de puerta',  val:toBTU(qInfW*fHum)},
@@ -1768,11 +1743,9 @@ let qInfW=volumen*0.35*deltaTPos*fApe;
   document.getElementById('cold-breakdown-rows').innerHTML=rows.map(r=>
     `<div class="breakdown-row"><span class="breakdown-label">${r.label}</span><span class="breakdown-val">${r.val>=1000?(r.val/1000).toFixed(1)+'K':r.val} BTU/h</span></div>`
   ).join('');
-  document.getElementById('cold-total-val').textContent=
-    `${totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU} BTU/h · ${totalKW} kW`;
+  document.getElementById('cold-total-val').textContent=`${totalBTU>=1000?(totalBTU/1000).toFixed(1)+'K':totalBTU} BTU/h · ${totalKW} kW`;
 
-  const notaCold=`<div class="worker cold-info"><div class="worker-head"><div class="dot"></div><div class="worker-title">🧊 Cuarto frío para conservación de alimentos</div></div><div class="worker-desc">El cuarto frío opera a ${tempInt.toFixed(0)}°C. <strong>NO es un espacio apto para permanencia humana prolongada.</strong> El acceso debe ser breve y con EPP adecuado (ropa térmica). Los sistemas deben incluir alarma de temperatura, sensor de puerta y dispositivo de apertura interior de emergencia (NTC 5908 / ICONTEC).</div></div>`;
-  document.getElementById('cold-worker-result').innerHTML=notaCold;
+  document.getElementById('cold-worker-result').innerHTML=`<div class="worker cold-info"><div class="worker-head"><div class="dot"></div><div class="worker-title">🧊 Cuarto frío para conservación de alimentos</div></div><div class="worker-desc">El cuarto frío opera a ${tempInt.toFixed(0)}°C. <strong>NO es un espacio apto para permanencia humana prolongada.</strong> El acceso debe ser breve y con EPP adecuado (ropa térmica). Los sistemas deben incluir alarma de temperatura, sensor de puerta y dispositivo de apertura interior de emergencia (NTC 5908 / ICONTEC).</div></div>`;
 
   document.getElementById('res-ac-block').style.display='none';
   document.getElementById('res-cold-block').style.display='';
