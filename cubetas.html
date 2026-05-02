@@ -296,7 +296,8 @@ function render(){
       BK.forEach(b=>{
         tbody+=`<td style="background:#fffaf9"><div class="cell-p inp-o">
           <input type="number" class="num-input" min="0" value="${parseInt(rd['o_'+b])||0}"
-            oninput="setV('${c.id}','${r}','o_${b}',this.value)">
+            onblur="setV('${c.id}','${r}','o_${b}',this.value)"
+            onkeydown="if(event.key==='Enter')this.blur()">
         </div></td>`;
       });
       tbody+=`<td class="td-so">${so}</td>`;
@@ -304,7 +305,8 @@ function render(){
       BK.forEach(b=>{
         tbody+=`<td style="background:#f8fcf9"><div class="cell-p inp-i">
           <input type="number" class="num-input" min="0" value="${parseInt(rd['i_'+b])||0}"
-            oninput="setV('${c.id}','${r}','i_${b}',this.value)">
+            onblur="setV('${c.id}','${r}','i_${b}',this.value)"
+            onkeydown="if(event.key==='Enter')this.blur()">
         </div></td>`;
       });
       tbody+=`<td class="td-si">${si}</td>`;
