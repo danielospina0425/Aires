@@ -72,6 +72,8 @@ header{
 .btn-green:hover{background:var(--green);border-color:var(--green);box-shadow:0 0 20px var(--green-glow)}
 .btn-blue{background:var(--blue-bg);color:var(--blue);border-color:rgba(88,166,255,.3)}
 .btn-blue:hover{background:rgba(88,166,255,.2);box-shadow:0 0 12px rgba(88,166,255,.2)}
+.btn-purple{background:var(--purple-bg);color:var(--purple);border-color:rgba(188,140,255,.3)}
+.btn-purple:hover{background:rgba(188,140,255,.2);box-shadow:0 0 12px rgba(188,140,255,.2)}
 .btn-red{background:var(--red-bg);color:var(--red);border-color:rgba(248,81,73,.3)}
 .btn-red:hover{background:rgba(248,81,73,.2)}
 .btn-amber{background:var(--amber-bg);color:var(--amber);border-color:rgba(227,179,65,.3)}
@@ -292,6 +294,7 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 .empty-ico{font-size:56px;margin-bottom:16px;opacity:.5}
 .empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
 .empty-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.empty-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 /* MODAL */
 .modal-bg{
@@ -319,7 +322,7 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
   letter-spacing:.06em;display:block;margin-bottom:6px;margin-top:16px;
 }
 .modal label:first-of-type{margin-top:0}
-.modal input{
+.modal input[type="text"],.modal input[type="date"]{
   width:100%;padding:10px 14px;
   border:1px solid var(--border2);border-radius:var(--radius-sm);
   font-size:13px;font-family:'JetBrains Mono',monospace;
@@ -328,6 +331,50 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 .modal input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
 .modal-btns{display:flex;gap:8px;margin-top:24px;justify-content:flex-end}
 .modal-div{height:1px;background:var(--border);margin:20px 0}
+
+/* ── IMPORT MODAL ── */
+.import-modal{width:420px}
+.drop-zone{
+  border:2px dashed var(--border2);border-radius:var(--radius);
+  padding:36px 20px;text-align:center;cursor:pointer;
+  transition:all .2s;color:var(--text2);position:relative;
+  background:var(--surface);
+}
+.drop-zone:hover,.drop-zone.drag-over{
+  border-color:var(--purple);background:var(--purple-bg);color:var(--purple);
+}
+.drop-zone input[type="file"]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.drop-ico{font-size:32px;margin-bottom:10px}
+.drop-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.drop-sub{font-size:11px;color:var(--text3)}
+.import-preview{
+  margin-top:16px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 14px;display:none;
+}
+.import-preview.show{display:block}
+.imp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.imp-row:last-child{margin-bottom:0}
+.imp-lbl{font-size:11px;color:var(--text2)}
+.imp-val{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green);font-weight:600}
+.imp-warn{
+  margin-top:10px;padding:8px 12px;border-radius:6px;
+  background:var(--amber-bg);border:1px solid rgba(227,179,65,.3);
+  font-size:11px;color:var(--amber);display:none;
+}
+.imp-warn.show{display:block}
+.imp-merge-opt{
+  margin-top:12px;padding:10px 12px;border-radius:8px;
+  background:var(--surface2);border:1px solid var(--border2);
+  font-size:12px;color:var(--text2);
+}
+.imp-merge-opt label{
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  text-transform:none;letter-spacing:0;font-size:12px;color:var(--text);
+  margin-top:0;
+}
+.imp-merge-opt input[type="radio"]{accent-color:var(--purple)}
 
 /* TOAST */
 #toast{
@@ -363,6 +410,10 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 010 2H9v4a1 1 0 01-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
       Nuevo cuadro
     </button>
+    <button class="btn btn-purple" onclick="abrirImport()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 01.5.5v2.5a1 1 0 001 1h12a1 1 0 001-1v-2.5a.5.5 0 011 0v2.5a2 2 0 01-2 2H2a2 2 0 01-2-2v-2.5a.5.5 0 01.5-.5z"/><path d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z"/></svg>
+      Importar Excel
+    </button>
     <button class="btn btn-blue" onclick="exportarExcel()">
       <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 13.5A.5.5 0 013 13h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zM8 2a.5.5 0 01.5.5v8.793l2.646-2.647a.5.5 0 01.708.708l-3.5 3.5a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L7.5 11.293V2.5A.5.5 0 018 2z"/></svg>
       Exportar Excel
@@ -373,7 +424,7 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 
 <div class="wrap" id="wrap"></div>
 
-<!-- MODAL -->
+<!-- MODAL NUEVO CUADRO -->
 <div class="modal-bg" id="modal-bg" onclick="clkBg(event)">
   <div class="modal">
     <div class="modal-head">
@@ -387,6 +438,58 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
     <div class="modal-btns">
       <button class="btn btn-sm" onclick="cerrarModal()">Cancelar</button>
       <button class="btn btn-green btn-sm" onclick="crearCuadro()">Crear cuadro</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL IMPORTAR EXCEL -->
+<div class="modal-bg" id="import-bg" onclick="clkImportBg(event)">
+  <div class="modal import-modal">
+    <div class="modal-head">
+      <div class="modal-ico" style="background:var(--purple-bg);border-color:rgba(188,140,255,.3)">📥</div>
+      <h3>Importar desde Excel</h3>
+    </div>
+
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="file-input" accept=".xlsx,.xls" onchange="handleFile(this.files[0])">
+      <div class="drop-ico">📊</div>
+      <div class="drop-title">Arrastra tu archivo Excel aquí</div>
+      <div class="drop-sub">o haz clic para seleccionarlo · .xlsx / .xls</div>
+    </div>
+
+    <div class="import-preview" id="import-preview">
+      <div class="imp-row">
+        <span class="imp-lbl">📁 Archivo</span>
+        <span class="imp-val" id="imp-fname">—</span>
+      </div>
+      <div class="imp-row">
+        <span class="imp-lbl">📅 Mes detectado</span>
+        <span class="imp-val" id="imp-mes">—</span>
+      </div>
+      <div class="imp-row">
+        <span class="imp-lbl">📋 Cuadros encontrados</span>
+        <span class="imp-val" id="imp-count">—</span>
+      </div>
+      <div class="imp-row">
+        <span class="imp-lbl">🛣 Rutas detectadas</span>
+        <span class="imp-val" id="imp-rutas">—</span>
+      </div>
+    </div>
+
+    <div class="imp-warn" id="imp-warn"></div>
+
+    <div class="imp-merge-opt" id="imp-merge" style="display:none">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.06em">¿Qué hacer con los datos actuales?</div>
+      <label><input type="radio" name="merge" value="replace" checked> Reemplazar todo con el Excel importado</label>
+      <label style="margin-top:6px"><input type="radio" name="merge" value="append"> Agregar los cuadros del Excel a los existentes</label>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn btn-sm" onclick="cerrarImport()">Cancelar</button>
+      <button class="btn btn-purple btn-sm" id="btn-import-ok" onclick="confirmarImport()" disabled>
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z"/></svg>
+        Cargar datos
+      </button>
     </div>
   </div>
 </div>
@@ -406,6 +509,7 @@ const BK      = ['Grises','Grandes','Medianas','Ramo'];
 const SK      = 'cubetas_cuadros_v2';
 
 let cuadros = [];
+let importedCuadros = []; // buffer para importación pendiente
 
 const hoy    = ()=>new Date().toISOString().split('T')[0];
 const fmt    = d=>{ if(!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; };
@@ -454,8 +558,11 @@ function render(){
     wrap.innerHTML=`<div class="empty-state">
       <div class="empty-ico">📦</div>
       <div class="empty-title">Sin cuadros todavía</div>
-      <div class="empty-sub">Crea el primer cuadro para empezar a registrar el control del mes</div>
-      <button class="btn btn-green" onclick="abrirModal()">+ Nuevo cuadro</button>
+      <div class="empty-sub">Crea el primer cuadro manualmente o importa un Excel exportado anteriormente</div>
+      <div class="empty-actions">
+        <button class="btn btn-green" onclick="abrirModal()">+ Nuevo cuadro</button>
+        <button class="btn btn-purple" onclick="abrirImport()">📥 Importar Excel</button>
+      </div>
     </div>`;
     document.getElementById('hdr-mes').textContent='';
     return;
@@ -468,13 +575,11 @@ function render(){
     const hasNext=!!cuadros[idx+1];
     const concGlobal=hasNext?ROUTES.every(r=>conc[r].ok):null;
 
-    // badge
     let badge='';
     if(!hasNext)         badge=`<span class="conc-badge conc-nd">⬛ Último cuadro</span>`;
     else if(concGlobal)  badge=`<span class="conc-badge conc-ok">✓ Concordancia OK con cuadro ${idx+2}</span>`;
     else                 badge=`<span class="conc-badge conc-err">✗ Diferencias con cuadro ${idx+2}</span>`;
 
-    // totales
     let gtO=0,gtI=0;
     const totO={},totI={};
     BK.forEach(b=>{totO[b]=0;totI[b]=0;});
@@ -484,7 +589,6 @@ function render(){
       gtO+=sumO(rd); gtI+=sumI(rd);
     });
 
-    // filas rutas
     let tbody='';
     ROUTES.forEach(r=>{
       const rd=c.data[r];
@@ -532,7 +636,6 @@ function render(){
       tbody+=`<td class="td-df">${diffHtml}</td></tr>`;
     });
 
-    // fila total
     const gd=gtI-gtO;
     const gdTxt=gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`;
     const gdCls=gd===0?'dp-ok':gd>0?'dp-pos':'dp-neg';
@@ -544,7 +647,6 @@ function render(){
     tfoot+=`<td class="c-g-i">${gtI}</td>`;
     tfoot+=`<td><span class="diff-pill ${gdCls}" style="font-size:12px">${gdTxt}</span></td></tr>`;
 
-    // detalle concordancia
     let concDetail='';
     if(hasNext && !concGlobal){
       const items=ROUTES.map(r=>{
@@ -594,7 +696,6 @@ function render(){
       ${concDetail}`;
     wrap.appendChild(div);
 
-    // separador
     if(idx<cuadros.length-1){
       const sep=document.createElement('div');
       sep.className='sep';
@@ -649,7 +750,7 @@ function borrarTodo(){
   cuadros=[]; persist(); render(); toast('Todo borrado','🗑');
 }
 
-// ── MODAL ──
+// ── MODAL NUEVO CUADRO ──
 function abrirModal(){
   document.getElementById('m-fecha').value=hoy();
   document.getElementById('m-nota').value='';
@@ -660,23 +761,196 @@ function cerrarModal(){ document.getElementById('modal-bg').classList.remove('op
 function clkBg(e){ if(e.target===document.getElementById('modal-bg')) cerrarModal(); }
 
 // ══════════════════════════════════════
+//  IMPORTAR EXCEL
+// ══════════════════════════════════════
+
+function abrirImport(){
+  // reset
+  importedCuadros=[];
+  document.getElementById('file-input').value='';
+  document.getElementById('import-preview').classList.remove('show');
+  document.getElementById('imp-warn').classList.remove('show');
+  document.getElementById('imp-merge').style.display='none';
+  document.getElementById('btn-import-ok').disabled=true;
+  document.getElementById('import-bg').classList.add('open');
+}
+function cerrarImport(){ document.getElementById('import-bg').classList.remove('open'); }
+function clkImportBg(e){ if(e.target===document.getElementById('import-bg')) cerrarImport(); }
+
+// drag & drop
+const dz=()=>document.getElementById('drop-zone');
+document.addEventListener('DOMContentLoaded',()=>{
+  const z=dz();
+  z.addEventListener('dragover',e=>{ e.preventDefault(); z.classList.add('drag-over'); });
+  z.addEventListener('dragleave',()=>z.classList.remove('drag-over'));
+  z.addEventListener('drop',e=>{ e.preventDefault(); z.classList.remove('drag-over');
+    const f=e.dataTransfer.files[0]; if(f) handleFile(f); });
+});
+
+function handleFile(file){
+  if(!file) return;
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(!['xlsx','xls'].includes(ext)){
+    mostrarWarn('El archivo debe ser .xlsx o .xls');
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=e=>{ try{ parsearExcel(e.target.result, file.name); }
+    catch(err){ mostrarWarn('Error al leer el archivo: '+err.message); } };
+  reader.readAsArrayBuffer(file);
+}
+
+// ── PARSER PRINCIPAL ──
+// Lee la hoja "Resumen del mes" y reconstruye los cuadros
+function parsearExcel(buffer, fname){
+  const wb=XLSX.read(buffer,{type:'arraybuffer'});
+
+  // Buscamos la hoja de resumen
+  const sheetName=wb.SheetNames.find(n=>n.toLowerCase().includes('resumen'))||wb.SheetNames[0];
+  const ws=wb.Sheets[sheetName];
+  const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+
+  const found=[];       // cuadros parseados
+  let i=0;
+  let mesDetectado='';
+
+  while(i<rows.length){
+    const row=rows[i];
+    const cell0=String(row[0]||'').trim();
+
+    // Detectar mes del título
+    if(!mesDetectado && cell0.toLowerCase().includes('reporte mensual')){
+      // "Reporte mensual — Enero 2025"
+      const m=cell0.match(/—\s*(.+)/);
+      if(m) mesDetectado=m[1].trim();
+    }
+
+    // Detectar inicio de cuadro: celda que empiece con "CUADRO N"
+    if(/^CUADRO\s+\d+$/i.test(cell0)){
+      // Extraer fecha de la misma fila (col 1)
+      const fechaRaw=String(row[1]||'').replace(/fecha:\s*/i,'').trim();
+      const nota=String(row[2]||'').trim();
+      const fecha=parseFecha(fechaRaw);
+
+      // Avanzar hasta encontrar la fila de encabezado de columnas (tiene "Ruta" en col 0)
+      let j=i+1;
+      while(j<rows.length && String(rows[j][0]||'').trim().toUpperCase()!=='RUTA') j++;
+      j++; // saltar el encabezado
+
+      const data=blankData();
+      // Leer filas de rutas hasta "TOTAL CUADRO" o línea vacía doble
+      while(j<rows.length){
+        const r0=String(rows[j][0]||'').trim();
+        if(!r0 || r0.toUpperCase().startsWith('TOTAL')) break;
+        // Solo procesar si es una ruta conocida
+        if(ROUTES.includes(r0)){
+          const d=data[r0];
+          d['o_Grises']  = +rows[j][1]||0;
+          d['o_Grandes'] = +rows[j][2]||0;
+          d['o_Medianas']= +rows[j][3]||0;
+          d['o_Ramo']    = +rows[j][4]||0;
+          // col 5 = subtotal salen (ignorar)
+          d['i_Grises']  = +rows[j][6]||0;
+          d['i_Grandes'] = +rows[j][7]||0;
+          d['i_Medianas']= +rows[j][8]||0;
+          d['i_Ramo']    = +rows[j][9]||0;
+        }
+        j++;
+      }
+
+      // Si 52A y 52B están vinculadas, sincronizarlas (tomar valores de la primera no-cero)
+      (['52A','52B']).forEach(r=>{
+        const other=partner(r);
+        if(other){
+          BK.forEach(b=>{
+            if((data[r]['o_'+b]||0)>0) data[other]['o_'+b]=data[r]['o_'+b];
+            if((data[r]['i_'+b]||0)>0) data[other]['i_'+b]=data[r]['i_'+b];
+          });
+        }
+      });
+
+      if(fecha) found.push({id:uid(), fecha, nota, data});
+      i=j;
+      continue;
+    }
+    i++;
+  }
+
+  // Resultado
+  importedCuadros=found;
+  document.getElementById('imp-fname').textContent=fname;
+  document.getElementById('imp-mes').textContent=mesDetectado||'No detectado';
+  document.getElementById('imp-count').textContent=found.length+' cuadro(s)';
+  document.getElementById('imp-rutas').textContent=ROUTES.join(', ');
+  document.getElementById('import-preview').classList.add('show');
+
+  if(found.length===0){
+    mostrarWarn('No se encontraron cuadros válidos en el archivo. Asegúrate de importar un Excel exportado desde esta misma aplicación.');
+    document.getElementById('btn-import-ok').disabled=true;
+    return;
+  }
+
+  document.getElementById('imp-warn').classList.remove('show');
+  document.getElementById('btn-import-ok').disabled=false;
+
+  // Mostrar opción de merge solo si ya hay datos
+  const mergeDiv=document.getElementById('imp-merge');
+  if(cuadros.length>0){
+    mergeDiv.style.display='block';
+  } else {
+    mergeDiv.style.display='none';
+  }
+}
+
+function parseFecha(raw){
+  // Formatos posibles: "dd/mm/yyyy", "yyyy-mm-dd", número serial Excel, "—"
+  if(!raw || raw==='—') return hoy();
+  raw=String(raw).trim();
+  // dd/mm/yyyy
+  const m1=raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m1) return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
+  // yyyy-mm-dd
+  const m2=raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m2) return raw;
+  // número serial Excel (días desde 1900-01-01)
+  const n=Number(raw);
+  if(!isNaN(n) && n>1000){
+    const d=XLSX.SSF.parse_date_code(n);
+    if(d) return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
+  }
+  return hoy();
+}
+
+function mostrarWarn(msg){
+  const w=document.getElementById('imp-warn');
+  w.textContent='⚠ '+msg;
+  w.classList.add('show');
+}
+
+function confirmarImport(){
+  if(!importedCuadros.length) return;
+  const modo=document.querySelector('input[name="merge"]:checked')?.value||'replace';
+  if(modo==='replace'){
+    cuadros=importedCuadros;
+  } else {
+    cuadros=[...cuadros,...importedCuadros];
+    // ordenar por fecha
+    cuadros.sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  }
+  persist(); cerrarImport(); render();
+  toast(`${importedCuadros.length} cuadro(s) importados correctamente`,'📥');
+}
+
+// ══════════════════════════════════════
 //  EXPORT EXCEL PROFESIONAL
 // ══════════════════════════════════════
 function exportarExcel(){
   if(!cuadros.length){ toast('No hay cuadros para exportar','⚠'); return; }
   const wb=XLSX.utils.book_new();
-
-  // ── paleta de colores para estilos ──
-  // xlsx no aplica estilos CSS, pero podemos usar SheetJS con !cols y merge
-  // y estructurar el contenido de forma muy profesional con secciones claras
-
   const mes=cuadros[0].fecha.slice(0,7);
   const empresa='Control de Cubetas';
 
-  // ══ HOJA 1: RESUMEN DEL MES ══
   const R=[];
-
-  // Título
   R.push([empresa,'','','','','','','','','','','','','','','']);
   R.push([`Reporte mensual — ${mesLbl(cuadros[0].fecha)}`,'','','','','','','','','','','','','','','']);
   R.push([`Generado: ${new Date().toLocaleDateString('es-CO',{dateStyle:'full'})}`,'','','','','','','','','','','','','','','']);
@@ -687,11 +961,8 @@ function exportarExcel(){
     const conc=calcConc(idx);
     const hasNext=!!cuadros[idx+1];
 
-    // encabezado cuadro
     R.push([`CUADRO ${idx+1}`,`Fecha: ${fmt(c.fecha)}`,c.nota||'','','','','','','','','','','','','','']);
     R.push([]);
-
-    // encabezado columnas
     R.push([
       'Ruta',
       'Grises (S)','Grandes (S)','Medianas (S)','Ramo (S)','TOTAL SALEN',
@@ -700,7 +971,6 @@ function exportarExcel(){
       hasNext?`Concord. → C${idx+2}`:''
     ]);
 
-    // rutas
     ROUTES.forEach(r=>{
       const rd=c.data[r];
       const so=sumO(rd), si=sumI(rd), diff=si-so;
@@ -715,7 +985,6 @@ function exportarExcel(){
       ]);
     });
 
-    // total cuadro
     let gtO=0,gtI=0;
     const tO={Grises:0,Grandes:0,Medianas:0,Ramo:0},tI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
     ROUTES.forEach(r=>{ const rd=c.data[r]; BK.forEach(b=>{ tO[b]+=(+rd['o_'+b]||0); tI[b]+=(+rd['i_'+b]||0); }); gtO+=sumO(rd); gtI+=sumI(rd); });
@@ -730,13 +999,9 @@ function exportarExcel(){
     R.push([]);
   });
 
-  // RESUMEN GLOBAL FINAL
   R.push(['RESUMEN GLOBAL DEL MES','','','','','','','','','','','','']);
   R.push([]);
-  R.push([
-    'Cuadro','Fecha','Nota',
-    'Total Salen','Total Entran','Diferencia','Concordancia'
-  ]);
+  R.push(['Cuadro','Fecha','Nota','Total Salen','Total Entran','Diferencia','Concordancia']);
   cuadros.forEach((c,idx)=>{
     let gtO=0,gtI=0;
     ROUTES.forEach(r=>{ gtO+=sumO(c.data[r]); gtI+=sumI(c.data[r]); });
@@ -744,15 +1009,10 @@ function exportarExcel(){
     const hasNext=!!cuadros[idx+1];
     const conc=calcConc(idx);
     const concG=hasNext?ROUTES.every(r=>conc[r].ok)?'✓ OK':'✗ Diferencias':'—';
-    R.push([
-      `Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
-      gtO,gtI,
-      gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`,
-      concG
-    ]);
+    R.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',gtO,gtI,
+      gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`,concG]);
   });
 
-  // total global
   let ggO=0,ggI=0;
   cuadros.forEach(c=>ROUTES.forEach(r=>{ ggO+=sumO(c.data[r]); ggI+=sumI(c.data[r]); }));
   const ggD=ggI-ggO;
@@ -763,7 +1023,6 @@ function exportarExcel(){
   ws1['!cols']=[14,13,13,13,13,14,13,13,13,13,14,16,20].map(v=>({wch:v}));
   XLSX.utils.book_append_sheet(wb,ws1,'Resumen del mes');
 
-  // ══ HOJAS POR RUTA ══
   ROUTES.forEach(r=>{
     const Rr=[];
     Rr.push([empresa]);
@@ -792,8 +1051,7 @@ function exportarExcel(){
         `Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
         +rd['o_Grises']||0,+rd['o_Grandes']||0,+rd['o_Medianas']||0,+rd['o_Ramo']||0,so,
         +rd['i_Grises']||0,+rd['i_Grandes']||0,+rd['i_Medianas']||0,+rd['i_Ramo']||0,si,
-        diff===0?'✓ Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,
-        concStr
+        diff===0?'✓ Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,concStr
       ]);
     });
     const rd2=rgtI-rgtO;
