@@ -4,173 +4,386 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Control de Cubetas</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{
-  --bg:#f2f0eb;--surface:#fff;--surface2:#f7f5f1;--surface3:#eeebe5;
-  --border:#dedad2;--border2:#c8c4bb;
-  --text:#18170f;--text2:#5e5c55;--text3:#9e9b94;
-  --green:#1f6b42;--green-bg:#e8f4ee;--green-text:#145030;
-  --red:#b83225;--red-bg:#fcecea;--red-text:#7d1f16;
-  --amber:#906000;--amber-bg:#fdf5dc;--amber-text:#604000;
-  --blue:#1a4fa0;--blue-bg:#eaf0fc;--blue-text:#102e6a;
-  --dark:#1f2937;--dark-text:#f9fafb;
-  --radius:10px;--radius-sm:6px;
-  --shadow:0 1px 4px rgba(0,0,0,.08),0 6px 16px rgba(0,0,0,.05);
+  --bg:#0d1117;
+  --bg2:#161b22;
+  --bg3:#1c2128;
+  --surface:#21262d;
+  --surface2:#2d333b;
+  --surface3:#373e47;
+  --border:#30363d;
+  --border2:#444c56;
+  --text:#e6edf3;
+  --text2:#8b949e;
+  --text3:#484f58;
+
+  --green:#3fb950;--green-dim:#238636;--green-bg:rgba(63,185,80,.12);--green-glow:rgba(63,185,80,.25);
+  --red:#f85149;  --red-dim:#da3633;  --red-bg:rgba(248,81,73,.12);  --red-glow:rgba(248,81,73,.2);
+  --amber:#e3b341;--amber-dim:#9e6a03;--amber-bg:rgba(227,179,65,.12);
+  --blue:#58a6ff; --blue-dim:#1f6feb; --blue-bg:rgba(88,166,255,.12);
+  --purple:#bc8cff;--purple-bg:rgba(188,140,255,.12);
+
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --shadow:0 0 0 1px var(--border),0 8px 32px rgba(0,0,0,.4);
+  --shadow-glow-green:0 0 0 1px var(--green-dim),0 0 20px var(--green-glow);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;
+  background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(63,185,80,.07),transparent)}
 
-header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:12px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:34px;height:34px;background:var(--green);border-radius:8px;
-  display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
-.logo-name{font-size:15px;font-weight:600;letter-spacing:-.02em}
-.logo-sub{font-size:11px;color:var(--text3)}
-.hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* ── HEADER ── */
+header{
+  background:rgba(13,17,23,.85);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;gap:12px;
+}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--green-dim),var(--green));
+  border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:18px;box-shadow:0 0 16px var(--green-glow);
+  flex-shrink:0;
+}
+.logo-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+.logo-tag{font-size:11px;color:var(--text2);font-weight:400}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hdr-mes{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);
+  background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:4px 12px;letter-spacing:.04em}
 
-.btn{padding:7px 16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;
+/* ── BOTONES ── */
+.btn{
+  padding:7px 16px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;
   font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border2);
-  background:var(--surface);color:var(--text);transition:all .14s;white-space:nowrap}
-.btn:hover{background:var(--surface2)}
-.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
-.btn-green:hover{background:var(--green-text);border-color:var(--green-text)}
-.btn-blue{background:var(--blue-bg);color:var(--blue-text);border-color:#b8ccf4}
-.btn-blue:hover{background:#d9e7ff}
-.btn-red{background:var(--red-bg);color:var(--red-text);border-color:#f0b5ae}
-.btn-red:hover{background:#fad9d5}
-.btn-amber{background:var(--amber-bg);color:var(--amber-text);border-color:#e8d090}
-.btn-amber:hover{background:#faedc0}
-.btn-sm{padding:5px 10px;font-size:12px}
-.btn-xs{padding:3px 7px;font-size:11px}
+  background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover{background:var(--surface2);border-color:var(--border2);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-green{background:var(--green-dim);color:#fff;border-color:var(--green-dim);box-shadow:0 0 12px var(--green-glow)}
+.btn-green:hover{background:var(--green);border-color:var(--green);box-shadow:0 0 20px var(--green-glow)}
+.btn-blue{background:var(--blue-bg);color:var(--blue);border-color:rgba(88,166,255,.3)}
+.btn-blue:hover{background:rgba(88,166,255,.2);box-shadow:0 0 12px rgba(88,166,255,.2)}
+.btn-red{background:var(--red-bg);color:var(--red);border-color:rgba(248,81,73,.3)}
+.btn-red:hover{background:rgba(248,81,73,.2)}
+.btn-amber{background:var(--amber-bg);color:var(--amber);border-color:rgba(227,179,65,.3)}
+.btn-amber:hover{background:rgba(227,179,65,.2)}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-xs{padding:3px 8px;font-size:11px;border-radius:6px}
 
-.wrap{max-width:1400px;margin:0 auto;padding:20px 24px;display:flex;flex-direction:column;gap:20px}
+/* ── LAYOUT ── */
+.wrap{max-width:1440px;margin:0 auto;padding:28px 32px;display:flex;flex-direction:column;gap:24px}
 
-.cuadro{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  box-shadow:var(--shadow);overflow:hidden}
-.cuadro-head{padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.cuadro-num{background:var(--dark);color:var(--dark-text);font-family:'DM Mono',monospace;
-  font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.05em}
-.cuadro-fecha{font-family:'DM Mono',monospace;font-size:13px;font-weight:600}
+/* ── CUADRO ── */
+.cuadro{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:box-shadow .2s;
+}
+.cuadro:hover{box-shadow:0 0 0 1px var(--border2),0 12px 40px rgba(0,0,0,.5)}
+
+.cuadro-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg3);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.cuadro-num{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text2);
+  background:var(--surface);border:1px solid var(--border2);
+  padding:3px 10px;border-radius:6px;
+}
+.cuadro-fecha{
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+  color:var(--text);background:var(--blue-bg);border:1px solid rgba(88,166,255,.25);
+  padding:3px 10px;border-radius:6px;
+}
 .cuadro-nota{font-size:11px;color:var(--text2);font-style:italic}
-.cuadro-actions{margin-left:auto;display:flex;gap:6px}
+.cuadro-actions{margin-left:auto;display:flex;gap:6px;align-items:center}
 
-.conc-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
-  border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
-.conc-ok{background:var(--green-bg);color:var(--green-text)}
-.conc-err{background:var(--red-bg);color:var(--red-text)}
-.conc-nd{background:var(--surface3);color:var(--text3)}
+/* badges concordancia */
+.conc-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;
+}
+.conc-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+.conc-err{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,81,73,.3);animation:pulse-err 2s ease-in-out infinite}
+.conc-nd{background:var(--surface);color:var(--text2);border:1px solid var(--border)}
+@keyframes pulse-err{0%,100%{box-shadow:0 0 0 0 rgba(248,81,73,0)}50%{box-shadow:0 0 0 3px rgba(248,81,73,.15)}}
 
+/* ── TABLA ── */
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:800px}
 
-table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:780px}
-table.ct th{padding:7px 10px;font-size:10px;font-weight:600;text-transform:uppercase;
-  letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);
-  background:var(--surface2);text-align:center;white-space:nowrap}
-table.ct th.th-r{text-align:left;min-width:80px}
-table.ct th.sec-o{background:#fff5f4;color:var(--red-text)}
-table.ct th.sec-i{background:#f0f8f3;color:var(--green-text)}
-table.ct th.sec-d{background:#fff8e6;color:var(--amber-text)}
-table.ct td{padding:0;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
-table.ct td.td-r{padding:7px 12px;text-align:left;font-weight:600;background:var(--surface2);
-  border-right:2px solid var(--border2);white-space:nowrap}
+table.ct th{
+  padding:10px 12px;font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--text2);border-bottom:1px solid var(--border);
+  background:var(--bg3);text-align:center;white-space:nowrap;
+}
+table.ct th.th-r{text-align:left;min-width:100px;padding-left:20px}
+table.ct th.grp-o{
+  background:linear-gradient(180deg,rgba(248,81,73,.08) 0%,rgba(248,81,73,.04) 100%);
+  color:var(--red);border-bottom:2px solid rgba(248,81,73,.3);
+}
+table.ct th.grp-i{
+  background:linear-gradient(180deg,rgba(63,185,80,.08) 0%,rgba(63,185,80,.04) 100%);
+  color:var(--green);border-bottom:2px solid rgba(63,185,80,.3);
+}
+table.ct th.grp-d{
+  background:linear-gradient(180deg,rgba(227,179,65,.08) 0%,rgba(227,179,65,.04) 100%);
+  color:var(--amber);border-bottom:2px solid rgba(227,179,65,.3);
+}
+table.ct th.sub-o{background:rgba(248,81,73,.06);color:var(--red)}
+table.ct th.sub-i{background:rgba(63,185,80,.06);color:var(--green)}
+
+table.ct td{
+  padding:0;border-bottom:1px solid var(--border);
+  text-align:center;vertical-align:middle;
+}
+table.ct td.td-r{
+  padding:10px 20px;text-align:left;font-weight:600;
+  background:var(--bg3);border-right:1px solid var(--border);white-space:nowrap;
+  font-size:13px;
+}
 table.ct tr:last-child td{border-bottom:none}
+table.ct tbody tr:hover td{background:rgba(255,255,255,.02)}
+table.ct tbody tr:hover td.td-r{background:var(--surface)}
 
-.rpill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:12px;
-  font-weight:700;font-family:'DM Mono',monospace;background:var(--green-bg);color:var(--green-text)}
-.spill{display:block;font-size:9px;font-weight:500;color:var(--amber-text);
-  background:var(--amber-bg);border-radius:4px;padding:1px 3px;margin-top:2px;text-align:center}
+/* pill ruta */
+.rpill{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:22px;border-radius:6px;
+  font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;
+  background:linear-gradient(135deg,var(--green-dim),var(--green));
+  color:#fff;letter-spacing:.02em;box-shadow:0 0 8px var(--green-glow);
+}
+.spill{
+  display:inline-block;font-size:9px;font-weight:500;color:var(--amber);
+  background:var(--amber-bg);border:1px solid rgba(227,179,65,.25);
+  border-radius:4px;padding:1px 4px;margin-left:4px;
+  vertical-align:middle;
+}
 
-.num-input{width:60px;font-family:'DM Mono',monospace;font-size:14px;font-weight:600;
-  text-align:center;padding:5px 3px;border:1px solid var(--border2);border-radius:5px;
-  background:var(--surface);color:inherit;-moz-appearance:textfield;transition:border-color .12s}
+/* conc icon inline */
+.ci-tick{color:var(--green);font-size:11px;margin-left:4px}
+.ci-cross{color:var(--red);font-size:11px;margin-left:4px;cursor:help}
+
+/* inputs */
+.num-input{
+  width:68px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;
+  text-align:center;padding:6px 4px;
+  border:1px solid var(--border2);border-radius:var(--radius-xs);
+  background:var(--surface);color:var(--text);
+  -moz-appearance:textfield;transition:border-color .15s,box-shadow .15s;
+}
 .num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none}
-.num-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(31,107,66,.15)}
-.inp-o .num-input{color:var(--red-text);background:#fffaf9}
-.inp-i .num-input{color:var(--green-text);background:#f8fcf9}
-.cell-p{padding:5px 5px;display:flex;align-items:center;justify-content:center}
+.num-input:focus{
+  outline:none;
+  border-color:var(--green);
+  box-shadow:0 0 0 3px var(--green-glow);
+  background:var(--surface2);
+}
+.inp-o .num-input{color:#ff9492;border-color:rgba(248,81,73,.35);background:rgba(248,81,73,.05)}
+.inp-o .num-input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-glow)}
+.inp-i .num-input{color:#7ee787;border-color:rgba(63,185,80,.35);background:rgba(63,185,80,.05)}
+.inp-i .num-input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+.cell-p{padding:7px 6px;display:flex;align-items:center;justify-content:center}
 
-.td-so{background:#fff0ee!important;font-family:'DM Mono',monospace;font-weight:700;font-size:13px;color:var(--red-text);padding:5px 8px!important}
-.td-si{background:#eef8f2!important;font-family:'DM Mono',monospace;font-weight:700;font-size:13px;color:var(--green-text);padding:5px 8px!important}
-.td-df{padding:5px 8px!important;min-width:90px}
+/* subtotales columna */
+.td-so{
+  background:rgba(248,81,73,.08)!important;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  color:#ff9492;padding:7px 12px!important;
+  border-left:1px solid rgba(248,81,73,.2)!important;
+  border-right:1px solid rgba(248,81,73,.2)!important;
+}
+.td-si{
+  background:rgba(63,185,80,.08)!important;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  color:#7ee787;padding:7px 12px!important;
+  border-left:1px solid rgba(63,185,80,.2)!important;
+  border-right:1px solid rgba(63,185,80,.2)!important;
+}
+.td-df{padding:7px 10px!important;min-width:100px}
 
-.diff-pill{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:8px;
-  font-family:'DM Mono',monospace;font-size:12px;font-weight:700;white-space:nowrap}
-.dp-ok{background:var(--green-bg);color:var(--green-text)}
-.dp-pos{background:#fce7f3;color:#9d174d}
-.dp-neg{background:var(--red-bg);color:var(--red-text)}
-.dp-nd{background:var(--surface3);color:var(--text3);font-size:11px}
+/* diferencia pill */
+.diff-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:20px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;white-space:nowrap;
+}
+.dp-ok{ background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+.dp-pos{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(188,140,255,.3)}
+.dp-neg{background:var(--red-bg);  color:var(--red);  border:1px solid rgba(248,81,73,.3)}
+.dp-nd{ background:var(--surface); color:var(--text2); border:1px solid var(--border);font-size:11px}
 
-.tr-tot-c td{background:var(--dark)!important;color:var(--dark-text);font-family:'DM Mono',monospace;
-  font-weight:600;font-size:13px;border-bottom:none;padding:8px 10px;text-align:center}
-.tr-tot-c .td-rl{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
-  padding:8px 14px;border-right:2px solid #374151;background:var(--dark)!important}
+/* fila TOTAL del cuadro */
+.tr-tot td{
+  background:linear-gradient(90deg,var(--surface) 0%,var(--surface2) 100%)!important;
+  font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;
+  border-top:1px solid var(--border2)!important;border-bottom:none!important;
+  padding:10px 12px;text-align:center;color:var(--text2);
+}
+.tr-tot .td-rl{
+  text-align:left;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--text2);
+  padding:10px 20px!important;border-right:1px solid var(--border)!important;
+  background:var(--surface2)!important;
+}
+.tr-tot .c-o{color:#ff9492}
+.tr-tot .c-i{color:#7ee787}
+.tr-tot .c-g-o{color:#ff9492;font-size:15px;font-weight:700}
+.tr-tot .c-g-i{color:#7ee787;font-size:15px;font-weight:700}
 
-.conc-detail{padding:10px 16px;background:#fffdf5;border-top:1px solid var(--border);
-  font-size:11px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
-.conc-item{display:flex;gap:5px;align-items:center}
-.conc-ri{font-family:'DM Mono',monospace;font-weight:700;font-size:11px;
-  background:var(--green-bg);color:var(--green-text);padding:1px 6px;border-radius:5px}
-.ci-ok{color:var(--green-text)}
-.ci-err{color:var(--red-text)}
+/* detalle concordancia */
+.conc-detail{
+  padding:12px 20px;
+  background:rgba(248,81,73,.04);
+  border-top:1px solid rgba(248,81,73,.2);
+  font-size:11px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+}
+.conc-detail-lbl{color:var(--red);font-weight:600;font-size:11px}
+.conc-ci{display:inline-flex;align-items:center;gap:5px;
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+.conc-ci .rn{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;
+  color:var(--green);background:var(--green-bg);padding:1px 5px;border-radius:4px}
+.conc-ci .rv{color:var(--red);font-size:10px;font-weight:500}
+.conc-ci .rv-ok{color:var(--green);font-size:10px}
 
-.sep-arrow{display:flex;align-items:center;justify-content:center;gap:8px;
-  color:var(--text3);font-size:11px;font-weight:500}
-.sep-line{flex:1;height:1px;background:var(--border2);max-width:200px}
+/* separador entre cuadros */
+.sep{display:flex;align-items:center;gap:12px;padding:0 8px}
+.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent)}
+.sep-txt{
+  font-size:10px;color:var(--text2);font-weight:500;white-space:nowrap;
+  background:var(--bg2);border:1px solid var(--border);border-radius:20px;
+  padding:4px 14px;letter-spacing:.03em;
+}
 
-.add-panel{background:var(--surface);border:2px dashed var(--border2);border-radius:var(--radius);
-  padding:20px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;
-  transition:border-color .14s,background .14s}
-.add-panel:hover{border-color:var(--green);background:var(--green-bg)}
-.add-panel-txt{font-size:13px;color:var(--text2);font-weight:500}
+/* panel agregar */
+.add-panel{
+  border:1px dashed var(--border2);border-radius:var(--radius);
+  padding:24px;display:flex;align-items:center;justify-content:center;gap:12px;
+  cursor:pointer;transition:all .2s;color:var(--text2);
+  background:transparent;
+}
+.add-panel:hover{
+  border-color:var(--green-dim);background:var(--green-bg);color:var(--green);
+  box-shadow:0 0 20px var(--green-glow);
+}
+.add-panel-ico{font-size:22px;font-weight:300;line-height:1}
+.add-panel-txt{font-size:13px;font-weight:500}
 
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;
-  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+/* VACÍO */
+.empty-state{
+  text-align:center;padding:80px 20px;color:var(--text2);
+}
+.empty-ico{font-size:56px;margin-bottom:16px;opacity:.5}
+.empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+
+/* MODAL */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  z-index:500;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
 .modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:var(--surface);border-radius:var(--radius);padding:24px;width:320px;
-  box-shadow:0 8px 40px rgba(0,0,0,.18);transform:translateY(8px);transition:transform .2s}
-.modal-bg.open .modal{transform:translateY(0)}
-.modal h3{font-size:15px;font-weight:600;margin-bottom:16px}
-.modal label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px;margin-top:12px}
-.modal input{width:100%;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);
-  font-size:13px;font-family:'DM Mono',monospace;background:var(--surface2);color:var(--text)}
-.modal input:focus{outline:2px solid var(--green);outline-offset:1px}
-.modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;padding:28px;width:360px;
+  box-shadow:0 0 0 1px var(--border2),0 24px 80px rgba(0,0,0,.6);
+  transform:translateY(12px) scale(.97);transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.modal-bg.open .modal{transform:translateY(0) scale(1)}
+.modal-head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.modal-ico{
+  width:36px;height:36px;background:var(--green-bg);border:1px solid rgba(63,185,80,.3);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+.modal h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
+.modal label{
+  font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;
+  letter-spacing:.06em;display:block;margin-bottom:6px;margin-top:16px;
+}
+.modal label:first-of-type{margin-top:0}
+.modal input{
+  width:100%;padding:10px 14px;
+  border:1px solid var(--border2);border-radius:var(--radius-sm);
+  font-size:13px;font-family:'JetBrains Mono',monospace;
+  background:var(--surface);color:var(--text);transition:border-color .15s;
+}
+.modal input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+.modal-btns{display:flex;gap:8px;margin-top:24px;justify-content:flex-end}
+.modal-div{height:1px;background:var(--border);margin:20px 0}
 
-#toast{position:fixed;bottom:20px;right:20px;background:#111;color:#fff;
-  padding:9px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;
-  opacity:0;transform:translateY(5px);transition:all .2s;pointer-events:none;z-index:999}
+/* TOAST */
+#toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--surface2);color:var(--text);
+  border:1px solid var(--border2);
+  padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
+  opacity:0;transform:translateY(8px);transition:all .22s;pointer-events:none;z-index:999;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px;
+}
 #toast.show{opacity:1;transform:translateY(0)}
+
+/* scrollbar oscura */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
-    <div class="logo-icon">📦</div>
+    <div class="logo-mark">📦</div>
     <div>
       <div class="logo-name">Control de Cubetas</div>
-      <div class="logo-sub" id="hdr-mes"></div>
+      <div class="logo-tag">Sistema de seguimiento por rutas</div>
     </div>
   </div>
-  <div class="hdr-actions">
-    <button class="btn btn-green" onclick="abrirModal()">+ Nuevo cuadro</button>
-    <button class="btn btn-blue" onclick="exportarExcel()">↓ Exportar Excel del mes</button>
+  <div class="hdr-right">
+    <span class="hdr-mes" id="hdr-mes"></span>
+    <button class="btn btn-green" onclick="abrirModal()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 010 2H9v4a1 1 0 01-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
+      Nuevo cuadro
+    </button>
+    <button class="btn btn-blue" onclick="exportarExcel()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 13.5A.5.5 0 013 13h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zM8 2a.5.5 0 01.5.5v8.793l2.646-2.647a.5.5 0 01.708.708l-3.5 3.5a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L7.5 11.293V2.5A.5.5 0 018 2z"/></svg>
+      Exportar Excel
+    </button>
     <button class="btn btn-red btn-sm" onclick="borrarTodo()">✕ Borrar todo</button>
   </div>
 </header>
 
 <div class="wrap" id="wrap"></div>
 
+<!-- MODAL -->
 <div class="modal-bg" id="modal-bg" onclick="clkBg(event)">
   <div class="modal">
-    <h3>Nuevo cuadro de control</h3>
+    <div class="modal-head">
+      <div class="modal-ico">📋</div>
+      <h3>Nuevo cuadro de control</h3>
+    </div>
     <label>Fecha del cuadro</label>
     <input type="date" id="m-fecha">
-    <label>Nota (opcional)</label>
-    <input type="text" id="m-nota" placeholder="ej: Segunda salida, semana 3...">
+    <label>Nota <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(opcional)</span></label>
+    <input type="text" id="m-nota" placeholder="ej: Segunda salida, Semana 3...">
     <div class="modal-btns">
       <button class="btn btn-sm" onclick="cerrarModal()">Cancelar</button>
       <button class="btn btn-green btn-sm" onclick="crearCuadro()">Crear cuadro</button>
@@ -178,24 +391,32 @@ table.ct tr:last-child td{border-bottom:none}
   </div>
 </div>
 
-<div id="toast"></div>
+<div id="toast">
+  <span id="toast-ico">✓</span>
+  <span id="toast-txt"></span>
+</div>
 
 <script>
+// ══════════════════════════════════════
+//  CONSTANTES Y ESTADO
+// ══════════════════════════════════════
 const ROUTES = ['11','12','52A','52B','18'];
 const SHARED  = [['52A','52B']];
 const BK      = ['Grises','Grandes','Medianas','Ramo'];
-const SK      = 'cubetas_cuadros_v1';
+const SK      = 'cubetas_cuadros_v2';
 
 let cuadros = [];
 
-function hoy(){ return new Date().toISOString().split('T')[0]; }
-function fmt(d){ if(!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; }
-function mesLabel(d){ if(!d) return ''; const [y,m]=d.split('-'); const n=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; return n[parseInt(m)-1]+' '+y; }
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
-function partner(r){ const p=SHARED.find(g=>g.includes(r)); return p?p.find(x=>x!==r):null; }
-function sumO(rd){ return BK.reduce((t,b)=>t+(parseInt(rd['o_'+b])||0),0); }
-function sumI(rd){ return BK.reduce((t,b)=>t+(parseInt(rd['i_'+b])||0),0); }
+const hoy    = ()=>new Date().toISOString().split('T')[0];
+const fmt    = d=>{ if(!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; };
+const mesLbl = d=>{ if(!d) return ''; const [y,m]=d.split('-');
+  return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][+m-1]+' '+y; };
+const uid    = ()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const partner= r=>{ const p=SHARED.find(g=>g.includes(r)); return p?p.find(x=>x!==r):null; };
+const sumO   = rd=>BK.reduce((t,b)=>t+(+rd['o_'+b]||0),0);
+const sumI   = rd=>BK.reduce((t,b)=>t+(+rd['i_'+b]||0),0);
 
+// ── PERSISTENCIA ──
 function load(){ try{ const d=localStorage.getItem(SK); if(d) cuadros=JSON.parse(d)||[]; }catch(e){} }
 function persist(){ try{ localStorage.setItem(SK,JSON.stringify(cuadros)); }catch(e){} }
 
@@ -205,54 +426,53 @@ function blankData(){
   return d;
 }
 
-// concordancia: salida del cuadro idx  vs  entrada del cuadro idx+1
+// ── CONCORDANCIA ──
 function calcConc(idx){
   const cur=cuadros[idx], nxt=cuadros[idx+1];
   const res={};
   ROUTES.forEach(r=>{
     if(!nxt){ res[r]={ok:null,diff:{}}; return; }
-    const diffs={};
-    let ok=true;
+    const diff={};let ok=true;
     BK.forEach(b=>{
-      const sal=parseInt(cur.data[r]['o_'+b])||0;
-      const ent=parseInt(nxt.data[r]['i_'+b])||0;
-      diffs[b]=ent-sal;
+      const sal=+cur.data[r]['o_'+b]||0, ent=+nxt.data[r]['i_'+b]||0;
+      diff[b]=ent-sal;
       if(ent!==sal) ok=false;
     });
-    res[r]={ok,diff:diffs};
+    res[r]={ok,diff};
   });
   return res;
 }
 
-// ── RENDER ────────────────────────────────────────────────────
+// ══════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════
 function render(){
   const wrap=document.getElementById('wrap');
   wrap.innerHTML='';
 
   if(!cuadros.length){
-    wrap.innerHTML=`<div style="text-align:center;padding:70px 20px;color:var(--text3)">
-      <div style="font-size:48px;margin-bottom:12px">📦</div>
-      <div style="font-size:16px;font-weight:600;margin-bottom:6px">Sin cuadros todavía</div>
-      <div style="font-size:13px">Pulsa <strong>"+ Nuevo cuadro"</strong> para empezar el control del mes</div>
+    wrap.innerHTML=`<div class="empty-state">
+      <div class="empty-ico">📦</div>
+      <div class="empty-title">Sin cuadros todavía</div>
+      <div class="empty-sub">Crea el primer cuadro para empezar a registrar el control del mes</div>
+      <button class="btn btn-green" onclick="abrirModal()">+ Nuevo cuadro</button>
     </div>`;
     document.getElementById('hdr-mes').textContent='';
     return;
   }
 
-  document.getElementById('hdr-mes').textContent=mesLabel(cuadros[0].fecha);
+  document.getElementById('hdr-mes').textContent=mesLbl(cuadros[0].fecha);
 
   cuadros.forEach((c,idx)=>{
     const conc=calcConc(idx);
     const hasNext=!!cuadros[idx+1];
+    const concGlobal=hasNext?ROUTES.every(r=>conc[r].ok):null;
 
-    let concGlobal=null;
-    if(hasNext) concGlobal=ROUTES.every(r=>conc[r].ok);
-
-    // badge concordancia
+    // badge
     let badge='';
-    if(!hasNext)            badge=`<span class="conc-badge conc-nd">Último cuadro</span>`;
-    else if(concGlobal)     badge=`<span class="conc-badge conc-ok">✓ Concordancia OK con cuadro ${idx+2}</span>`;
-    else                    badge=`<span class="conc-badge conc-err">✗ Hay diferencias con cuadro ${idx+2}</span>`;
+    if(!hasNext)         badge=`<span class="conc-badge conc-nd">⬛ Último cuadro</span>`;
+    else if(concGlobal)  badge=`<span class="conc-badge conc-ok">✓ Concordancia OK con cuadro ${idx+2}</span>`;
+    else                 badge=`<span class="conc-badge conc-err">✗ Diferencias con cuadro ${idx+2}</span>`;
 
     // totales
     let gtO=0,gtI=0;
@@ -260,82 +480,81 @@ function render(){
     BK.forEach(b=>{totO[b]=0;totI[b]=0;});
     ROUTES.forEach(r=>{
       const rd=c.data[r];
-      BK.forEach(b=>{ totO[b]+=(parseInt(rd['o_'+b])||0); totI[b]+=(parseInt(rd['i_'+b])||0); });
+      BK.forEach(b=>{ totO[b]+=(+rd['o_'+b]||0); totI[b]+=(+rd['i_'+b]||0); });
       gtO+=sumO(rd); gtI+=sumI(rd);
     });
 
-    // filas de rutas
+    // filas rutas
     let tbody='';
     ROUTES.forEach(r=>{
       const rd=c.data[r];
-      const isS=!!partner(r), sp=partner(r);
+      const sp=partner(r);
       const so=sumO(rd), si=sumI(rd), diff=si-so;
 
       let diffHtml='';
-      if(so===0&&si===0)    diffHtml=`<span class="diff-pill dp-nd">—</span>`;
-      else if(diff===0)     diffHtml=`<span class="diff-pill dp-ok">✓ Exacto</span>`;
-      else if(diff>0)       diffHtml=`<span class="diff-pill dp-pos">+${diff} sobran</span>`;
-      else                  diffHtml=`<span class="diff-pill dp-neg">${diff} faltan</span>`;
+      if(so===0&&si===0)   diffHtml=`<span class="diff-pill dp-nd">—</span>`;
+      else if(diff===0)    diffHtml=`<span class="diff-pill dp-ok">✓ Exacto</span>`;
+      else if(diff>0)      diffHtml=`<span class="diff-pill dp-pos">+${diff} sobran</span>`;
+      else                 diffHtml=`<span class="diff-pill dp-neg">${diff} faltan</span>`;
 
-      // ícono concordancia al lado del nombre
       let concIcon='';
       if(hasNext){
-        if(conc[r].ok) concIcon=`<span style="color:var(--green-text);font-size:10px;margin-left:3px">✓</span>`;
+        if(conc[r].ok) concIcon=`<span class="ci-tick">✓</span>`;
         else{
-          const ds=BK.map(b=>{const v=conc[r].diff[b];return v!==0?`${b}:${v>0?'+':''}${v}`:''}).filter(Boolean).join(' ');
-          concIcon=`<span style="color:var(--red-text);font-size:10px;margin-left:3px" title="${ds}">✗</span>`;
+          const ds=BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' ');
+          concIcon=`<span class="ci-cross" title="Dif. con siguiente: ${ds}">✗</span>`;
         }
       }
 
       tbody+=`<tr>
         <td class="td-r">
           <span class="rpill">${r}</span>${concIcon}
-          ${isS?`<span class="spill">= ${sp}</span>`:''}
+          ${sp?`<span class="spill">=${sp}</span>`:''}
         </td>`;
 
       BK.forEach(b=>{
-        tbody+=`<td style="background:#fffaf9"><div class="cell-p inp-o">
-          <input type="number" class="num-input" min="0" value="${parseInt(rd['o_'+b])||0}"
+        tbody+=`<td><div class="cell-p inp-o">
+          <input type="number" class="num-input" min="0" value="${+rd['o_'+b]||0}"
             onblur="setV('${c.id}','${r}','o_${b}',this.value)"
             onkeydown="if(event.key==='Enter')this.blur()">
         </div></td>`;
       });
-      tbody+=`<td class="td-so">${so}</td>`;
+      tbody+=`<td class="td-so">${so||'—'}</td>`;
 
       BK.forEach(b=>{
-        tbody+=`<td style="background:#f8fcf9"><div class="cell-p inp-i">
-          <input type="number" class="num-input" min="0" value="${parseInt(rd['i_'+b])||0}"
+        tbody+=`<td><div class="cell-p inp-i">
+          <input type="number" class="num-input" min="0" value="${+rd['i_'+b]||0}"
             onblur="setV('${c.id}','${r}','i_${b}',this.value)"
             onkeydown="if(event.key==='Enter')this.blur()">
         </div></td>`;
       });
-      tbody+=`<td class="td-si">${si}</td>`;
+      tbody+=`<td class="td-si">${si||'—'}</td>`;
       tbody+=`<td class="td-df">${diffHtml}</td></tr>`;
     });
 
-    // fila total del cuadro
+    // fila total
     const gd=gtI-gtO;
     const gdTxt=gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`;
-    const gdCol=gd===0?'#6ee7b7':gd>0?'#f9a8d4':'#fca5a5';
-    let tfoot=`<tr class="tr-tot-c">
-      <td class="td-rl">TOTAL CUADRO</td>`;
-    BK.forEach(b=>tfoot+=`<td style="color:#fca5a5">${totO[b]}</td>`);
-    tfoot+=`<td style="color:#fcd34d;font-size:14px">${gtO}</td>`;
-    BK.forEach(b=>tfoot+=`<td style="color:#86efac">${totI[b]}</td>`);
-    tfoot+=`<td style="color:#6ee7b7;font-size:14px">${gtI}</td>`;
-    tfoot+=`<td style="color:${gdCol};font-weight:700">${gdTxt}</td></tr>`;
+    const gdCls=gd===0?'dp-ok':gd>0?'dp-pos':'dp-neg';
+    let tfoot=`<tr class="tr-tot">
+      <td class="td-rl">Total general</td>`;
+    BK.forEach(b=>tfoot+=`<td class="c-o">${totO[b]||0}</td>`);
+    tfoot+=`<td class="c-g-o">${gtO}</td>`;
+    BK.forEach(b=>tfoot+=`<td class="c-i">${totI[b]||0}</td>`);
+    tfoot+=`<td class="c-g-i">${gtI}</td>`;
+    tfoot+=`<td><span class="diff-pill ${gdCls}" style="font-size:12px">${gdTxt}</span></td></tr>`;
 
-    // detalle concordancia (solo si hay diffs)
+    // detalle concordancia
     let concDetail='';
     if(hasNext && !concGlobal){
       const items=ROUTES.map(r=>{
         const cr=conc[r];
-        if(cr.ok) return `<span class="conc-item"><span class="conc-ri">${r}</span><span class="ci-ok">✓</span></span>`;
-        const ds=BK.map(b=>{ const v=cr.diff[b]; return v!==0?`${b}: ${v>0?'+':''}${v}`:''; }).filter(Boolean).join(', ');
-        return `<span class="conc-item"><span class="conc-ri">${r}</span><span class="ci-err">✗ ${ds||'diferente'}</span></span>`;
+        if(cr.ok) return `<span class="conc-ci"><span class="rn">${r}</span><span class="rv-ok">✓</span></span>`;
+        const ds=BK.map(b=>{ const v=cr.diff[b]; return v!==0?`${b} ${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' · ')||'diferente';
+        return `<span class="conc-ci"><span class="rn">${r}</span><span class="rv">✗ ${ds}</span></span>`;
       }).join('');
       concDetail=`<div class="conc-detail">
-        <strong style="color:var(--amber-text)">Diferencias vs cuadro ${idx+2}:</strong>${items}
+        <span class="conc-detail-lbl">Diferencias vs cuadro ${idx+2}:</span>${items}
       </div>`;
     }
 
@@ -343,13 +562,13 @@ function render(){
     div.className='cuadro';
     div.innerHTML=`
       <div class="cuadro-head">
-        <span class="cuadro-num">CUADRO ${idx+1}</span>
+        <span class="cuadro-num">Cuadro ${idx+1}</span>
         <span class="cuadro-fecha">📅 ${fmt(c.fecha)}</span>
         ${c.nota?`<span class="cuadro-nota">${c.nota}</span>`:''}
         ${badge}
         <div class="cuadro-actions">
-          <button class="btn btn-amber btn-xs" onclick="editFecha('${c.id}')">✎ Fecha/nota</button>
-          <button class="btn btn-red btn-xs" onclick="eliminar('${c.id}')">✕ Eliminar</button>
+          <button class="btn btn-amber btn-xs" onclick="editFecha('${c.id}')">✎ Editar</button>
+          <button class="btn btn-red btn-xs" onclick="eliminar('${c.id}')">✕</button>
         </div>
       </div>
       <div class="tscroll">
@@ -357,15 +576,15 @@ function render(){
           <thead>
             <tr>
               <th class="th-r" rowspan="2">Ruta</th>
-              <th class="sec-o" colspan="4">↑ SALEN</th>
-              <th class="sec-o" style="background:#ffecea">Subtotal</th>
-              <th class="sec-i" colspan="4">↓ ENTRAN</th>
-              <th class="sec-i" style="background:#e4f5ea">Subtotal</th>
-              <th class="sec-d" rowspan="2">Diferencia<br><span style="font-size:9px;font-weight:400">(Entran − Salen)</span></th>
+              <th class="grp-o" colspan="4">↑ SALEN</th>
+              <th class="grp-o sub-o">Subtotal</th>
+              <th class="grp-i" colspan="4">↓ ENTRAN</th>
+              <th class="grp-i sub-i">Subtotal</th>
+              <th class="grp-d" rowspan="2">Diferencia</th>
             </tr>
             <tr>
-              ${BK.map(b=>`<th class="sec-o">${b}</th>`).join('')}
-              ${BK.map(b=>`<th class="sec-i">${b}</th>`).join('')}
+              ${BK.map(b=>`<th class="sub-o">${b}</th>`).join('')}
+              ${BK.map(b=>`<th class="sub-i">${b}</th>`).join('')}
             </tr>
           </thead>
           <tbody>${tbody}</tbody>
@@ -375,11 +594,12 @@ function render(){
       ${concDetail}`;
     wrap.appendChild(div);
 
-    if(idx < cuadros.length-1){
+    // separador
+    if(idx<cuadros.length-1){
       const sep=document.createElement('div');
-      sep.className='sep-arrow';
+      sep.className='sep';
       sep.innerHTML=`<div class="sep-line"></div>
-        <span>↓ &nbsp; La salida del cuadro ${idx+1} debe coincidir con la entrada del cuadro ${idx+2} &nbsp; ↓</span>
+        <span class="sep-txt">↓ &nbsp;salida cuadro ${idx+1} → entrada cuadro ${idx+2}&nbsp; ↓</span>
         <div class="sep-line"></div>`;
       wrap.appendChild(sep);
     }
@@ -388,144 +608,223 @@ function render(){
   const add=document.createElement('div');
   add.className='add-panel';
   add.onclick=abrirModal;
-  add.innerHTML=`<span style="font-size:24px;color:var(--green)">+</span><span class="add-panel-txt">Agregar nuevo cuadro de control</span>`;
+  add.innerHTML=`<span class="add-panel-ico">+</span><span class="add-panel-txt">Agregar nuevo cuadro de control</span>`;
   wrap.appendChild(add);
 }
 
-// ── ACCIONES ──────────────────────────────────────────────────
+// ══════════════════════════════════════
+//  ACCIONES
+// ══════════════════════════════════════
 function setV(id,r,campo,val){
-  const c=cuadros.find(x=>x.id===id);
-  if(!c) return;
-  const v=Math.max(0,parseInt(val)||0);
+  const c=cuadros.find(x=>x.id===id); if(!c) return;
+  const v=Math.max(0,+val||0);
   c.data[r][campo]=v;
-  const sp=partner(r);
-  if(sp) c.data[sp][campo]=v;
+  const sp=partner(r); if(sp) c.data[sp][campo]=v;
   persist(); render();
 }
-
 function crearCuadro(){
   const fecha=document.getElementById('m-fecha').value;
   const nota=document.getElementById('m-nota').value.trim();
-  if(!fecha){ toast('Selecciona una fecha'); return; }
+  if(!fecha){ toast('Selecciona una fecha','⚠'); return; }
   cuadros.push({id:uid(),fecha,nota,data:blankData()});
   persist(); cerrarModal(); render();
-  toast(`✓ Cuadro ${cuadros.length} creado — ${fmt(fecha)}`);
+  toast(`Cuadro ${cuadros.length} creado — ${fmt(fecha)}`,'✓');
 }
-
 function eliminar(id){
   const idx=cuadros.findIndex(x=>x.id===id);
-  if(!confirm(`¿Eliminar el cuadro ${idx+1}?`)) return;
+  if(!confirm(`¿Eliminar el cuadro ${idx+1}? Esta acción no se puede deshacer.`)) return;
   cuadros=cuadros.filter(x=>x.id!==id);
-  persist(); render(); toast('Cuadro eliminado');
+  persist(); render(); toast('Cuadro eliminado','🗑');
 }
-
 function editFecha(id){
   const c=cuadros.find(x=>x.id===id);
   const nf=prompt('Nueva fecha (AAAA-MM-DD):',c.fecha);
   if(nf) c.fecha=nf;
-  const nn=prompt('Nota (dejar vacío para borrar):',c.nota||'');
+  const nn=prompt('Nota (vacío para borrar):',c.nota||'');
   if(nn!==null) c.nota=nn;
   persist(); render();
 }
-
 function borrarTodo(){
-  if(!confirm('¿Borrar TODOS los cuadros?')) return;
-  cuadros=[]; persist(); render(); toast('Todo borrado');
+  if(!confirm('¿Borrar TODOS los cuadros del mes? Esta acción es irreversible.')) return;
+  cuadros=[]; persist(); render(); toast('Todo borrado','🗑');
 }
 
-// ── MODAL ─────────────────────────────────────────────────────
+// ── MODAL ──
 function abrirModal(){
   document.getElementById('m-fecha').value=hoy();
   document.getElementById('m-nota').value='';
   document.getElementById('modal-bg').classList.add('open');
-  setTimeout(()=>document.getElementById('m-fecha').focus(),150);
+  setTimeout(()=>document.getElementById('m-fecha').focus(),180);
 }
 function cerrarModal(){ document.getElementById('modal-bg').classList.remove('open'); }
 function clkBg(e){ if(e.target===document.getElementById('modal-bg')) cerrarModal(); }
 
-// ── EXPORT ────────────────────────────────────────────────────
+// ══════════════════════════════════════
+//  EXPORT EXCEL PROFESIONAL
+// ══════════════════════════════════════
 function exportarExcel(){
-  if(!cuadros.length){ toast('No hay cuadros para exportar'); return; }
+  if(!cuadros.length){ toast('No hay cuadros para exportar','⚠'); return; }
   const wb=XLSX.utils.book_new();
-  const w=v=>({wch:v});
 
-  // Hoja resumen
-  const hd=['Cuadro','Fecha','Nota','Ruta',
-    'Gr.Sal','Gd.Sal','Med.Sal','Ram.Sal','Total SAL',
-    'Gr.Ent','Gd.Ent','Med.Ent','Ram.Ent','Total ENT',
-    'Diferencia','Concordancia con sig. cuadro'];
-  const rows=[hd];
+  // ── paleta de colores para estilos ──
+  // xlsx no aplica estilos CSS, pero podemos usar SheetJS con !cols y merge
+  // y estructurar el contenido de forma muy profesional con secciones claras
+
+  const mes=cuadros[0].fecha.slice(0,7);
+  const empresa='Control de Cubetas';
+
+  // ══ HOJA 1: RESUMEN DEL MES ══
+  const R=[];
+
+  // Título
+  R.push([empresa,'','','','','','','','','','','','','','','']);
+  R.push([`Reporte mensual — ${mesLbl(cuadros[0].fecha)}`,'','','','','','','','','','','','','','','']);
+  R.push([`Generado: ${new Date().toLocaleDateString('es-CO',{dateStyle:'full'})}`,'','','','','','','','','','','','','','','']);
+  R.push([]);
+  R.push([]);
 
   cuadros.forEach((c,idx)=>{
     const conc=calcConc(idx);
     const hasNext=!!cuadros[idx+1];
+
+    // encabezado cuadro
+    R.push([`CUADRO ${idx+1}`,`Fecha: ${fmt(c.fecha)}`,c.nota||'','','','','','','','','','','','','','']);
+    R.push([]);
+
+    // encabezado columnas
+    R.push([
+      'Ruta',
+      'Grises (S)','Grandes (S)','Medianas (S)','Ramo (S)','TOTAL SALEN',
+      'Grises (E)','Grandes (E)','Medianas (E)','Ramo (E)','TOTAL ENTRAN',
+      'Diferencia',
+      hasNext?`Concord. → C${idx+2}`:''
+    ]);
+
+    // rutas
     ROUTES.forEach(r=>{
       const rd=c.data[r];
-      const so=sumO(rd),si=sumI(rd),diff=si-so;
-      let concStr='—';
-      if(hasNext) concStr=conc[r].ok?'OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' ')||'OK';
-      rows.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',r,
-        parseInt(rd['o_Grises'])||0,parseInt(rd['o_Grandes'])||0,parseInt(rd['o_Medianas'])||0,parseInt(rd['o_Ramo'])||0,so,
-        parseInt(rd['i_Grises'])||0,parseInt(rd['i_Grandes'])||0,parseInt(rd['i_Medianas'])||0,parseInt(rd['i_Ramo'])||0,si,
-        diff===0?'Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,concStr]);
+      const so=sumO(rd), si=sumI(rd), diff=si-so;
+      let concStr='';
+      if(hasNext) concStr=conc[r].ok?'✓ OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' | ');
+      const diffStr=diff===0?'✓ Exacto':diff>0?`+${diff} SOBRAN`:`${diff} FALTAN`;
+      R.push([
+        r,
+        +rd['o_Grises']||0, +rd['o_Grandes']||0, +rd['o_Medianas']||0, +rd['o_Ramo']||0, so,
+        +rd['i_Grises']||0, +rd['i_Grandes']||0, +rd['i_Medianas']||0, +rd['i_Ramo']||0, si,
+        diffStr, concStr
+      ]);
     });
-    // subtotal cuadro
+
+    // total cuadro
     let gtO=0,gtI=0;
-    const tO={},tI={};
-    BK.forEach(b=>{tO[b]=0;tI[b]=0;});
-    ROUTES.forEach(r=>{
-      const rd=c.data[r];
-      BK.forEach(b=>{ tO[b]+=(parseInt(rd['o_'+b])||0); tI[b]+=(parseInt(rd['i_'+b])||0); });
-      gtO+=sumO(rd); gtI+=sumI(rd);
-    });
+    const tO={Grises:0,Grandes:0,Medianas:0,Ramo:0},tI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
+    ROUTES.forEach(r=>{ const rd=c.data[r]; BK.forEach(b=>{ tO[b]+=(+rd['o_'+b]||0); tI[b]+=(+rd['i_'+b]||0); }); gtO+=sumO(rd); gtI+=sumI(rd); });
     const gd=gtI-gtO;
-    rows.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'','— TOTAL —',
+    R.push([
+      'TOTAL CUADRO',
       tO.Grises,tO.Grandes,tO.Medianas,tO.Ramo,gtO,
       tI.Grises,tI.Grandes,tI.Medianas,tI.Ramo,gtI,
-      gd===0?'Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`,'']);
-    rows.push(['','','','','','','','','','','','','','','','']);
+      gd===0?'✓ EXACTO':gd>0?`+${gd} SOBRAN`:`${gd} FALTAN`,''
+    ]);
+    R.push([]);
+    R.push([]);
   });
 
-  const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[10,12,16,10,8,8,8,8,10,8,8,8,8,10,14,22].map(w);
-  XLSX.utils.book_append_sheet(wb,ws,'Resumen del mes');
+  // RESUMEN GLOBAL FINAL
+  R.push(['RESUMEN GLOBAL DEL MES','','','','','','','','','','','','']);
+  R.push([]);
+  R.push([
+    'Cuadro','Fecha','Nota',
+    'Total Salen','Total Entran','Diferencia','Concordancia'
+  ]);
+  cuadros.forEach((c,idx)=>{
+    let gtO=0,gtI=0;
+    ROUTES.forEach(r=>{ gtO+=sumO(c.data[r]); gtI+=sumI(c.data[r]); });
+    const gd=gtI-gtO;
+    const hasNext=!!cuadros[idx+1];
+    const conc=calcConc(idx);
+    const concG=hasNext?ROUTES.every(r=>conc[r].ok)?'✓ OK':'✗ Diferencias':'—';
+    R.push([
+      `Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
+      gtO,gtI,
+      gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`,
+      concG
+    ]);
+  });
 
-  // Hoja por ruta
+  // total global
+  let ggO=0,ggI=0;
+  cuadros.forEach(c=>ROUTES.forEach(r=>{ ggO+=sumO(c.data[r]); ggI+=sumI(c.data[r]); }));
+  const ggD=ggI-ggO;
+  R.push([]);
+  R.push(['TOTAL GENERAL','','',ggO,ggI,ggD===0?'✓ EXACTO':ggD>0?`+${ggD} SOBRAN`:`${ggD} FALTAN`,'']);
+
+  const ws1=XLSX.utils.aoa_to_sheet(R);
+  ws1['!cols']=[14,13,13,13,13,14,13,13,13,13,14,16,20].map(v=>({wch:v}));
+  XLSX.utils.book_append_sheet(wb,ws1,'Resumen del mes');
+
+  // ══ HOJAS POR RUTA ══
   ROUTES.forEach(r=>{
-    const rh=['Cuadro','Fecha','Nota','Gr.Sal','Gd.Sal','Med.Sal','Ram.Sal','Total SAL','Gr.Ent','Gd.Ent','Med.Ent','Ram.Ent','Total ENT','Diferencia','Concordancia'];
-    const rd2=[rh];
+    const Rr=[];
+    Rr.push([empresa]);
+    Rr.push([`Ruta ${r} — ${mesLbl(cuadros[0].fecha)}`]);
+    Rr.push([`Generado: ${new Date().toLocaleDateString('es-CO',{dateStyle:'full'})}`]);
+    Rr.push([]);
+    Rr.push([
+      'Cuadro','Fecha','Nota',
+      'Grises (S)','Grandes (S)','Medianas (S)','Ramo (S)','Total Salen',
+      'Grises (E)','Grandes (E)','Medianas (E)','Ramo (E)','Total Entran',
+      'Diferencia','Concordancia'
+    ]);
+
+    let rgtO=0,rgtI=0;
+    const rtO={Grises:0,Grandes:0,Medianas:0,Ramo:0},rtI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
+
     cuadros.forEach((c,idx)=>{
       const rd=c.data[r];
-      const so=sumO(rd),si=sumI(rd),diff=si-so;
+      const so=sumO(rd), si=sumI(rd), diff=si-so;
       const conc=calcConc(idx);
       const hasNext=!!cuadros[idx+1];
-      let concStr='—';
-      if(hasNext) concStr=conc[r].ok?'OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' ')||'OK';
-      rd2.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
-        parseInt(rd['o_Grises'])||0,parseInt(rd['o_Grandes'])||0,parseInt(rd['o_Medianas'])||0,parseInt(rd['o_Ramo'])||0,so,
-        parseInt(rd['i_Grises'])||0,parseInt(rd['i_Grandes'])||0,parseInt(rd['i_Medianas'])||0,parseInt(rd['i_Ramo'])||0,si,
-        diff===0?'Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,concStr]);
+      let concStr=hasNext?(conc[r].ok?'✓ OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' | ')):'—';
+      BK.forEach(b=>{ rtO[b]+=(+rd['o_'+b]||0); rtI[b]+=(+rd['i_'+b]||0); });
+      rgtO+=so; rgtI+=si;
+      Rr.push([
+        `Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
+        +rd['o_Grises']||0,+rd['o_Grandes']||0,+rd['o_Medianas']||0,+rd['o_Ramo']||0,so,
+        +rd['i_Grises']||0,+rd['i_Grandes']||0,+rd['i_Medianas']||0,+rd['i_Ramo']||0,si,
+        diff===0?'✓ Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,
+        concStr
+      ]);
     });
-    const rws2=XLSX.utils.aoa_to_sheet(rd2);
-    rws2['!cols']=[10,12,14,8,8,8,8,10,8,8,8,8,10,14,14].map(w);
-    XLSX.utils.book_append_sheet(wb,rws2,'Ruta '+r);
+    const rd2=rgtI-rgtO;
+    Rr.push([]);
+    Rr.push([
+      'TOTAL','','',
+      rtO.Grises,rtO.Grandes,rtO.Medianas,rtO.Ramo,rgtO,
+      rtI.Grises,rtI.Grandes,rtI.Medianas,rtI.Ramo,rgtI,
+      rd2===0?'✓ EXACTO':rd2>0?`+${rd2} SOBRAN`:`${rd2} FALTAN`,''
+    ]);
+
+    const wsR=XLSX.utils.aoa_to_sheet(Rr);
+    wsR['!cols']=[12,12,14,11,11,11,10,12,11,11,11,10,12,16,18].map(v=>({wch:v}));
+    XLSX.utils.book_append_sheet(wb,wsR,`Ruta ${r}`);
   });
 
-  const mes=cuadros[0].fecha.slice(0,7);
-  XLSX.writeFile(wb,`cubetas_${mes}.xlsx`);
-  toast('✓ Excel exportado');
+  XLSX.writeFile(wb,`Cubetas_${mes}.xlsx`);
+  toast('Excel exportado correctamente','✓');
 }
 
-// ── TOAST ─────────────────────────────────────────────────────
-function toast(msg){
+// ── TOAST ──
+function toast(msg,ico='✓'){
+  document.getElementById('toast-txt').textContent=msg;
+  document.getElementById('toast-ico').textContent=ico;
   const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2800);
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
 }
 
-// ── INIT ──────────────────────────────────────────────────────
-load();
-render();
+// ── INIT ──
+load(); render();
 </script>
 </body>
 </html>
