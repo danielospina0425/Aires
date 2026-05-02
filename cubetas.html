@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Control de Cubetas — Rutas</title>
+<title>Control de Cubetas</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-:root {
+:root{
   --bg:#f2f0eb;--surface:#fff;--surface2:#f7f5f1;--surface3:#eeebe5;
   --border:#dedad2;--border2:#c8c4bb;
   --text:#18170f;--text2:#5e5c55;--text3:#9e9b94;
@@ -23,120 +23,122 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 
 header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 24px;
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-icon{width:34px;height:34px;background:var(--green);border-radius:8px;
   display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
 .logo-name{font-size:15px;font-weight:600;letter-spacing:-.02em}
 .logo-sub{font-size:11px;color:var(--text3)}
-.hdr-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);
-  background:var(--surface2);padding:4px 12px;border-radius:20px;border:1px solid var(--border)}
+.hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
-.wrap{max-width:1300px;margin:0 auto;padding:20px 24px;display:flex;flex-direction:column;gap:16px}
-
-.toolbar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:12px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow)}
-.tlabel{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
-input[type=date]{font-family:'DM Mono',monospace;font-size:13px;padding:6px 12px;
-  border:1px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);cursor:pointer}
-input[type=date]:focus{outline:2px solid var(--green);outline-offset:1px}
 .btn{padding:7px 16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;
   font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border2);
-  background:var(--surface);color:var(--text);transition:all .14s}
-.btn:hover{background:var(--surface2);border-color:var(--green)}
-.btn-save{background:var(--green);color:#fff;border-color:var(--green)}
-.btn-save:hover{background:var(--green-text)}
-.btn-xl{background:var(--blue-bg);color:var(--blue-text);border-color:#b8ccf4}
-.btn-xl:hover{background:#d9e7ff}
-.btn-clr{background:var(--red-bg);color:var(--red-text);border-color:#f0b5ae}
-.btn-clr:hover{background:#fad9d5}
-.shared-note{font-size:11px;color:var(--amber-text);background:var(--amber-bg);
-  border:1px solid #e8d090;border-radius:20px;padding:3px 10px;margin-left:auto}
+  background:var(--surface);color:var(--text);transition:all .14s;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-green:hover{background:var(--green-text);border-color:var(--green-text)}
+.btn-blue{background:var(--blue-bg);color:var(--blue-text);border-color:#b8ccf4}
+.btn-blue:hover{background:#d9e7ff}
+.btn-red{background:var(--red-bg);color:var(--red-text);border-color:#f0b5ae}
+.btn-red:hover{background:#fad9d5}
+.btn-amber{background:var(--amber-bg);color:var(--amber-text);border-color:#e8d090}
+.btn-amber:hover{background:#faedc0}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-xs{padding:3px 7px;font-size:11px}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+.wrap{max-width:1400px;margin:0 auto;padding:20px 24px;display:flex;flex-direction:column;gap:20px}
+
+.cuadro{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   box-shadow:var(--shadow);overflow:hidden}
-.card-head{padding:12px 18px;border-bottom:1px solid var(--border);background:var(--surface2);
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.card-title{font-size:13px;font-weight:600}
-.legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
-.leg-dot{width:8px;height:8px;border-radius:50%}
+.cuadro-head{padding:10px 16px;border-bottom:1px solid var(--border);background:var(--surface2);
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cuadro-num{background:var(--dark);color:var(--dark-text);font-family:'DM Mono',monospace;
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;letter-spacing:.05em}
+.cuadro-fecha{font-family:'DM Mono',monospace;font-size:13px;font-weight:600}
+.cuadro-nota{font-size:11px;color:var(--text2);font-style:italic}
+.cuadro-actions{margin-left:auto;display:flex;gap:6px}
+
+.conc-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+  border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.conc-ok{background:var(--green-bg);color:var(--green-text)}
+.conc-err{background:var(--red-bg);color:var(--red-text)}
+.conc-nd{background:var(--surface3);color:var(--text3)}
 
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
-/* TABLA PRINCIPAL */
-table.mt{width:100%;border-collapse:collapse;font-size:12px;min-width:900px}
-table.mt th{padding:8px 10px;font-size:10px;font-weight:600;text-transform:uppercase;
+table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:780px}
+table.ct th{padding:7px 10px;font-size:10px;font-weight:600;text-transform:uppercase;
   letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);
   background:var(--surface2);text-align:center;white-space:nowrap}
-table.mt th.th-r{text-align:left;min-width:90px}
-table.mt th.sec{font-size:10px;font-weight:700;letter-spacing:.07em;padding:6px 10px}
-table.mt th.sec-o{background:#fff5f4;color:var(--red-text)}
-table.mt th.sec-i{background:#f0f8f3;color:var(--green-text)}
-table.mt th.sec-t{background:var(--dark);color:var(--dark-text)}
-
-table.mt td{padding:0;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
-table.mt td.td-r{padding:8px 12px;text-align:left;font-weight:600;background:var(--surface2);
+table.ct th.th-r{text-align:left;min-width:80px}
+table.ct th.sec-o{background:#fff5f4;color:var(--red-text)}
+table.ct th.sec-i{background:#f0f8f3;color:var(--green-text)}
+table.ct th.sec-d{background:#fff8e6;color:var(--amber-text)}
+table.ct td{padding:0;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
+table.ct td.td-r{padding:7px 12px;text-align:left;font-weight:600;background:var(--surface2);
   border-right:2px solid var(--border2);white-space:nowrap}
-.rpill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:12px;
+table.ct tr:last-child td{border-bottom:none}
+
+.rpill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:12px;
   font-weight:700;font-family:'DM Mono',monospace;background:var(--green-bg);color:var(--green-text)}
 .spill{display:block;font-size:9px;font-weight:500;color:var(--amber-text);
-  background:var(--amber-bg);border-radius:5px;padding:1px 4px;margin-top:2px;text-align:center}
+  background:var(--amber-bg);border-radius:4px;padding:1px 3px;margin-top:2px;text-align:center}
 
-/* celda con botones */
-.cw{display:flex;align-items:center;justify-content:center;gap:2px;padding:5px 4px}
-.qb{width:20px;height:20px;border:1px solid var(--border2);border-radius:3px;
-  background:var(--surface);color:var(--text);font-size:13px;font-weight:300;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .1s;line-height:1;flex-shrink:0}
-.qb:hover{background:var(--surface3);border-color:var(--green)}
-.qb:active{transform:scale(.88)}
-.qv{width:28px;text-align:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:500}
+.num-input{width:60px;font-family:'DM Mono',monospace;font-size:14px;font-weight:600;
+  text-align:center;padding:5px 3px;border:1px solid var(--border2);border-radius:5px;
+  background:var(--surface);color:inherit;-moz-appearance:textfield;transition:border-color .12s}
+.num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.num-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px rgba(31,107,66,.15)}
+.inp-o .num-input{color:var(--red-text);background:#fffaf9}
+.inp-i .num-input{color:var(--green-text);background:#f8fcf9}
+.cell-p{padding:5px 5px;display:flex;align-items:center;justify-content:center}
 
-/* celda entrada con referencia anterior */
-.ciw{display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 4px}
-.prev{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace}
-.mok{color:var(--green);font-size:9px}
-.merr{color:var(--red);font-size:9px}
-.td-mm .ciw{background:#fff5f4;border-radius:3px}
+.td-so{background:#fff0ee!important;font-family:'DM Mono',monospace;font-weight:700;font-size:13px;color:var(--red-text);padding:5px 8px!important}
+.td-si{background:#eef8f2!important;font-family:'DM Mono',monospace;font-weight:700;font-size:13px;color:var(--green-text);padding:5px 8px!important}
+.td-df{padding:5px 8px!important;min-width:90px}
 
-/* totales */
-.tr-tot td{background:var(--dark)!important;color:var(--dark-text);
-  font-weight:600;font-family:'DM Mono',monospace;font-size:13px;
-  border-bottom:none;padding:9px 10px;text-align:center}
-.tr-tot .td-tot-r{text-align:left;font-size:11px;font-weight:700;
-  letter-spacing:.04em;padding:9px 14px;border-right:2px solid #374151}
-.tr-tot .c-o{color:#fca5a5}
-.tr-tot .c-i{color:#86efac}
-.tr-tot .c-g{color:#fde68a;font-size:14px}
-.td-sub-o{background:#fff0ee!important;font-family:'DM Mono',monospace;font-weight:600;font-size:13px;color:var(--red-text)}
-.td-sub-i{background:#eef8f2!important;font-family:'DM Mono',monospace;font-weight:600;font-size:13px;color:var(--green-text)}
-.td-gt{background:var(--dark)!important;font-family:'DM Mono',monospace;font-weight:700;font-size:14px;text-align:center}
+.diff-pill{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:8px;
+  font-family:'DM Mono',monospace;font-size:12px;font-weight:700;white-space:nowrap}
+.dp-ok{background:var(--green-bg);color:var(--green-text)}
+.dp-pos{background:#fce7f3;color:#9d174d}
+.dp-neg{background:var(--red-bg);color:var(--red-text)}
+.dp-nd{background:var(--surface3);color:var(--text3);font-size:11px}
 
-/* HISTORIAL */
-.hist-empty{text-align:center;padding:28px;color:var(--text3);font-size:13px}
-table.ht{width:100%;border-collapse:collapse;font-size:12px;min-width:860px}
-table.ht th{padding:7px 10px;font-size:10px;font-weight:600;text-transform:uppercase;
-  letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);
-  background:var(--surface2);text-align:center;white-space:nowrap}
-table.ht th:first-child,table.ht th:nth-child(2){text-align:left}
-table.ht td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
-table.ht tr:last-child td{border-bottom:none}
-table.ht tr:hover td{background:var(--surface2)}
-table.ht td:first-child,table.ht td:nth-child(2){text-align:left}
-.hrpill{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;
-  font-weight:700;font-family:'DM Mono',monospace;background:var(--green-bg);color:var(--green-text)}
-.hnum{font-family:'DM Mono',monospace;font-size:12px}
-.hdate{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2)}
-.btn-del{background:none;border:none;cursor:pointer;color:var(--text3);
-  font-size:12px;padding:2px 5px;border-radius:3px;transition:all .1s}
-.btn-del:hover{background:var(--red-bg);color:var(--red)}
-.cok{font-size:10px;font-weight:600;padding:2px 6px;border-radius:7px;
-  background:var(--green-bg);color:var(--green-text)}
-.cerr{font-size:10px;font-weight:600;padding:2px 6px;border-radius:7px;
-  background:var(--red-bg);color:var(--red-text)}
-.tr-sub td{background:var(--surface3)!important;font-family:'DM Mono',monospace;font-size:11px;font-weight:600}
-.tr-sub .sub-lbl{font-size:10px;color:var(--text3);text-align:left;padding:5px 10px}
+.tr-tot-c td{background:var(--dark)!important;color:var(--dark-text);font-family:'DM Mono',monospace;
+  font-weight:600;font-size:13px;border-bottom:none;padding:8px 10px;text-align:center}
+.tr-tot-c .td-rl{text-align:left;font-size:10px;font-weight:700;letter-spacing:.04em;
+  padding:8px 14px;border-right:2px solid #374151;background:var(--dark)!important}
+
+.conc-detail{padding:10px 16px;background:#fffdf5;border-top:1px solid var(--border);
+  font-size:11px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.conc-item{display:flex;gap:5px;align-items:center}
+.conc-ri{font-family:'DM Mono',monospace;font-weight:700;font-size:11px;
+  background:var(--green-bg);color:var(--green-text);padding:1px 6px;border-radius:5px}
+.ci-ok{color:var(--green-text)}
+.ci-err{color:var(--red-text)}
+
+.sep-arrow{display:flex;align-items:center;justify-content:center;gap:8px;
+  color:var(--text3);font-size:11px;font-weight:500}
+.sep-line{flex:1;height:1px;background:var(--border2);max-width:200px}
+
+.add-panel{background:var(--surface);border:2px dashed var(--border2);border-radius:var(--radius);
+  padding:20px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;
+  transition:border-color .14s,background .14s}
+.add-panel:hover{border-color:var(--green);background:var(--green-bg)}
+.add-panel-txt{font-size:13px;color:var(--text2);font-weight:500}
+
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;
+  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border-radius:var(--radius);padding:24px;width:320px;
+  box-shadow:0 8px 40px rgba(0,0,0,.18);transform:translateY(8px);transition:transform .2s}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:15px;font-weight:600;margin-bottom:16px}
+.modal label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px;margin-top:12px}
+.modal input{width:100%;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);
+  font-size:13px;font-family:'DM Mono',monospace;background:var(--surface2);color:var(--text)}
+.modal input:focus{outline:2px solid var(--green);outline-offset:1px}
+.modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
 
 #toast{position:fixed;bottom:20px;right:20px;background:#111;color:#fff;
   padding:9px 16px;border-radius:var(--radius);font-size:13px;font-weight:500;
@@ -145,381 +147,383 @@ table.ht td:first-child,table.ht td:nth-child(2){text-align:left}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">
-    <div class="logo-icon">&#x1F4E6;</div>
+    <div class="logo-icon">📦</div>
     <div>
       <div class="logo-name">Control de Cubetas</div>
-      <div class="logo-sub">Todas las rutas al tiempo</div>
+      <div class="logo-sub" id="hdr-mes"></div>
     </div>
   </div>
-  <div class="hdr-date" id="hdr-date"></div>
+  <div class="hdr-actions">
+    <button class="btn btn-green" onclick="abrirModal()">+ Nuevo cuadro</button>
+    <button class="btn btn-blue" onclick="exportarExcel()">↓ Exportar Excel del mes</button>
+    <button class="btn btn-red btn-sm" onclick="borrarTodo()">✕ Borrar todo</button>
+  </div>
 </header>
 
-<div class="wrap">
+<div class="wrap" id="wrap"></div>
 
-  <div class="toolbar">
-    <span class="tlabel">Fecha:</span>
-    <input type="date" id="fecha" onchange="onDate(this.value)">
-    <button class="btn btn-save" onclick="guardarTodo()">&#10003; Guardar todo</button>
-    <button class="btn btn-xl" onclick="exportarExcel()">&#8595; Exportar Excel</button>
-    <button class="btn btn-clr" onclick="limpiar()">Limpiar fecha</button>
-    <span class="shared-note">&#9432; 52A y 52B comparten cubetas</span>
-  </div>
-
-  <!-- TABLA PRINCIPAL -->
-  <div class="card">
-    <div class="card-head">
-      <span class="card-title">Salidas y entradas — todas las rutas</span>
-      <div class="legend">
-        <span class="leg-item"><span class="leg-dot" style="background:var(--red)"></span>Salen hoy</span>
-        <span class="leg-item"><span class="leg-dot" style="background:var(--green)"></span>Entran hoy</span>
-        <span class="leg-item" style="font-size:10px;color:var(--text3)">( ) = salió anterior &nbsp; ✓/✗ = concordancia</span>
-      </div>
-    </div>
-    <div class="tscroll">
-      <table class="mt">
-        <thead>
-          <tr>
-            <th class="th-r" rowspan="2">Ruta</th>
-            <th class="sec sec-o" colspan="5">&#8593; CUBETAS QUE SALEN HOY</th>
-            <th class="sec sec-i" colspan="5">&#8595; CUBETAS QUE ENTRAN HOY</th>
-            <th class="sec sec-t" rowspan="2">TOTAL<br>SALEN</th>
-            <th class="sec sec-t" rowspan="2">TOTAL<br>ENTRAN</th>
-          </tr>
-          <tr>
-            <th style="background:#fff5f4;color:var(--red-text)">Grises</th>
-            <th style="background:#fff5f4;color:var(--red-text)">Grandes</th>
-            <th style="background:#fff5f4;color:var(--red-text)">Medianas</th>
-            <th style="background:#fff5f4;color:var(--red-text)">Ramo</th>
-            <th style="background:#ffecea;color:var(--red-text)">Subtotal</th>
-            <th style="background:#f0f8f3;color:var(--green-text)">Grises</th>
-            <th style="background:#f0f8f3;color:var(--green-text)">Grandes</th>
-            <th style="background:#f0f8f3;color:var(--green-text)">Medianas</th>
-            <th style="background:#f0f8f3;color:var(--green-text)">Ramo</th>
-            <th style="background:#e4f5ea;color:var(--green-text)">Subtotal</th>
-          </tr>
-        </thead>
-        <tbody id="mtbody"></tbody>
-        <tfoot id="mtfoot"></tfoot>
-      </table>
+<div class="modal-bg" id="modal-bg" onclick="clkBg(event)">
+  <div class="modal">
+    <h3>Nuevo cuadro de control</h3>
+    <label>Fecha del cuadro</label>
+    <input type="date" id="m-fecha">
+    <label>Nota (opcional)</label>
+    <input type="text" id="m-nota" placeholder="ej: Segunda salida, semana 3...">
+    <div class="modal-btns">
+      <button class="btn btn-sm" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn btn-green btn-sm" onclick="crearCuadro()">Crear cuadro</button>
     </div>
   </div>
-
-  <!-- HISTORIAL -->
-  <div class="card">
-    <div class="card-head">
-      <span class="card-title">Historial de salidas guardadas</span>
-      <button class="btn btn-xl" style="font-size:12px;padding:5px 12px" onclick="exportarExcel()">&#8595; Excel</button>
-    </div>
-    <div class="tscroll">
-      <div id="hbody"></div>
-    </div>
-  </div>
-
 </div>
 
 <div id="toast"></div>
 
 <script>
-const ROUTES  = ['11','12','52A','52B','18'];
-const SHARED  = ['52A','52B'];
+const ROUTES = ['11','12','52A','52B','18'];
+const SHARED  = [['52A','52B']];
 const BK      = ['Grises','Grandes','Medianas','Ramo'];
-const SK      = 'cubetas_v6';
+const SK      = 'cubetas_cuadros_v1';
 
-let S = { date: hoy(), current: {}, saved: [] };
+let cuadros = [];
 
 function hoy(){ return new Date().toISOString().split('T')[0]; }
-function fmt(d){ const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; }
-function k(r,d){ return r+'_'+d; }
-function sum(obj){ return BK.reduce((t,b)=>t+(obj[b]||0),0); }
+function fmt(d){ if(!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; }
+function mesLabel(d){ if(!d) return ''; const [y,m]=d.split('-'); const n=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; return n[parseInt(m)-1]+' '+y; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function partner(r){ const p=SHARED.find(g=>g.includes(r)); return p?p.find(x=>x!==r):null; }
+function sumO(rd){ return BK.reduce((t,b)=>t+(parseInt(rd['o_'+b])||0),0); }
+function sumI(rd){ return BK.reduce((t,b)=>t+(parseInt(rd['i_'+b])||0),0); }
 
-function load(){
-  try{ const d=localStorage.getItem(SK); if(d){ const p=JSON.parse(d); S.saved=p.saved||[]; S.current=p.current||{}; }}catch(e){}
-}
-function save(){
-  try{ localStorage.setItem(SK,JSON.stringify({saved:S.saved,current:S.current})); }catch(e){}
-}
+function load(){ try{ const d=localStorage.getItem(SK); if(d) cuadros=JSON.parse(d)||[]; }catch(e){} }
+function persist(){ try{ localStorage.setItem(SK,JSON.stringify(cuadros)); }catch(e){} }
 
-function entry(r,d){
-  const key=k(r,d);
-  if(!S.current[key]){
-    S.current[key]={out:{},inp:{}};
-    BK.forEach(b=>{ S.current[key].out[b]=0; S.current[key].inp[b]=0; });
-  }
-  return S.current[key];
+function blankData(){
+  const d={};
+  ROUTES.forEach(r=>{ d[r]={}; BK.forEach(b=>{ d[r]['o_'+b]=0; d[r]['i_'+b]=0; }); });
+  return d;
 }
 
-function lastSaved(r,before){
-  return [...S.saved].filter(s=>s.route===r&&s.date<before)
-    .sort((a,b)=>b.date.localeCompare(a.date))[0]||null;
-}
-
-function adj(r,d,dir,b,delta){
-  const e=entry(r,d);
-  e[dir][b]=Math.max(0,(e[dir][b]||0)+delta);
-  if(SHARED.includes(r)){
-    const o=r==='52A'?'52B':'52A';
-    entry(o,d)[dir][b]=e[dir][b];
-  }
-  save(); renderTable();
-}
-
-function onDate(v){ S.date=v; renderTable(); }
-
-/* ── TABLA PRINCIPAL ─────────────────────────────────── */
-function renderTable(){
-  const d=S.date;
-  const totO={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-  const totI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-  let gO=0,gI=0;
-  let rows='';
-
+// concordancia: salida del cuadro idx  vs  entrada del cuadro idx+1
+function calcConc(idx){
+  const cur=cuadros[idx], nxt=cuadros[idx+1];
+  const res={};
   ROUTES.forEach(r=>{
-    const e=entry(r,d);
-    const last=lastSaved(r,d);
-    const isShared=SHARED.includes(r);
-    BK.forEach(b=>{ totO[b]+=(e.out[b]||0); totI[b]+=(e.inp[b]||0); });
-    const sO=sum(e.out), sI=sum(e.inp);
-    gO+=sO; gI+=sI;
-
-    rows+=`<tr>
-      <td class="td-r">
-        <span class="rpill">${r}</span>
-        ${isShared?'<span class="spill">COMPARTIDA</span>':''}
-      </td>`;
-
-    // SALEN
+    if(!nxt){ res[r]={ok:null,diff:{}}; return; }
+    const diffs={};
+    let ok=true;
     BK.forEach(b=>{
-      const v=e.out[b]||0;
-      rows+=`<td style="background:#fffaf9">
-        <div class="cw">
-          <button class="qb" onclick="adj('${r}','${d}','out','${b}',-1)">−</button>
-          <span class="qv" style="color:var(--red)">${v}</span>
-          <button class="qb" onclick="adj('${r}','${d}','out','${b}',1)">+</button>
+      const sal=parseInt(cur.data[r]['o_'+b])||0;
+      const ent=parseInt(nxt.data[r]['i_'+b])||0;
+      diffs[b]=ent-sal;
+      if(ent!==sal) ok=false;
+    });
+    res[r]={ok,diff:diffs};
+  });
+  return res;
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function render(){
+  const wrap=document.getElementById('wrap');
+  wrap.innerHTML='';
+
+  if(!cuadros.length){
+    wrap.innerHTML=`<div style="text-align:center;padding:70px 20px;color:var(--text3)">
+      <div style="font-size:48px;margin-bottom:12px">📦</div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:6px">Sin cuadros todavía</div>
+      <div style="font-size:13px">Pulsa <strong>"+ Nuevo cuadro"</strong> para empezar el control del mes</div>
+    </div>`;
+    document.getElementById('hdr-mes').textContent='';
+    return;
+  }
+
+  document.getElementById('hdr-mes').textContent=mesLabel(cuadros[0].fecha);
+
+  cuadros.forEach((c,idx)=>{
+    const conc=calcConc(idx);
+    const hasNext=!!cuadros[idx+1];
+
+    let concGlobal=null;
+    if(hasNext) concGlobal=ROUTES.every(r=>conc[r].ok);
+
+    // badge concordancia
+    let badge='';
+    if(!hasNext)            badge=`<span class="conc-badge conc-nd">Último cuadro</span>`;
+    else if(concGlobal)     badge=`<span class="conc-badge conc-ok">✓ Concordancia OK con cuadro ${idx+2}</span>`;
+    else                    badge=`<span class="conc-badge conc-err">✗ Hay diferencias con cuadro ${idx+2}</span>`;
+
+    // totales
+    let gtO=0,gtI=0;
+    const totO={},totI={};
+    BK.forEach(b=>{totO[b]=0;totI[b]=0;});
+    ROUTES.forEach(r=>{
+      const rd=c.data[r];
+      BK.forEach(b=>{ totO[b]+=(parseInt(rd['o_'+b])||0); totI[b]+=(parseInt(rd['i_'+b])||0); });
+      gtO+=sumO(rd); gtI+=sumI(rd);
+    });
+
+    // filas de rutas
+    let tbody='';
+    ROUTES.forEach(r=>{
+      const rd=c.data[r];
+      const isS=!!partner(r), sp=partner(r);
+      const so=sumO(rd), si=sumI(rd), diff=si-so;
+
+      let diffHtml='';
+      if(so===0&&si===0)    diffHtml=`<span class="diff-pill dp-nd">—</span>`;
+      else if(diff===0)     diffHtml=`<span class="diff-pill dp-ok">✓ Exacto</span>`;
+      else if(diff>0)       diffHtml=`<span class="diff-pill dp-pos">+${diff} sobran</span>`;
+      else                  diffHtml=`<span class="diff-pill dp-neg">${diff} faltan</span>`;
+
+      // ícono concordancia al lado del nombre
+      let concIcon='';
+      if(hasNext){
+        if(conc[r].ok) concIcon=`<span style="color:var(--green-text);font-size:10px;margin-left:3px">✓</span>`;
+        else{
+          const ds=BK.map(b=>{const v=conc[r].diff[b];return v!==0?`${b}:${v>0?'+':''}${v}`:''}).filter(Boolean).join(' ');
+          concIcon=`<span style="color:var(--red-text);font-size:10px;margin-left:3px" title="${ds}">✗</span>`;
+        }
+      }
+
+      tbody+=`<tr>
+        <td class="td-r">
+          <span class="rpill">${r}</span>${concIcon}
+          ${isS?`<span class="spill">= ${sp}</span>`:''}
+        </td>`;
+
+      BK.forEach(b=>{
+        tbody+=`<td style="background:#fffaf9"><div class="cell-p inp-o">
+          <input type="number" class="num-input" min="0" value="${parseInt(rd['o_'+b])||0}"
+            oninput="setV('${c.id}','${r}','o_${b}',this.value)">
         </div></td>`;
-    });
-    rows+=`<td class="td-sub-o">${sO}</td>`;
+      });
+      tbody+=`<td class="td-so">${so}</td>`;
 
-    // ENTRAN
-    BK.forEach(b=>{
-      const v=e.inp[b]||0;
-      const po=last?(last.out[b]||0):null;
-      const mm=po!==null&&po!==v;
-      rows+=`<td class="${mm?'td-mm':''}" style="background:#f8fcf9">
-        <div class="ciw">
-          <div class="cw" style="padding:0">
-            <button class="qb" onclick="adj('${r}','${d}','inp','${b}',-1)">−</button>
-            <span class="qv" style="color:var(--green)">${v}</span>
-            <button class="qb" onclick="adj('${r}','${d}','inp','${b}',1)">+</button>
-          </div>
-          ${po!==null?`<span class="prev">(${po}) <span class="${mm?'merr':'mok'}">${mm?'✗':'✓'}</span></span>`:'<span class="prev">—</span>'}
+      BK.forEach(b=>{
+        tbody+=`<td style="background:#f8fcf9"><div class="cell-p inp-i">
+          <input type="number" class="num-input" min="0" value="${parseInt(rd['i_'+b])||0}"
+            oninput="setV('${c.id}','${r}','i_${b}',this.value)">
         </div></td>`;
-    });
-    rows+=`<td class="td-sub-i">${sI}</td>`;
-    rows+=`<td class="td-gt" style="color:#fca5a5">${sO}</td>`;
-    rows+=`<td class="td-gt" style="color:#86efac">${sI}</td>`;
-    rows+=`</tr>`;
-  });
-
-  document.getElementById('mtbody').innerHTML=rows;
-
-  // FILA DE TOTALES
-  let foot=`<tr class="tr-tot">
-    <td class="td-tot-r">TOTAL GENERAL</td>`;
-  BK.forEach(b=>foot+=`<td class="c-o">${totO[b]}</td>`);
-  foot+=`<td class="c-g">${gO}</td>`;
-  BK.forEach(b=>foot+=`<td class="c-i">${totI[b]}</td>`);
-  foot+=`<td class="c-g">${gI}</td>`;
-  foot+=`<td class="c-g" style="font-size:15px">${gO}</td>`;
-  foot+=`<td class="c-g" style="font-size:15px">${gI}</td>`;
-  foot+=`</tr>`;
-  document.getElementById('mtfoot').innerHTML=foot;
-}
-
-/* ── GUARDAR ─────────────────────────────────────────── */
-function guardarTodo(){
-  const d=S.date;
-  ROUTES.forEach(r=>{
-    const e=entry(r,d);
-    const i=S.saved.findIndex(s=>s.route===r&&s.date===d);
-    const rec={route:r,date:d,out:{...e.out},inp:{...e.inp},ts:Date.now()};
-    if(i>=0) S.saved[i]=rec; else S.saved.push(rec);
-  });
-  save(); renderHistorial();
-  toast('✓ Todas las rutas guardadas — '+fmt(d));
-}
-
-function limpiar(){
-  if(!confirm('¿Limpiar datos del '+fmt(S.date)+'?')) return;
-  ROUTES.forEach(r=>delete S.current[k(r,S.date)]);
-  save(); renderTable();
-  toast('Datos limpiados');
-}
-
-/* ── HISTORIAL ───────────────────────────────────────── */
-function renderHistorial(){
-  const el=document.getElementById('hbody');
-  if(!S.saved.length){ el.innerHTML='<div class="hist-empty">Sin registros guardados aún.</div>'; return; }
-
-  const byDate={};
-  S.saved.forEach(s=>{ if(!byDate[s.date]) byDate[s.date]=[]; byDate[s.date].push(s); });
-  const dates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
-
-  let html=`<table class="ht"><thead><tr>
-    <th>Fecha</th><th>Ruta</th>
-    <th style="color:var(--red-text)">Gr.S</th>
-    <th style="color:var(--red-text)">Gd.S</th>
-    <th style="color:var(--red-text)">Med.S</th>
-    <th style="color:var(--red-text)">Ram.S</th>
-    <th style="background:#fff5f4;color:var(--red-text)">Tot.S</th>
-    <th style="color:var(--green-text)">Gr.E</th>
-    <th style="color:var(--green-text)">Gd.E</th>
-    <th style="color:var(--green-text)">Med.E</th>
-    <th style="color:var(--green-text)">Ram.E</th>
-    <th style="background:#f0f8f3;color:var(--green-text)">Tot.E</th>
-    <th>Concord.</th><th></th>
-  </tr></thead><tbody>`;
-
-  dates.forEach(d=>{
-    const rows=byDate[d].sort((a,b)=>ROUTES.indexOf(a.route)-ROUTES.indexOf(b.route));
-    const dtO={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-    const dtI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-
-    rows.forEach((s,ri)=>{
-      const prev=[...S.saved].filter(x=>x.route===s.route&&x.date<s.date)
-        .sort((a,b)=>b.date.localeCompare(a.date))[0]||null;
-      const ok=prev?BK.every(b=>(s.inp[b]||0)===(prev.out[b]||0)):null;
-      const tO=sum(s.out),tI=sum(s.inp);
-      BK.forEach(b=>{ dtO[b]+=(s.out[b]||0); dtI[b]+=(s.inp[b]||0); });
-
-      html+=`<tr>
-        <td>${ri===0?`<span class="hdate">${fmt(d)}</span>`:''}</td>
-        <td><span class="hrpill">${s.route}</span></td>
-        ${BK.map(b=>`<td><span class="hnum" style="color:var(--red-text)">${s.out[b]||0}</span></td>`).join('')}
-        <td style="background:#fff5f4"><span class="hnum" style="color:var(--red-text);font-weight:600">${tO}</span></td>
-        ${BK.map(b=>`<td><span class="hnum" style="color:var(--green-text)">${s.inp[b]||0}</span></td>`).join('')}
-        <td style="background:#f0f8f3"><span class="hnum" style="color:var(--green-text);font-weight:600">${tI}</span></td>
-        <td>${ok===null?'<span style="color:var(--text3);font-size:10px">—</span>':ok?'<span class="cok">✓ OK</span>':'<span class="cerr">✗ Dif.</span>'}</td>
-        <td><button class="btn-del" onclick="delS('${s.route}','${s.date}')">✕</button></td>
-      </tr>`;
+      });
+      tbody+=`<td class="td-si">${si}</td>`;
+      tbody+=`<td class="td-df">${diffHtml}</td></tr>`;
     });
 
-    // subtotal por fecha
-    const dsO=BK.reduce((t,b)=>t+dtO[b],0), dsI=BK.reduce((t,b)=>t+dtI[b],0);
-    html+=`<tr class="tr-sub">
-      <td class="sub-lbl">Subtotal ${fmt(d)}</td><td></td>
-      ${BK.map(b=>`<td style="color:var(--red-text)">${dtO[b]}</td>`).join('')}
-      <td style="background:#fff5f4;color:var(--red-text)">${dsO}</td>
-      ${BK.map(b=>`<td style="color:var(--green-text)">${dtI[b]}</td>`).join('')}
-      <td style="background:#f0f8f3;color:var(--green-text)">${dsI}</td>
-      <td></td><td></td>
-    </tr>`;
+    // fila total del cuadro
+    const gd=gtI-gtO;
+    const gdTxt=gd===0?'✓ Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`;
+    const gdCol=gd===0?'#6ee7b7':gd>0?'#f9a8d4':'#fca5a5';
+    let tfoot=`<tr class="tr-tot-c">
+      <td class="td-rl">TOTAL CUADRO</td>`;
+    BK.forEach(b=>tfoot+=`<td style="color:#fca5a5">${totO[b]}</td>`);
+    tfoot+=`<td style="color:#fcd34d;font-size:14px">${gtO}</td>`;
+    BK.forEach(b=>tfoot+=`<td style="color:#86efac">${totI[b]}</td>`);
+    tfoot+=`<td style="color:#6ee7b7;font-size:14px">${gtI}</td>`;
+    tfoot+=`<td style="color:${gdCol};font-weight:700">${gdTxt}</td></tr>`;
+
+    // detalle concordancia (solo si hay diffs)
+    let concDetail='';
+    if(hasNext && !concGlobal){
+      const items=ROUTES.map(r=>{
+        const cr=conc[r];
+        if(cr.ok) return `<span class="conc-item"><span class="conc-ri">${r}</span><span class="ci-ok">✓</span></span>`;
+        const ds=BK.map(b=>{ const v=cr.diff[b]; return v!==0?`${b}: ${v>0?'+':''}${v}`:''; }).filter(Boolean).join(', ');
+        return `<span class="conc-item"><span class="conc-ri">${r}</span><span class="ci-err">✗ ${ds||'diferente'}</span></span>`;
+      }).join('');
+      concDetail=`<div class="conc-detail">
+        <strong style="color:var(--amber-text)">Diferencias vs cuadro ${idx+2}:</strong>${items}
+      </div>`;
+    }
+
+    const div=document.createElement('div');
+    div.className='cuadro';
+    div.innerHTML=`
+      <div class="cuadro-head">
+        <span class="cuadro-num">CUADRO ${idx+1}</span>
+        <span class="cuadro-fecha">📅 ${fmt(c.fecha)}</span>
+        ${c.nota?`<span class="cuadro-nota">${c.nota}</span>`:''}
+        ${badge}
+        <div class="cuadro-actions">
+          <button class="btn btn-amber btn-xs" onclick="editFecha('${c.id}')">✎ Fecha/nota</button>
+          <button class="btn btn-red btn-xs" onclick="eliminar('${c.id}')">✕ Eliminar</button>
+        </div>
+      </div>
+      <div class="tscroll">
+        <table class="ct">
+          <thead>
+            <tr>
+              <th class="th-r" rowspan="2">Ruta</th>
+              <th class="sec-o" colspan="4">↑ SALEN</th>
+              <th class="sec-o" style="background:#ffecea">Subtotal</th>
+              <th class="sec-i" colspan="4">↓ ENTRAN</th>
+              <th class="sec-i" style="background:#e4f5ea">Subtotal</th>
+              <th class="sec-d" rowspan="2">Diferencia<br><span style="font-size:9px;font-weight:400">(Entran − Salen)</span></th>
+            </tr>
+            <tr>
+              ${BK.map(b=>`<th class="sec-o">${b}</th>`).join('')}
+              ${BK.map(b=>`<th class="sec-i">${b}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>${tbody}</tbody>
+          <tfoot>${tfoot}</tfoot>
+        </table>
+      </div>
+      ${concDetail}`;
+    wrap.appendChild(div);
+
+    if(idx < cuadros.length-1){
+      const sep=document.createElement('div');
+      sep.className='sep-arrow';
+      sep.innerHTML=`<div class="sep-line"></div>
+        <span>↓ &nbsp; La salida del cuadro ${idx+1} debe coincidir con la entrada del cuadro ${idx+2} &nbsp; ↓</span>
+        <div class="sep-line"></div>`;
+      wrap.appendChild(sep);
+    }
   });
 
-  // TOTAL GENERAL HISTORIAL
-  const gO2={Grises:0,Grandes:0,Medianas:0,Ramo:0}, gI2={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-  S.saved.forEach(s=>BK.forEach(b=>{ gO2[b]+=(s.out[b]||0); gI2[b]+=(s.inp[b]||0); }));
-  const gsO=BK.reduce((t,b)=>t+gO2[b],0), gsI=BK.reduce((t,b)=>t+gI2[b],0);
-  html+=`<tr style="background:var(--dark)">
-    <td style="color:var(--dark-text);font-size:11px;font-weight:700;letter-spacing:.04em;padding:8px 10px;text-align:left">TOTAL GENERAL</td>
-    <td style="background:var(--dark)"></td>
-    ${BK.map(b=>`<td style="background:var(--dark);color:#fca5a5;font-family:'DM Mono',monospace;font-weight:600">${gO2[b]}</td>`).join('')}
-    <td style="background:var(--dark);color:#f87171;font-family:'DM Mono',monospace;font-weight:700;font-size:14px">${gsO}</td>
-    ${BK.map(b=>`<td style="background:var(--dark);color:#86efac;font-family:'DM Mono',monospace;font-weight:600">${gI2[b]}</td>`).join('')}
-    <td style="background:var(--dark);color:#4ade80;font-family:'DM Mono',monospace;font-weight:700;font-size:14px">${gsI}</td>
-    <td style="background:var(--dark)"></td><td style="background:var(--dark)"></td>
-  </tr>`;
-
-  html+=`</tbody></table>`;
-  el.innerHTML=html;
+  const add=document.createElement('div');
+  add.className='add-panel';
+  add.onclick=abrirModal;
+  add.innerHTML=`<span style="font-size:24px;color:var(--green)">+</span><span class="add-panel-txt">Agregar nuevo cuadro de control</span>`;
+  wrap.appendChild(add);
 }
 
-function delS(route,date){
-  if(!confirm('¿Eliminar '+route+' del '+fmt(date)+'?')) return;
-  S.saved=S.saved.filter(s=>!(s.route===route&&s.date===date));
-  save(); renderHistorial(); toast('Registro eliminado');
+// ── ACCIONES ──────────────────────────────────────────────────
+function setV(id,r,campo,val){
+  const c=cuadros.find(x=>x.id===id);
+  if(!c) return;
+  const v=Math.max(0,parseInt(val)||0);
+  c.data[r][campo]=v;
+  const sp=partner(r);
+  if(sp) c.data[sp][campo]=v;
+  persist(); render();
 }
 
-/* ── EXPORT EXCEL ────────────────────────────────────── */
+function crearCuadro(){
+  const fecha=document.getElementById('m-fecha').value;
+  const nota=document.getElementById('m-nota').value.trim();
+  if(!fecha){ toast('Selecciona una fecha'); return; }
+  cuadros.push({id:uid(),fecha,nota,data:blankData()});
+  persist(); cerrarModal(); render();
+  toast(`✓ Cuadro ${cuadros.length} creado — ${fmt(fecha)}`);
+}
+
+function eliminar(id){
+  const idx=cuadros.findIndex(x=>x.id===id);
+  if(!confirm(`¿Eliminar el cuadro ${idx+1}?`)) return;
+  cuadros=cuadros.filter(x=>x.id!==id);
+  persist(); render(); toast('Cuadro eliminado');
+}
+
+function editFecha(id){
+  const c=cuadros.find(x=>x.id===id);
+  const nf=prompt('Nueva fecha (AAAA-MM-DD):',c.fecha);
+  if(nf) c.fecha=nf;
+  const nn=prompt('Nota (dejar vacío para borrar):',c.nota||'');
+  if(nn!==null) c.nota=nn;
+  persist(); render();
+}
+
+function borrarTodo(){
+  if(!confirm('¿Borrar TODOS los cuadros?')) return;
+  cuadros=[]; persist(); render(); toast('Todo borrado');
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function abrirModal(){
+  document.getElementById('m-fecha').value=hoy();
+  document.getElementById('m-nota').value='';
+  document.getElementById('modal-bg').classList.add('open');
+  setTimeout(()=>document.getElementById('m-fecha').focus(),150);
+}
+function cerrarModal(){ document.getElementById('modal-bg').classList.remove('open'); }
+function clkBg(e){ if(e.target===document.getElementById('modal-bg')) cerrarModal(); }
+
+// ── EXPORT ────────────────────────────────────────────────────
 function exportarExcel(){
-  if(!S.saved.length){ toast('Sin registros para exportar.'); return; }
+  if(!cuadros.length){ toast('No hay cuadros para exportar'); return; }
   const wb=XLSX.utils.book_new();
   const w=v=>({wch:v});
 
-  // RESUMEN GENERAL
-  const hd=['Ruta','Fecha','Grises Sal.','Grandes Sal.','Medianas Sal.','Ramo Sal.','TOTAL SAL.',
-            'Grises Entr.','Grandes Entr.','Medianas Entr.','Ramo Entr.','TOTAL ENTR.','Concordancia','Hora'];
-  const rws=[hd];
-  const sorted=[...S.saved].sort((a,b)=>a.route.localeCompare(b.route)||a.date.localeCompare(b.date));
-  const gtO={Grises:0,Grandes:0,Medianas:0,Ramo:0}, gtI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
+  // Hoja resumen
+  const hd=['Cuadro','Fecha','Nota','Ruta',
+    'Gr.Sal','Gd.Sal','Med.Sal','Ram.Sal','Total SAL',
+    'Gr.Ent','Gd.Ent','Med.Ent','Ram.Ent','Total ENT',
+    'Diferencia','Concordancia con sig. cuadro'];
+  const rows=[hd];
 
-  sorted.forEach(s=>{
-    const prev=[...S.saved].filter(x=>x.route===s.route&&x.date<s.date)
-      .sort((a,b)=>b.date.localeCompare(a.date))[0]||null;
-    const ok=prev?BK.every(b=>(s.inp[b]||0)===(prev.out[b]||0)):null;
-    BK.forEach(b=>{ gtO[b]+=(s.out[b]||0); gtI[b]+=(s.inp[b]||0); });
-    rws.push([s.route,fmt(s.date),
-      s.out.Grises||0,s.out.Grandes||0,s.out.Medianas||0,s.out.Ramo||0,sum(s.out),
-      s.inp.Grises||0,s.inp.Grandes||0,s.inp.Medianas||0,s.inp.Ramo||0,sum(s.inp),
-      ok===null?'—':ok?'OK':'DIFERENCIA',
-      s.ts?new Date(s.ts).toLocaleString('es-CO'):'']);
-  });
-  // fila total
-  rws.push(['TOTAL','',gtO.Grises,gtO.Grandes,gtO.Medianas,gtO.Ramo,BK.reduce((t,b)=>t+gtO[b],0),
-    gtI.Grises,gtI.Grandes,gtI.Medianas,gtI.Ramo,BK.reduce((t,b)=>t+gtI[b],0),'','']);
-
-  const ws=XLSX.utils.aoa_to_sheet(rws);
-  ws['!cols']=[8,12,12,12,12,10,11,12,12,12,10,11,12,18].map(w);
-  XLSX.utils.book_append_sheet(wb,ws,'Resumen General');
-
-  // HOJA POR RUTA
-  ROUTES.forEach(r=>{
-    const recs=sorted.filter(s=>s.route===r);
-    if(!recs.length) return;
-    const rh=['Fecha','Gr.Sal.','Gd.Sal.','Med.Sal.','Ramo Sal.','Total Sal.',
-              'Gr.Entr.','Gd.Entr.','Med.Entr.','Ramo Entr.','Total Entr.','Concordancia'];
-    const rd=[rh];
-    const rO={Grises:0,Grandes:0,Medianas:0,Ramo:0}, rI={Grises:0,Grandes:0,Medianas:0,Ramo:0};
-    recs.forEach((s,i)=>{
-      const prev=recs[i-1]||null;
-      const ok=prev?BK.every(b=>(s.inp[b]||0)===(prev.out[b]||0)):null;
-      BK.forEach(b=>{ rO[b]+=(s.out[b]||0); rI[b]+=(s.inp[b]||0); });
-      rd.push([fmt(s.date),
-        s.out.Grises||0,s.out.Grandes||0,s.out.Medianas||0,s.out.Ramo||0,sum(s.out),
-        s.inp.Grises||0,s.inp.Grandes||0,s.inp.Medianas||0,s.inp.Ramo||0,sum(s.inp),
-        ok===null?'—':ok?'OK':'DIFERENCIA']);
+  cuadros.forEach((c,idx)=>{
+    const conc=calcConc(idx);
+    const hasNext=!!cuadros[idx+1];
+    ROUTES.forEach(r=>{
+      const rd=c.data[r];
+      const so=sumO(rd),si=sumI(rd),diff=si-so;
+      let concStr='—';
+      if(hasNext) concStr=conc[r].ok?'OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' ')||'OK';
+      rows.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',r,
+        parseInt(rd['o_Grises'])||0,parseInt(rd['o_Grandes'])||0,parseInt(rd['o_Medianas'])||0,parseInt(rd['o_Ramo'])||0,so,
+        parseInt(rd['i_Grises'])||0,parseInt(rd['i_Grandes'])||0,parseInt(rd['i_Medianas'])||0,parseInt(rd['i_Ramo'])||0,si,
+        diff===0?'Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,concStr]);
     });
-    rd.push(['TOTAL',rO.Grises,rO.Grandes,rO.Medianas,rO.Ramo,BK.reduce((t,b)=>t+rO[b],0),
-      rI.Grises,rI.Grandes,rI.Medianas,rI.Ramo,BK.reduce((t,b)=>t+rI[b],0),'']);
-    const rws2=XLSX.utils.aoa_to_sheet(rd);
-    rws2['!cols']=[12,10,10,10,9,9,10,10,10,9,9,13].map(w);
+    // subtotal cuadro
+    let gtO=0,gtI=0;
+    const tO={},tI={};
+    BK.forEach(b=>{tO[b]=0;tI[b]=0;});
+    ROUTES.forEach(r=>{
+      const rd=c.data[r];
+      BK.forEach(b=>{ tO[b]+=(parseInt(rd['o_'+b])||0); tI[b]+=(parseInt(rd['i_'+b])||0); });
+      gtO+=sumO(rd); gtI+=sumI(rd);
+    });
+    const gd=gtI-gtO;
+    rows.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'','— TOTAL —',
+      tO.Grises,tO.Grandes,tO.Medianas,tO.Ramo,gtO,
+      tI.Grises,tI.Grandes,tI.Medianas,tI.Ramo,gtI,
+      gd===0?'Exacto':gd>0?`+${gd} sobran`:`${gd} faltan`,'']);
+    rows.push(['','','','','','','','','','','','','','','','']);
+  });
+
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[10,12,16,10,8,8,8,8,10,8,8,8,8,10,14,22].map(w);
+  XLSX.utils.book_append_sheet(wb,ws,'Resumen del mes');
+
+  // Hoja por ruta
+  ROUTES.forEach(r=>{
+    const rh=['Cuadro','Fecha','Nota','Gr.Sal','Gd.Sal','Med.Sal','Ram.Sal','Total SAL','Gr.Ent','Gd.Ent','Med.Ent','Ram.Ent','Total ENT','Diferencia','Concordancia'];
+    const rd2=[rh];
+    cuadros.forEach((c,idx)=>{
+      const rd=c.data[r];
+      const so=sumO(rd),si=sumI(rd),diff=si-so;
+      const conc=calcConc(idx);
+      const hasNext=!!cuadros[idx+1];
+      let concStr='—';
+      if(hasNext) concStr=conc[r].ok?'OK':BK.map(b=>{ const v=conc[r].diff[b]; return v!==0?`${b}:${v>0?'+':''}${v}`:''; }).filter(Boolean).join(' ')||'OK';
+      rd2.push([`Cuadro ${idx+1}`,fmt(c.fecha),c.nota||'',
+        parseInt(rd['o_Grises'])||0,parseInt(rd['o_Grandes'])||0,parseInt(rd['o_Medianas'])||0,parseInt(rd['o_Ramo'])||0,so,
+        parseInt(rd['i_Grises'])||0,parseInt(rd['i_Grandes'])||0,parseInt(rd['i_Medianas'])||0,parseInt(rd['i_Ramo'])||0,si,
+        diff===0?'Exacto':diff>0?`+${diff} sobran`:`${diff} faltan`,concStr]);
+    });
+    const rws2=XLSX.utils.aoa_to_sheet(rd2);
+    rws2['!cols']=[10,12,14,8,8,8,8,10,8,8,8,8,10,14,14].map(w);
     XLSX.utils.book_append_sheet(wb,rws2,'Ruta '+r);
   });
 
-  XLSX.writeFile(wb,'cubetas_'+S.date+'.xlsx');
-  toast('✓ Excel exportado correctamente');
+  const mes=cuadros[0].fecha.slice(0,7);
+  XLSX.writeFile(wb,`cubetas_${mes}.xlsx`);
+  toast('✓ Excel exportado');
 }
 
-/* ── TOAST ───────────────────────────────────────────── */
+// ── TOAST ─────────────────────────────────────────────────────
 function toast(msg){
   const el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2600);
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2800);
 }
 
-/* ── INIT ────────────────────────────────────────────── */
-function init(){
-  load();
-  S.date=hoy();
-  document.getElementById('fecha').value=S.date;
-  document.getElementById('hdr-date').textContent=
-    new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  renderTable();
-  renderHistorial();
-}
-init();
+// ── INIT ──────────────────────────────────────────────────────
+load();
+render();
 </script>
 </body>
 </html>
