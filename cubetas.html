@@ -40,28 +40,41 @@ header{
   background:rgba(13,17,23,.85);
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
-  padding:0 32px;height:60px;
+  padding:0 20px;height:60px;
   display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:200;gap:12px;
+  position:sticky;top:0;z-index:200;gap:10px;
 }
-.logo{display:flex;align-items:center;gap:12px}
+.hdr-left{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
+.logo{display:flex;align-items:center;gap:10px;min-width:0;}
 .logo-mark{
-  width:36px;height:36px;
+  width:34px;height:34px;flex-shrink:0;
   background:linear-gradient(135deg,var(--green-dim),var(--green));
   border-radius:10px;display:flex;align-items:center;justify-content:center;
-  font-size:18px;box-shadow:0 0 16px var(--green-glow);
-  flex-shrink:0;
+  font-size:17px;box-shadow:0 0 16px var(--green-glow);
 }
-.logo-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
-.logo-tag{font-size:11px;color:var(--text2);font-weight:400}
-.hdr-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.logo-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--text);white-space:nowrap;}
+.logo-tag{font-size:10px;color:var(--text2);font-weight:400;white-space:nowrap;}
+.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .hdr-mes{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);
   background:var(--surface);border:1px solid var(--border);border-radius:20px;
-  padding:4px 12px;letter-spacing:.04em}
+  padding:4px 10px;letter-spacing:.04em;white-space:nowrap;}
+
+/* Botón Volver */
+.btn-back{
+  padding:7px 14px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:500;cursor:pointer;
+  border:1px solid var(--border2);
+  background:var(--surface);color:var(--text2);
+  transition:all .15s;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
+  text-decoration:none;flex-shrink:0;
+}
+.btn-back:hover{background:var(--surface2);color:var(--text);border-color:var(--border2);transform:translateY(-1px)}
+.btn-back:active{transform:translateY(0)}
 
 /* ── BOTONES ── */
 .btn{
-  padding:7px 16px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;
+  padding:7px 14px;border-radius:var(--radius-sm);font-family:'Inter',sans-serif;
   font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border2);
   background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap;
   display:inline-flex;align-items:center;gap:6px;
@@ -78,11 +91,26 @@ header{
 .btn-red:hover{background:rgba(248,81,73,.2)}
 .btn-amber{background:var(--amber-bg);color:var(--amber);border-color:rgba(227,179,65,.3)}
 .btn-amber:hover{background:rgba(227,179,65,.2)}
-.btn-sm{padding:5px 12px;font-size:12px}
+.btn-sm{padding:5px 11px;font-size:12px}
 .btn-xs{padding:3px 8px;font-size:11px;border-radius:6px}
 
+/* menú móvil */
+.menu-toggle{
+  display:none;background:var(--surface);border:1px solid var(--border2);
+  border-radius:var(--radius-sm);padding:7px 10px;cursor:pointer;color:var(--text);
+  font-size:18px;line-height:1;flex-shrink:0;
+}
+
+/* barra de acciones colapsable en móvil */
+.action-bar{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.action-bar-wrap{
+  display:flex;align-items:center;gap:6px;
+}
+
 /* ── LAYOUT ── */
-.wrap{max-width:1440px;margin:0 auto;padding:28px 32px;display:flex;flex-direction:column;gap:24px}
+.wrap{max-width:1440px;margin:0 auto;padding:20px 16px;display:flex;flex-direction:column;gap:20px}
 
 /* ── CUADRO ── */
 .cuadro{
@@ -96,10 +124,10 @@ header{
 .cuadro:hover{box-shadow:0 0 0 1px var(--border2),0 12px 40px rgba(0,0,0,.5)}
 
 .cuadro-head{
-  padding:14px 20px;
+  padding:12px 16px;
   border-bottom:1px solid var(--border);
   background:var(--bg3);
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
 }
 .cuadro-num{
   font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
@@ -108,17 +136,17 @@ header{
   padding:3px 10px;border-radius:6px;
 }
 .cuadro-fecha{
-  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
   color:var(--text);background:var(--blue-bg);border:1px solid rgba(88,166,255,.25);
   padding:3px 10px;border-radius:6px;
 }
 .cuadro-nota{font-size:11px;color:var(--text2);font-style:italic}
-.cuadro-actions{margin-left:auto;display:flex;gap:6px;align-items:center}
+.cuadro-actions{margin-left:auto;display:flex;gap:6px;align-items:center;flex-shrink:0;}
 
 /* badges concordancia */
 .conc-badge{
   display:inline-flex;align-items:center;gap:5px;
-  padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;
+  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;
 }
 .conc-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)}
 .conc-err{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,81,73,.3);animation:pulse-err 2s ease-in-out infinite}
@@ -127,14 +155,14 @@ header{
 
 /* ── TABLA ── */
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:800px}
+table.ct{width:100%;border-collapse:collapse;font-size:12px;min-width:780px}
 
 table.ct th{
-  padding:10px 12px;font-size:10px;font-weight:600;text-transform:uppercase;
+  padding:9px 10px;font-size:10px;font-weight:600;text-transform:uppercase;
   letter-spacing:.07em;color:var(--text2);border-bottom:1px solid var(--border);
   background:var(--bg3);text-align:center;white-space:nowrap;
 }
-table.ct th.th-r{text-align:left;min-width:100px;padding-left:20px}
+table.ct th.th-r{text-align:left;min-width:90px;padding-left:16px}
 table.ct th.grp-o{
   background:linear-gradient(180deg,rgba(248,81,73,.08) 0%,rgba(248,81,73,.04) 100%);
   color:var(--red);border-bottom:2px solid rgba(248,81,73,.3);
@@ -155,9 +183,9 @@ table.ct td{
   text-align:center;vertical-align:middle;
 }
 table.ct td.td-r{
-  padding:10px 20px;text-align:left;font-weight:600;
+  padding:10px 16px;text-align:left;font-weight:600;
   background:var(--bg3);border-right:1px solid var(--border);white-space:nowrap;
-  font-size:13px;
+  font-size:12px;
 }
 table.ct tr:last-child td{border-bottom:none}
 table.ct tbody tr:hover td{background:rgba(255,255,255,.02)}
@@ -166,8 +194,8 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 /* pill ruta */
 .rpill{
   display:inline-flex;align-items:center;justify-content:center;
-  width:38px;height:22px;border-radius:6px;
-  font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;
+  width:36px;height:20px;border-radius:6px;
+  font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;
   background:linear-gradient(135deg,var(--green-dim),var(--green));
   color:#fff;letter-spacing:.02em;box-shadow:0 0 8px var(--green-glow);
 }
@@ -184,8 +212,8 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 
 /* inputs */
 .num-input{
-  width:68px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;
-  text-align:center;padding:6px 4px;
+  width:62px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;
+  text-align:center;padding:5px 4px;
   border:1px solid var(--border2);border-radius:var(--radius-xs);
   background:var(--surface);color:var(--text);
   -moz-appearance:textfield;transition:border-color .15s,box-shadow .15s;
@@ -201,30 +229,30 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 .inp-o .num-input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-glow)}
 .inp-i .num-input{color:#7ee787;border-color:rgba(63,185,80,.35);background:rgba(63,185,80,.05)}
 .inp-i .num-input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
-.cell-p{padding:7px 6px;display:flex;align-items:center;justify-content:center}
+.cell-p{padding:6px 5px;display:flex;align-items:center;justify-content:center}
 
 /* subtotales columna */
 .td-so{
   background:rgba(248,81,73,.08)!important;
-  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
-  color:#ff9492;padding:7px 12px!important;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+  color:#ff9492;padding:6px 10px!important;
   border-left:1px solid rgba(248,81,73,.2)!important;
   border-right:1px solid rgba(248,81,73,.2)!important;
 }
 .td-si{
   background:rgba(63,185,80,.08)!important;
-  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
-  color:#7ee787;padding:7px 12px!important;
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+  color:#7ee787;padding:6px 10px!important;
   border-left:1px solid rgba(63,185,80,.2)!important;
   border-right:1px solid rgba(63,185,80,.2)!important;
 }
-.td-df{padding:7px 10px!important;min-width:100px}
+.td-df{padding:6px 8px!important;min-width:90px}
 
 /* diferencia pill */
 .diff-pill{
   display:inline-flex;align-items:center;gap:4px;
-  padding:4px 10px;border-radius:20px;
-  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;white-space:nowrap;
+  padding:3px 9px;border-radius:20px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;white-space:nowrap;
 }
 .dp-ok{ background:var(--green-bg);color:var(--green);border:1px solid rgba(63,185,80,.3)}
 .dp-pos{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(188,140,255,.3)}
@@ -234,27 +262,27 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 /* fila TOTAL del cuadro */
 .tr-tot td{
   background:linear-gradient(90deg,var(--surface) 0%,var(--surface2) 100%)!important;
-  font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;
+  font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;
   border-top:1px solid var(--border2)!important;border-bottom:none!important;
-  padding:10px 12px;text-align:center;color:var(--text2);
+  padding:9px 10px;text-align:center;color:var(--text2);
 }
 .tr-tot .td-rl{
-  text-align:left;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;
+  text-align:left;font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
   letter-spacing:.08em;text-transform:uppercase;color:var(--text2);
-  padding:10px 20px!important;border-right:1px solid var(--border)!important;
+  padding:9px 16px!important;border-right:1px solid var(--border)!important;
   background:var(--surface2)!important;
 }
 .tr-tot .c-o{color:#ff9492}
 .tr-tot .c-i{color:#7ee787}
-.tr-tot .c-g-o{color:#ff9492;font-size:15px;font-weight:700}
-.tr-tot .c-g-i{color:#7ee787;font-size:15px;font-weight:700}
+.tr-tot .c-g-o{color:#ff9492;font-size:14px;font-weight:700}
+.tr-tot .c-g-i{color:#7ee787;font-size:14px;font-weight:700}
 
 /* detalle concordancia */
 .conc-detail{
-  padding:12px 20px;
+  padding:10px 16px;
   background:rgba(248,81,73,.04);
   border-top:1px solid rgba(248,81,73,.2);
-  font-size:11px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  font-size:11px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;
 }
 .conc-detail-lbl{color:var(--red);font-weight:600;font-size:11px}
 .conc-ci{display:inline-flex;align-items:center;gap:5px;
@@ -265,18 +293,18 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 .conc-ci .rv-ok{color:var(--green);font-size:10px}
 
 /* separador entre cuadros */
-.sep{display:flex;align-items:center;gap:12px;padding:0 8px}
+.sep{display:flex;align-items:center;gap:10px;padding:0 4px}
 .sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent)}
 .sep-txt{
   font-size:10px;color:var(--text2);font-weight:500;white-space:nowrap;
   background:var(--bg2);border:1px solid var(--border);border-radius:20px;
-  padding:4px 14px;letter-spacing:.03em;
+  padding:4px 12px;letter-spacing:.03em;
 }
 
 /* panel agregar */
 .add-panel{
   border:1px dashed var(--border2);border-radius:var(--radius);
-  padding:24px;display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:20px;display:flex;align-items:center;justify-content:center;gap:12px;
   cursor:pointer;transition:all .2s;color:var(--text2);
   background:transparent;
 }
@@ -284,16 +312,16 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
   border-color:var(--green-dim);background:var(--green-bg);color:var(--green);
   box-shadow:0 0 20px var(--green-glow);
 }
-.add-panel-ico{font-size:22px;font-weight:300;line-height:1}
+.add-panel-ico{font-size:20px;font-weight:300;line-height:1}
 .add-panel-txt{font-size:13px;font-weight:500}
 
 /* VACÍO */
 .empty-state{
-  text-align:center;padding:80px 20px;color:var(--text2);
+  text-align:center;padding:60px 20px;color:var(--text2);
 }
-.empty-ico{font-size:56px;margin-bottom:16px;opacity:.5}
-.empty-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px}
-.empty-sub{font-size:13px;color:var(--text2);margin-bottom:24px}
+.empty-ico{font-size:48px;margin-bottom:14px;opacity:.5}
+.empty-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
 .empty-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
 /* MODAL */
@@ -302,41 +330,43 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   z-index:500;display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity .2s;
+  padding:16px;
 }
 .modal-bg.open{opacity:1;pointer-events:all}
 .modal{
   background:var(--bg2);border:1px solid var(--border2);
-  border-radius:16px;padding:28px;width:360px;
+  border-radius:16px;padding:24px;width:100%;max-width:360px;
   box-shadow:0 0 0 1px var(--border2),0 24px 80px rgba(0,0,0,.6);
   transform:translateY(12px) scale(.97);transition:transform .25s cubic-bezier(.34,1.56,.64,1);
 }
 .modal-bg.open .modal{transform:translateY(0) scale(1)}
-.modal-head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.modal-head{display:flex;align-items:center;gap:10px;margin-bottom:18px}
 .modal-ico{
-  width:36px;height:36px;background:var(--green-bg);border:1px solid rgba(63,185,80,.3);
-  border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;
+  width:34px;height:34px;background:var(--green-bg);border:1px solid rgba(63,185,80,.3);
+  border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;
+  flex-shrink:0;
 }
-.modal h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
+.modal h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text)}
 .modal label{
   font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;
-  letter-spacing:.06em;display:block;margin-bottom:6px;margin-top:16px;
+  letter-spacing:.06em;display:block;margin-bottom:6px;margin-top:14px;
 }
 .modal label:first-of-type{margin-top:0}
 .modal input[type="text"],.modal input[type="date"]{
-  width:100%;padding:10px 14px;
+  width:100%;padding:9px 12px;
   border:1px solid var(--border2);border-radius:var(--radius-sm);
   font-size:13px;font-family:'JetBrains Mono',monospace;
   background:var(--surface);color:var(--text);transition:border-color .15s;
 }
 .modal input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
-.modal-btns{display:flex;gap:8px;margin-top:24px;justify-content:flex-end}
-.modal-div{height:1px;background:var(--border);margin:20px 0}
+.modal-btns{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+.modal-div{height:1px;background:var(--border);margin:18px 0}
 
 /* ── IMPORT MODAL ── */
-.import-modal{width:420px}
+.import-modal{max-width:420px}
 .drop-zone{
   border:2px dashed var(--border2);border-radius:var(--radius);
-  padding:36px 20px;text-align:center;cursor:pointer;
+  padding:28px 16px;text-align:center;cursor:pointer;
   transition:all .2s;color:var(--text2);position:relative;
   background:var(--surface);
 }
@@ -346,12 +376,12 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 .drop-zone input[type="file"]{
   position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
 }
-.drop-ico{font-size:32px;margin-bottom:10px}
-.drop-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.drop-ico{font-size:28px;margin-bottom:8px}
+.drop-title{font-size:13px;font-weight:600;margin-bottom:4px}
 .drop-sub{font-size:11px;color:var(--text3)}
 .import-preview{
-  margin-top:16px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--radius-sm);padding:12px 14px;display:none;
+  margin-top:14px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:10px 12px;display:none;
 }
 .import-preview.show{display:block}
 .imp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
@@ -378,49 +408,135 @@ table.ct tbody tr:hover td.td-r{background:var(--surface)}
 
 /* TOAST */
 #toast{
-  position:fixed;bottom:24px;right:24px;
+  position:fixed;bottom:20px;right:16px;left:16px;max-width:340px;margin:0 auto;
   background:var(--surface2);color:var(--text);
   border:1px solid var(--border2);
-  padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
+  padding:10px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
   opacity:0;transform:translateY(8px);transition:all .22s;pointer-events:none;z-index:999;
   box-shadow:0 4px 24px rgba(0,0,0,.4);display:flex;align-items:center;gap:8px;
 }
 #toast.show{opacity:1;transform:translateY(0)}
 
 /* scrollbar oscura */
-::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+
+/* ══════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+══════════════════════════════ */
+
+/* Menú desplegable móvil */
+.mob-menu{
+  display:none;
+  position:fixed;top:60px;left:0;right:0;z-index:190;
+  background:rgba(13,17,23,.97);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:12px 16px;gap:8px;flex-wrap:wrap;
+}
+.mob-menu.open{display:flex;}
+
+@media(max-width:700px){
+  header{padding:0 12px;height:56px;}
+  .hdr-right .hdr-mes,
+  .hdr-right .action-bar-wrap{display:none;}
+  .menu-toggle{display:flex;align-items:center;justify-content:center;}
+  .logo-tag{display:none;}
+  .logo-name{font-size:14px;}
+
+  .wrap{padding:14px 10px;gap:16px;}
+
+  .cuadro-head{padding:10px 12px;gap:6px;}
+  .cuadro-num{font-size:10px;padding:2px 8px;}
+  .cuadro-fecha{font-size:11px;padding:2px 8px;}
+  .conc-badge{font-size:10px;padding:3px 8px;}
+  .cuadro-nota{font-size:10px;}
+
+  .sep-txt{font-size:10px;padding:3px 10px;}
+
+  .modal{padding:20px;}
+  .modal h3{font-size:14px;}
+
+  #toast{font-size:12px;padding:9px 14px;}
+}
+
+@media(max-width:480px){
+  .logo-mark{width:30px;height:30px;font-size:15px;}
+  .logo-name{font-size:13px;}
+  .btn-back{padding:5px 10px;font-size:12px;}
+  .cuadro-actions .btn-xs{padding:2px 6px;font-size:10px;}
+}
+
+@media(min-width:701px){
+  .menu-toggle{display:none;}
+  .mob-menu{display:none!important;}
+  .hdr-right .hdr-mes{display:flex;}
+  .hdr-right .action-bar-wrap{display:flex;}
+  .wrap{padding:24px 20px;}
+}
+
+@media(min-width:1200px){
+  .wrap{padding:28px 32px;}
+  header{padding:0 32px;}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-mark">📦</div>
-    <div>
-      <div class="logo-name">Control de Cubetas</div>
-      <div class="logo-tag">Sistema de seguimiento por rutas</div>
+  <div class="hdr-left">
+    <!-- BOTÓN VOLVER -->
+    <a href="index.html" class="btn-back" title="Volver al inicio">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M15 8a.5.5 0 00-.5-.5H2.707l3.147-3.146a.5.5 0 10-.708-.708l-4 4a.5.5 0 000 .708l4 4a.5.5 0 00.708-.708L2.707 8.5H14.5A.5.5 0 0015 8z"/></svg>
+      Volver
+    </a>
+    <div class="logo">
+      <div class="logo-mark">📦</div>
+      <div>
+        <div class="logo-name">Control de Cubetas</div>
+        <div class="logo-tag">Seguimiento por rutas</div>
+      </div>
     </div>
   </div>
   <div class="hdr-right">
     <span class="hdr-mes" id="hdr-mes"></span>
-    <button class="btn btn-green" onclick="abrirModal()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 010 2H9v4a1 1 0 01-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
-      Nuevo cuadro
-    </button>
-    <button class="btn btn-purple" onclick="abrirImport()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 01.5.5v2.5a1 1 0 001 1h12a1 1 0 001-1v-2.5a.5.5 0 011 0v2.5a2 2 0 01-2 2H2a2 2 0 01-2-2v-2.5a.5.5 0 01.5-.5z"/><path d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z"/></svg>
-      Importar Excel
-    </button>
-    <button class="btn btn-blue" onclick="exportarExcel()">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 13.5A.5.5 0 013 13h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zM8 2a.5.5 0 01.5.5v8.793l2.646-2.647a.5.5 0 01.708.708l-3.5 3.5a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L7.5 11.293V2.5A.5.5 0 018 2z"/></svg>
-      Exportar Excel
-    </button>
-    <button class="btn btn-red btn-sm" onclick="borrarTodo()">✕ Borrar todo</button>
+    <div class="action-bar-wrap">
+      <button class="btn btn-green btn-sm" onclick="abrirModal()">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 010 2H9v4a1 1 0 01-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
+        Nuevo
+      </button>
+      <button class="btn btn-purple btn-sm" onclick="abrirImport()">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d=".5 9.9a.5.5 0 01.5.5v2.5a1 1 0 001 1h12a1 1 0 001-1v-2.5a.5.5 0 011 0v2.5a2 2 0 01-2 2H2a2 2 0 01-2-2v-2.5a.5.5 0 01.5-.5z"/><path d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z"/></svg>
+        Importar
+      </button>
+      <button class="btn btn-blue btn-sm" onclick="exportarExcel()">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 13.5A.5.5 0 013 13h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zM8 2a.5.5 0 01.5.5v8.793l2.646-2.647a.5.5 0 01.708.708l-3.5 3.5a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L7.5 11.293V2.5A.5.5 0 018 2z"/></svg>
+        Exportar
+      </button>
+      <button class="btn btn-red btn-sm" onclick="borrarTodo()">✕</button>
+    </div>
+    <!-- Toggle móvil -->
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menú">☰</button>
   </div>
 </header>
+
+<!-- Menú desplegable en móvil -->
+<div class="mob-menu" id="mob-menu">
+  <span class="hdr-mes" id="hdr-mes-mob"></span>
+  <button class="btn btn-green btn-sm" onclick="abrirModal();cerrarMenu()">
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 010 2H9v4a1 1 0 01-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
+    Nuevo cuadro
+  </button>
+  <button class="btn btn-purple btn-sm" onclick="abrirImport();cerrarMenu()">
+    📥 Importar Excel
+  </button>
+  <button class="btn btn-blue btn-sm" onclick="exportarExcel();cerrarMenu()">
+    ⬇ Exportar Excel
+  </button>
+  <button class="btn btn-red btn-sm" onclick="borrarTodo();cerrarMenu()">✕ Borrar todo</button>
+</div>
 
 <div class="wrap" id="wrap"></div>
 
@@ -509,7 +625,7 @@ const BK      = ['Grises','Grandes','Medianas','Ramo'];
 const SK      = 'cubetas_cuadros_v2';
 
 let cuadros = [];
-let importedCuadros = []; // buffer para importación pendiente
+let importedCuadros = [];
 
 const hoy    = ()=>new Date().toISOString().split('T')[0];
 const fmt    = d=>{ if(!d) return '—'; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; };
@@ -547,12 +663,32 @@ function calcConc(idx){
   return res;
 }
 
+// ── MENÚ MÓVIL ──
+function toggleMenu(){
+  document.getElementById('mob-menu').classList.toggle('open');
+}
+function cerrarMenu(){
+  document.getElementById('mob-menu').classList.remove('open');
+}
+// Cerrar menú al hacer clic fuera
+document.addEventListener('click',function(e){
+  const menu=document.getElementById('mob-menu');
+  const toggle=document.querySelector('.menu-toggle');
+  if(menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)){
+    menu.classList.remove('open');
+  }
+});
+
 // ══════════════════════════════════════
 //  RENDER
 // ══════════════════════════════════════
 function render(){
   const wrap=document.getElementById('wrap');
   wrap.innerHTML='';
+
+  const mesText = cuadros.length ? mesLbl(cuadros[0].fecha) : '';
+  document.getElementById('hdr-mes').textContent = mesText;
+  document.getElementById('hdr-mes-mob').textContent = mesText;
 
   if(!cuadros.length){
     wrap.innerHTML=`<div class="empty-state">
@@ -564,11 +700,8 @@ function render(){
         <button class="btn btn-purple" onclick="abrirImport()">📥 Importar Excel</button>
       </div>
     </div>`;
-    document.getElementById('hdr-mes').textContent='';
     return;
   }
-
-  document.getElementById('hdr-mes').textContent=mesLbl(cuadros[0].fecha);
 
   cuadros.forEach((c,idx)=>{
     const conc=calcConc(idx);
@@ -645,7 +778,7 @@ function render(){
     tfoot+=`<td class="c-g-o">${gtO}</td>`;
     BK.forEach(b=>tfoot+=`<td class="c-i">${totI[b]||0}</td>`);
     tfoot+=`<td class="c-g-i">${gtI}</td>`;
-    tfoot+=`<td><span class="diff-pill ${gdCls}" style="font-size:12px">${gdTxt}</span></td></tr>`;
+    tfoot+=`<td><span class="diff-pill ${gdCls}" style="font-size:11px">${gdTxt}</span></td></tr>`;
 
     let concDetail='';
     if(hasNext && !concGlobal){
@@ -669,7 +802,7 @@ function render(){
         ${c.nota?`<span class="cuadro-nota">${c.nota}</span>`:''}
         ${badge}
         <div class="cuadro-actions">
-          <button class="btn btn-amber btn-xs" onclick="editFecha('${c.id}')">✎ Editar</button>
+          <button class="btn btn-amber btn-xs" onclick="editFecha('${c.id}')">✎</button>
           <button class="btn btn-red btn-xs" onclick="eliminar('${c.id}')">✕</button>
         </div>
       </div>
@@ -679,10 +812,10 @@ function render(){
             <tr>
               <th class="th-r" rowspan="2">Ruta</th>
               <th class="grp-o" colspan="4">↑ SALEN</th>
-              <th class="grp-o sub-o">Subtotal</th>
+              <th class="grp-o sub-o">Sub</th>
               <th class="grp-i" colspan="4">↓ ENTRAN</th>
-              <th class="grp-i sub-i">Subtotal</th>
-              <th class="grp-d" rowspan="2">Diferencia</th>
+              <th class="grp-i sub-i">Sub</th>
+              <th class="grp-d" rowspan="2">Dif.</th>
             </tr>
             <tr>
               ${BK.map(b=>`<th class="sub-o">${b}</th>`).join('')}
@@ -700,7 +833,7 @@ function render(){
       const sep=document.createElement('div');
       sep.className='sep';
       sep.innerHTML=`<div class="sep-line"></div>
-        <span class="sep-txt">↓ &nbsp;salida cuadro ${idx+1} → entrada cuadro ${idx+2}&nbsp; ↓</span>
+        <span class="sep-txt">↓ salida C${idx+1} → entrada C${idx+2} ↓</span>
         <div class="sep-line"></div>`;
       wrap.appendChild(sep);
     }
@@ -763,9 +896,7 @@ function clkBg(e){ if(e.target===document.getElementById('modal-bg')) cerrarModa
 // ══════════════════════════════════════
 //  IMPORTAR EXCEL
 // ══════════════════════════════════════
-
 function abrirImport(){
-  // reset
   importedCuadros=[];
   document.getElementById('file-input').value='';
   document.getElementById('import-preview').classList.remove('show');
@@ -777,7 +908,6 @@ function abrirImport(){
 function cerrarImport(){ document.getElementById('import-bg').classList.remove('open'); }
 function clkImportBg(e){ if(e.target===document.getElementById('import-bg')) cerrarImport(); }
 
-// drag & drop
 const dz=()=>document.getElementById('drop-zone');
 document.addEventListener('DOMContentLoaded',()=>{
   const z=dz();
@@ -800,17 +930,13 @@ function handleFile(file){
   reader.readAsArrayBuffer(file);
 }
 
-// ── PARSER PRINCIPAL ──
-// Lee la hoja "Resumen del mes" y reconstruye los cuadros
 function parsearExcel(buffer, fname){
   const wb=XLSX.read(buffer,{type:'arraybuffer'});
-
-  // Buscamos la hoja de resumen
   const sheetName=wb.SheetNames.find(n=>n.toLowerCase().includes('resumen'))||wb.SheetNames[0];
   const ws=wb.Sheets[sheetName];
   const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
 
-  const found=[];       // cuadros parseados
+  const found=[];
   let i=0;
   let mesDetectado='';
 
@@ -818,38 +944,30 @@ function parsearExcel(buffer, fname){
     const row=rows[i];
     const cell0=String(row[0]||'').trim();
 
-    // Detectar mes del título
     if(!mesDetectado && cell0.toLowerCase().includes('reporte mensual')){
-      // "Reporte mensual — Enero 2025"
       const m=cell0.match(/—\s*(.+)/);
       if(m) mesDetectado=m[1].trim();
     }
 
-    // Detectar inicio de cuadro: celda que empiece con "CUADRO N"
     if(/^CUADRO\s+\d+$/i.test(cell0)){
-      // Extraer fecha de la misma fila (col 1)
       const fechaRaw=String(row[1]||'').replace(/fecha:\s*/i,'').trim();
       const nota=String(row[2]||'').trim();
       const fecha=parseFecha(fechaRaw);
 
-      // Avanzar hasta encontrar la fila de encabezado de columnas (tiene "Ruta" en col 0)
       let j=i+1;
       while(j<rows.length && String(rows[j][0]||'').trim().toUpperCase()!=='RUTA') j++;
-      j++; // saltar el encabezado
+      j++;
 
       const data=blankData();
-      // Leer filas de rutas hasta "TOTAL CUADRO" o línea vacía doble
       while(j<rows.length){
         const r0=String(rows[j][0]||'').trim();
         if(!r0 || r0.toUpperCase().startsWith('TOTAL')) break;
-        // Solo procesar si es una ruta conocida
         if(ROUTES.includes(r0)){
           const d=data[r0];
           d['o_Grises']  = +rows[j][1]||0;
           d['o_Grandes'] = +rows[j][2]||0;
           d['o_Medianas']= +rows[j][3]||0;
           d['o_Ramo']    = +rows[j][4]||0;
-          // col 5 = subtotal salen (ignorar)
           d['i_Grises']  = +rows[j][6]||0;
           d['i_Grandes'] = +rows[j][7]||0;
           d['i_Medianas']= +rows[j][8]||0;
@@ -858,7 +976,6 @@ function parsearExcel(buffer, fname){
         j++;
       }
 
-      // Si 52A y 52B están vinculadas, sincronizarlas (tomar valores de la primera no-cero)
       (['52A','52B']).forEach(r=>{
         const other=partner(r);
         if(other){
@@ -876,7 +993,6 @@ function parsearExcel(buffer, fname){
     i++;
   }
 
-  // Resultado
   importedCuadros=found;
   document.getElementById('imp-fname').textContent=fname;
   document.getElementById('imp-mes').textContent=mesDetectado||'No detectado';
@@ -885,7 +1001,7 @@ function parsearExcel(buffer, fname){
   document.getElementById('import-preview').classList.add('show');
 
   if(found.length===0){
-    mostrarWarn('No se encontraron cuadros válidos en el archivo. Asegúrate de importar un Excel exportado desde esta misma aplicación.');
+    mostrarWarn('No se encontraron cuadros válidos. Importa un Excel exportado desde esta aplicación.');
     document.getElementById('btn-import-ok').disabled=true;
     return;
   }
@@ -893,26 +1009,17 @@ function parsearExcel(buffer, fname){
   document.getElementById('imp-warn').classList.remove('show');
   document.getElementById('btn-import-ok').disabled=false;
 
-  // Mostrar opción de merge solo si ya hay datos
   const mergeDiv=document.getElementById('imp-merge');
-  if(cuadros.length>0){
-    mergeDiv.style.display='block';
-  } else {
-    mergeDiv.style.display='none';
-  }
+  mergeDiv.style.display=cuadros.length>0?'block':'none';
 }
 
 function parseFecha(raw){
-  // Formatos posibles: "dd/mm/yyyy", "yyyy-mm-dd", número serial Excel, "—"
   if(!raw || raw==='—') return hoy();
   raw=String(raw).trim();
-  // dd/mm/yyyy
   const m1=raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if(m1) return `${m1[3]}-${m1[2].padStart(2,'0')}-${m1[1].padStart(2,'0')}`;
-  // yyyy-mm-dd
   const m2=raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if(m2) return raw;
-  // número serial Excel (días desde 1900-01-01)
   const n=Number(raw);
   if(!isNaN(n) && n>1000){
     const d=XLSX.SSF.parse_date_code(n);
@@ -934,7 +1041,6 @@ function confirmarImport(){
     cuadros=importedCuadros;
   } else {
     cuadros=[...cuadros,...importedCuadros];
-    // ordenar por fecha
     cuadros.sort((a,b)=>a.fecha.localeCompare(b.fecha));
   }
   persist(); cerrarImport(); render();
@@ -942,7 +1048,7 @@ function confirmarImport(){
 }
 
 // ══════════════════════════════════════
-//  EXPORT EXCEL PROFESIONAL
+//  EXPORT EXCEL
 // ══════════════════════════════════════
 function exportarExcel(){
   if(!cuadros.length){ toast('No hay cuadros para exportar','⚠'); return; }
@@ -954,8 +1060,7 @@ function exportarExcel(){
   R.push([empresa,'','','','','','','','','','','','','','','']);
   R.push([`Reporte mensual — ${mesLbl(cuadros[0].fecha)}`,'','','','','','','','','','','','','','','']);
   R.push([`Generado: ${new Date().toLocaleDateString('es-CO',{dateStyle:'full'})}`,'','','','','','','','','','','','','','','']);
-  R.push([]);
-  R.push([]);
+  R.push([]);R.push([]);
 
   cuadros.forEach((c,idx)=>{
     const conc=calcConc(idx);
@@ -979,8 +1084,8 @@ function exportarExcel(){
       const diffStr=diff===0?'✓ Exacto':diff>0?`+${diff} SOBRAN`:`${diff} FALTAN`;
       R.push([
         r,
-        +rd['o_Grises']||0, +rd['o_Grandes']||0, +rd['o_Medianas']||0, +rd['o_Ramo']||0, so,
-        +rd['i_Grises']||0, +rd['i_Grandes']||0, +rd['i_Medianas']||0, +rd['i_Ramo']||0, si,
+        +rd['o_Grises']||0,+rd['o_Grandes']||0,+rd['o_Medianas']||0,+rd['o_Ramo']||0,so,
+        +rd['i_Grises']||0,+rd['i_Grandes']||0,+rd['i_Medianas']||0,+rd['i_Ramo']||0,si,
         diffStr, concStr
       ]);
     });
@@ -995,8 +1100,7 @@ function exportarExcel(){
       tI.Grises,tI.Grandes,tI.Medianas,tI.Ramo,gtI,
       gd===0?'✓ EXACTO':gd>0?`+${gd} SOBRAN`:`${gd} FALTAN`,''
     ]);
-    R.push([]);
-    R.push([]);
+    R.push([]);R.push([]);
   });
 
   R.push(['RESUMEN GLOBAL DEL MES','','','','','','','','','','','','']);
