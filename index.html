@@ -53,6 +53,15 @@
   </button>
 </div>
 
+<!-- BOTÓN CUBETAS -->
+<div class="btn-cubetas-wrap">
+  <a href="cubetas.html" class="btn-cubetas">
+    <span class="btn-cubetas-icon">🪣</span>
+    <span class="btn-cubetas-text">Ir a Cubetas</span>
+    <span class="btn-cubetas-arrow">→</span>
+  </a>
+</div>
+
 <!-- ======================== SECCIÓN CLIMATIZACIÓN ======================== -->
 <div class="section-ac" id="section-ac">
 
@@ -278,7 +287,7 @@
 </div><!-- /section-ac -->
 
 <!-- ======================== SECCIÓN CUARTO FRÍO ======================== -->
-<div class="section-cold" id="section-cold">
+<div class="section-cold" id="section-cold" style="display:none;">
 
   <!-- PASO 1: TIPO DE ALMACENAMIENTO -->
   <div class="step-label">
@@ -740,13 +749,13 @@ function setMode(mode){
   if(mode==='ac'){
     btnAc.className='mode-btn active-ac';
     btnCold.className='mode-btn';
-    secAc.style.display='';
+    secAc.style.display='block';
     secCold.style.display='none';
   } else {
     btnAc.className='mode-btn';
     btnCold.className='mode-btn active-cold';
     secAc.style.display='none';
-    secCold.style.display='';
+    secCold.style.display='block';
   }
   results.style.display='none';
 }
@@ -850,7 +859,7 @@ function calcular(){
   document.getElementById('ac-details').innerHTML=ac.detalles.map(d=>`<div class="detail-item"><strong>${d.label}</strong>${d.texto}</div>`).join('');
   document.getElementById('worker-result').innerHTML=`<div class="worker ${wClass}"><div class="worker-head"><div class="dot"></div><div class="worker-title">${wTitle}</div></div><div class="worker-desc">${wDesc}</div></div>`;
 
-  document.getElementById('res-ac-block').style.display='';
+  document.getElementById('res-ac-block').style.display='block';
   document.getElementById('res-cold-block').style.display='none';
   document.getElementById('results-title').textContent='Resultados del análisis';
   document.getElementById('disc-txt').textContent='⚠️ Este cálculo es una estimación basada en el método simplificado de carga térmica. Para proyectos críticos se recomienda el cálculo ASHRAE Handbook of Fundamentals (Manual J). Las temperaturas son rangos típicos por altitud y región de Colombia.';
@@ -947,7 +956,7 @@ function calcularCuartoFrio(){
   document.getElementById('cold-worker-result').innerHTML=`<div class="worker cold-info"><div class="worker-head"><div class="dot"></div><div class="worker-title">🧊 Cuarto frío para conservación de alimentos</div></div><div class="worker-desc">El cuarto frío opera a ${tempInt.toFixed(0)}°C. <strong>NO es un espacio apto para permanencia humana prolongada.</strong> El acceso debe ser breve y con EPP adecuado (ropa térmica). Los sistemas deben incluir alarma de temperatura, sensor de puerta y dispositivo de apertura interior de emergencia (NTC 5908 / ICONTEC).</div></div>`;
 
   document.getElementById('res-ac-block').style.display='none';
-  document.getElementById('res-cold-block').style.display='';
+  document.getElementById('res-cold-block').style.display='block';
   document.getElementById('results-title').textContent='Resultados — Cuarto Frío';
   document.getElementById('disc-txt').textContent='⚠️ Cálculo estimado por método simplificado. Para proyectos industriales se requiere cálculo detallado según ASHRAE Refrigeration Handbook (2022). Verifique con ingeniero certificado en refrigeración comercial / industrial.';
 
